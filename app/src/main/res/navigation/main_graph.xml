@@ -1,6 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/main_graph">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_graph"
+    app:startDestination="@id/navigations_home">
 
+    <fragment
+        android:id="@+id/navigations_home"
+        android:name="com.example.chatapp.ui.main.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/navigations_connections"
+        android:name="com.example.chatapp.ui.main.ConnectionsFragment"
+        android:label="fragment_connections"
+        tools:layout="@layout/fragment_connections" />
+    <fragment
+        android:id="@+id/navigations_chat"
+        android:name="com.example.chatapp.ui.main.ChatFragment"
+        android:label="fragment_chat"
+        tools:layout="@layout/fragment_chat" />
+    <fragment
+        android:id="@+id/navigations_weather"
+        android:name="com.example.chatapp.ui.main.WeatherFragment"
+        android:label="fragment_weather"
+        tools:layout="@layout/fragment_weather" />
 </navigation>

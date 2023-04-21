@@ -3,16 +3,18 @@
 
     <item
         android:id="@+id/item_home"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:icon="@drawable/ic_home_black_24dp"
         android:title="@string/menu_home" />
     <item
         android:id="@+id/item_weather"
+        android:icon="@drawable/ic_weather_black_24dp"
         android:title="@string/menu_weather" />
     <item
         android:id="@+id/item_connections"
+        android:icon="@drawable/ic_connections_black_24dp"
         android:title="@string/menu_connections" />
     <item
         android:id="@+id/item_chat"
+        android:icon="@drawable/ic_chat_black_24dp"
         android:title="@string/menu_chat" />
 </menu>

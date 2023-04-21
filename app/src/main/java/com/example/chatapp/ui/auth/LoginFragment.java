@@ -46,7 +46,7 @@ public class LoginFragment extends Fragment {
         binding.buttonLogin.setOnClickListener(button -> {
             if (checkPassword()) {
                 Navigation.findNavController(getView()).navigate(
-                        LoginFragmentDirections.actionLoginToRegisterFragment()
+                        LoginFragmentDirections.actionLoginToMainActivity()
                 );
             }
         }); //TODO check correct credential and say error
