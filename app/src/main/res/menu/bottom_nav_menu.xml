@@ -2,19 +2,19 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/item_home"
+        android:id="@+id/navigation_home"
         android:icon="@drawable/ic_home_black_24dp"
         android:title="@string/menu_home" />
     <item
-        android:id="@+id/item_weather"
+        android:id="@+id/navigation_weather"
         android:icon="@drawable/ic_weather_black_24dp"
         android:title="@string/menu_weather" />
     <item
-        android:id="@+id/item_connections"
+        android:id="@+id/navigation_connections"
         android:icon="@drawable/ic_connections_black_24dp"
         android:title="@string/menu_connections" />
     <item
-        android:id="@+id/item_chat"
+        android:id="@+id/navigation_chat"
         android:icon="@drawable/ic_chat_black_24dp"
         android:title="@string/menu_chat" />
 </menu>
