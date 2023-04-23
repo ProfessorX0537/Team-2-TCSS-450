@@ -1,10 +1,17 @@
 <resources>
     <string name="app_name">ChatApp</string>
+    <string name="hint_first">First</string>
+    <string name="hint_last">Last</string>
+    <string name="hint_nickname">Nickname</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Password</string>
+    <string name="hint_password_again">Retype Password</string>
+    <string name="button_register">Register</string>
+
 
     <string name="hello_blank_fragment">TODO</string>
 
     <string name="hint_username">Username</string>
-    <string name="hint_password">Password</string>
     <string name="action_login">Login</string>
     <string name="action_register">Register</string>
 </resources>
