@@ -12,9 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ChatApp"
         tools:targetApi="31">
-        <activity
-            android:name=".MainActivity"
-            android:exported="false" />
+        <activity android:name=".MainActivity"></activity>
         <activity
             android:name=".AuthActivity"
             android:exported="true">

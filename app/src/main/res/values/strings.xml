@@ -14,4 +14,9 @@
     <string name="hint_username">Username</string>
     <string name="action_login">Login</string>
     <string name="action_register">Register</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_weather">Weather</string>
+    <string name="menu_connections">Contacts</string>
+    <string name="menu_chat">Chat</string>
 </resources>
