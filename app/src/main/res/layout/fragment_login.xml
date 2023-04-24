@@ -19,7 +19,7 @@
         tools:src="@drawable/ic_launcher_background" />
 
     <EditText
-        android:id="@+id/textPassword"
+        android:id="@+id/text_password"
         android:layout_width="268dp"
         android:layout_height="49dp"
         android:ems="10"
@@ -28,11 +28,11 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textUsername"
+        app:layout_constraintTop_toBottomOf="@+id/text_username"
         app:layout_constraintVertical_bias="0.050000012" />
 
     <EditText
-        android:id="@+id/textUsername"
+        android:id="@+id/text_username"
         android:layout_width="268dp"
         android:layout_height="49dp"
         android:ems="10"
@@ -45,7 +45,7 @@
         app:layout_constraintVertical_bias="0.17000002" />
 
     <Button
-        android:id="@+id/buttonRegister"
+        android:id="@+id/button_register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/action_register"
@@ -53,11 +53,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.25"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textPassword"
+        app:layout_constraintTop_toBottomOf="@+id/text_password"
         app:layout_constraintVertical_bias="0.39" />
 
     <Button
-        android:id="@+id/buttonLogin"
+        android:id="@+id/button_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/action_login"
@@ -65,7 +65,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.75"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textPassword"
+        app:layout_constraintTop_toBottomOf="@+id/text_password"
         app:layout_constraintVertical_bias="0.39" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
