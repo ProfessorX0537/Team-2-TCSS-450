@@ -1,4 +1,4 @@
-package com.example.chatapp.ui.auth;
+package com.example.chatapp.ui.auth.register;
 
 import android.os.Bundle;
 
