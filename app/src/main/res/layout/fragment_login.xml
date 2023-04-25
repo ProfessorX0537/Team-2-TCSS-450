@@ -8,15 +8,16 @@
     tools:context=".ui.auth.LoginFragment" >
 
     <ImageView
-        android:id="@+id/imageLogo"
+        android:id="@+id/image_logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.23000002"
-        tools:src="@drawable/ic_launcher_background" />
+        app:srcCompat="@drawable/ic_launcher_background" />
 
     <EditText
         android:id="@+id/text_password"
@@ -41,7 +42,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageLogo"
+        app:layout_constraintTop_toBottomOf="@+id/image_logo"
         app:layout_constraintVertical_bias="0.17000002" />
 
     <Button
