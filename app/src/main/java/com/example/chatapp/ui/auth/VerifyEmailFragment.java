@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,6 +37,12 @@ public class VerifyEmailFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        //TODO Buttons and stuff
+        binding.buttonVerifyEmail.setOnClickListener(
+                button -> Navigation.findNavController(getView()).navigate(
+                        VerifyEmailFragmentDirections.actionVerifyEmailFragmentToLogin())
+        );
     }
+
+    // TODO: add functionality after verification of email that navigates user to sign in
+    // and auto fill username/email so that user can enter pass and sign in.
 }
