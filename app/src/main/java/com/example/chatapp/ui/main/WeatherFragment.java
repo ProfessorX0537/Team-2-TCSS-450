@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import com.example.chatapp.R;
 
 public class WeatherFragment extends Fragment {
+
+
     public WeatherFragment() {
         // Required empty public constructor
     }
