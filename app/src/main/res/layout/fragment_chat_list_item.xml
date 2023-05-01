@@ -2,11 +2,11 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
-    app:cardCornerRadius="5dp"
-    tools:context=".ui.main.chat.chatlist.ChatListItemFragment">
+    app:cardCornerRadius="5dp">
 
     <Button
         android:id="@+id/action_openchatroom"
@@ -20,7 +20,7 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/text_roomname"
+            android:id="@+id/text_room_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
@@ -37,11 +37,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:text="This is the preview of the latest message. This is the preview of the latest message."
+            android:text="Dav: This is the preview of the latest message. This is the preview of the latest message."
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/frameLayout4"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_roomname" />
+            app:layout_constraintTop_toBottomOf="@+id/text_room_name" />
 
         <TextView
             android:id="@+id/text_datetime"
@@ -52,7 +52,8 @@
             android:textSize="12sp"
             app:layout_constraintBottom_toTopOf="@+id/text_latestmessage"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
 
         <FrameLayout
             android:id="@+id/frameLayout4"
@@ -67,7 +68,7 @@
             app:layout_constraintVertical_bias="0.0">
 
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/img_notifdot"
                 android:layout_width="match_parent"
                 android:layout_height="18dp"
                 android:src="@drawable/ic_circle_black_24dp" />

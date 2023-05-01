@@ -17,9 +17,9 @@
         tools:layout="@layout/fragment_connections" />
     <fragment
         android:id="@+id/navigation_chat"
-        android:name="com.example.chatapp.ui.main.ChatFragment"
+        android:name="com.example.chatapp.ui.main.chat.chatlist.ChatListFragment"
         android:label="fragment_chat"
-        tools:layout="@layout/fragment_chat" />
+        tools:layout="@layout/fragment_chat_list" />
     <fragment
         android:id="@+id/navigation_weather"
         android:name="com.example.chatapp.ui.main.WeatherFragment"
