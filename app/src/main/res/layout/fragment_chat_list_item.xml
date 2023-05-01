@@ -9,11 +9,11 @@
     app:cardCornerRadius="5dp">
 
     <Button
-        android:id="@+id/action_openchatroom"
+        android:id="@+id/action_open_chat_room"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Open Chat Room"
-        android:visibility="invisible" />
+        android:background="#00FFFFFF"
+        app:cornerRadius="0dp" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

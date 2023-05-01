@@ -13,7 +13,7 @@
         android:clickable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_chatsend_white_24dp" />
+        app:srcCompat="@drawable/ic_add_white_24dp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/root_recycler"

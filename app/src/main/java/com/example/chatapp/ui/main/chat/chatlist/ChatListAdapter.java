@@ -5,10 +5,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.chatapp.R;
 import com.example.chatapp.databinding.FragmentChatListItemBinding;
+import com.example.chatapp.ui.auth.LoginFragmentDirections;
 
 import java.util.ArrayList;
 
@@ -43,6 +45,13 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatLi
             holder.mBinding.imgNotifdot.setVisibility(View.INVISIBLE);
             holder.mBinding.textNotifnumber.setVisibility(View.INVISIBLE);
         }
+
+        //navgiations //TODO go to unique chat room
+        holder.mBinding.actionOpenChatRoom.setOnClickListener(button -> {
+            Navigation.findNavController(holder.itemView).navigate(
+                    com.example.chatapp.ui.main.chat.chatlist.ChatListFragmentDirections.actionNavigationChatToChatRoomFragment()
+            );
+        });
     }
 
     @Override
