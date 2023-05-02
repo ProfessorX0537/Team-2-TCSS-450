@@ -1,4 +1,4 @@
-package com.example.chatapp.ui.auth;
+package com.example.chatapp.ui.auth.register;
 
 import android.os.Bundle;
 
@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import com.example.chatapp.R;
 import com.example.chatapp.databinding.FragmentRegisterBinding;
 import com.example.chatapp.databinding.FragmentVerifyEmailBinding;
+import com.example.chatapp.ui.auth.register.VerifyEmailFragmentDirections;
 
 /**
  * When register succeed, send verification to email, then move user back to Login. <br>

@@ -10,6 +10,7 @@
     <string name="hint_password_again">Retype Password</string>
     <string name="hint_username">Username</string>
     <string name="hint_verify_email">Verification Number</string>
+    <string name="hint_chat_enter_text">Text Message</string>
 
     <string name="button_register">Register</string>
     <string name="button_verify_email">Verify Email</string>
@@ -25,5 +26,6 @@
     <string name="action_logout">Log out</string>
 
     <string name="display_header_verify_email_title">Verify your email</string>
+    <string name="test_name">Test Name</string>
 
 </resources>
