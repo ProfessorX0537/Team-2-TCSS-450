@@ -7,6 +7,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,7 +40,29 @@ public class ChatRoomFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         //recycler //TODO listen for ArrayList change
+        LinearLayoutManager lnearLayoutManager = new LinearLayoutManager(getContext());
+        lnearLayoutManager.setStackFromEnd(true);
+        mBinding.recyclerBubbles.setLayoutManager(lnearLayoutManager);
         mBinding.recyclerBubbles.setAdapter(new ChatRoomAdapter(mModel.mItemList));
+
+        //Show scroll to bottom button when not at bottom
+        mBinding.actionScrollToBottom.setVisibility(View.GONE); //hide initialy
+        mBinding.actionScrollToBottom.setOnClickListener(button -> {
+            mBinding.recyclerBubbles.smoothScrollToPosition(mModel.mItemList.size() - 1); //scroll to end
+            mBinding.actionScrollToBottom.setVisibility(View.GONE); //hide self
+        });
+        mBinding.recyclerBubbles.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+
+                if (recyclerView.canScrollVertically(1)) { //if can scroll down
+                    mBinding.actionScrollToBottom.setVisibility(View.VISIBLE);
+                } else {
+                    mBinding.actionScrollToBottom.setVisibility(View.GONE);
+                }
+            }
+        });
 
         //Send Button
         mBinding.actionSend.setOnClickListener(button -> {

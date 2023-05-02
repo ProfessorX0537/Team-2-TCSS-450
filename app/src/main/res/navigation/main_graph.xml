@@ -27,7 +27,7 @@
     <fragment
         android:id="@+id/navigation_weather"
         android:name="com.example.chatapp.ui.main.WeatherFragment"
-        android:label="fragment_weather"
+        android:label="@string/menu_weather"
         tools:layout="@layout/fragment_weather" />
     <fragment
         android:id="@+id/chatRoomFragment"
