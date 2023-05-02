@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -11,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.chatapp.R;
 import com.example.chatapp.databinding.FragmentChatRoomBinding;
 
 public class ChatRoomFragment extends Fragment {
@@ -44,4 +46,17 @@ public class ChatRoomFragment extends Fragment {
             //TODO Actually send text
         });
     }
+
+    //Hides bottom menu bar
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((AppCompatActivity)getActivity()).findViewById(R.id.nav_view).setVisibility(View.GONE);
+    }
+    @Override
+    public void onStop() {
+        super.onStop();
+        ((AppCompatActivity)getActivity()).findViewById(R.id.nav_view).setVisibility(View.VISIBLE);
+    }
+
 }
