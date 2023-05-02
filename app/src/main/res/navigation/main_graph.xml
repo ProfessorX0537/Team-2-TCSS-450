@@ -12,9 +12,9 @@
         tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/navigation_connections"
-        android:name="com.example.chatapp.ui.main.ConnectionsFragment"
+        android:name="com.example.chatapp.ui.main.contacts.ContactFragment"
         android:label="fragment_connections"
-        tools:layout="@layout/fragment_connections" />
+        tools:layout="@layout/fragment_contacts" />
     <fragment
         android:id="@+id/navigation_chat"
         android:name="com.example.chatapp.ui.main.ChatFragment"
