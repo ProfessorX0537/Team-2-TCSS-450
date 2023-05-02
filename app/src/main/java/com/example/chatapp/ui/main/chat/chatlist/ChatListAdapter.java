@@ -62,7 +62,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatLi
     public static class ChatListViewHolder extends RecyclerView.ViewHolder {
 //        public final View mView;
         public @NonNull FragmentChatListItemBinding mBinding;
-        private ChatListItem mChatListItem;
+//        private ChatListItem mChatListItem;
 
         public ChatListViewHolder(@NonNull View itemView) {
             super(itemView);
