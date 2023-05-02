@@ -48,6 +48,9 @@ public class LoginFragment extends Fragment {
                 Navigation.findNavController(getView()).navigate(
                         LoginFragmentDirections.actionLoginToMainActivity()
                 );
+
+                //pop activity off backstack
+                getActivity().finish();
             }
         }); //TODO check correct credential and say error
 
