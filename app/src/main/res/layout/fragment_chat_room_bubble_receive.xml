@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
+    android:clipToPadding="false"
     android:padding="5dp"
     app:cardCornerRadius="5dp">
 
@@ -46,18 +47,19 @@
         android:id="@+id/card_message"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="-16dp"
+        android:layout_margin="0dp"
         app:cardCornerRadius="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/space"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_sender"
         app:layout_constraintVertical_bias="0.0">
+
         <TextView
             android:id="@+id/text_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:layout_margin="8dp"
             android:text="This is a message from the sender. I really like how the corners are rounded in the bubble, it's pretty realistic and flavorful to my liking." />
     </androidx.cardview.widget.CardView>
 

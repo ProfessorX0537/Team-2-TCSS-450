@@ -38,7 +38,11 @@ public class ChatListFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        //recycler //TODO listen for ArrayList change
         mBinding.rootRecycler.setAdapter(new ChatListAdapter(mModel.mItemList));
+
+        //scrolling
         mBinding.rootRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
