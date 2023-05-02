@@ -2,31 +2,41 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/layout_weather"
+    android:id="@+id/root_weather"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.main.WeatherFragment">
 
 
-    <TextView
-        android:id="@+id/edit_location"
-        android:layout_width="338dp"
-        android:layout_height="34dp"
-        android:layout_marginStart="36dp"
-        android:layout_marginTop="26dp"
+    <EditText
+        android:id="@+id/text_location"
+        android:layout_width="268dp"
+        android:layout_height="49dp"
+        android:layout_marginStart="68dp"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:inputType="text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/weather_fragment_container"
+        android:layout_width="409dp"
+        android:layout_height="578dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
+
     <RadioGroup
+        android:id="@+id/radioGroup"
         android:layout_width="334dp"
-        android:layout_height="120dp"
-        android:layout_marginTop="12dp"
+        android:layout_height="68dp"
+        android:layout_marginTop="16dp"
         android:checkedButton="@id/button_view_today"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_location">
+        app:layout_constraintTop_toBottomOf="@+id/text_location">
 
         <RadioButton
             android:id="@+id/button_view_today"
@@ -38,7 +48,8 @@
             android:button="@android:color/transparent"
             android:text="Today"
             android:textAlignment="center"
-            android:textColor="@drawable/text_weather_color" />
+            android:textColor="@drawable/text_weather_color"
+             />
 
         <RadioButton
             android:id="@+id/button_view_24hour"
@@ -50,7 +61,8 @@
             android:button="@android:color/transparent"
             android:text="24 Hour"
             android:textAlignment="center"
-            android:textColor="@drawable/text_weather_color" />
+            android:textColor="@drawable/text_weather_color"
+             />
 
         <RadioButton
             android:id="@+id/button_view_10day"
@@ -62,7 +74,8 @@
             android:button="@android:color/transparent"
             android:text="10 Day"
             android:textAlignment="center"
-            android:textColor="@drawable/text_weather_color" />
+            android:textColor="@drawable/text_weather_color"
+            />
     </RadioGroup>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
