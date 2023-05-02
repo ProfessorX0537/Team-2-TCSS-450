@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,7 +39,11 @@ public class ChatRoomFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         //recycler //TODO listen for ArrayList change
+        LinearLayoutManager lnearLayoutManager = new LinearLayoutManager(getContext());
+        lnearLayoutManager.setStackFromEnd(true);
+        mBinding.recyclerBubbles.setLayoutManager(lnearLayoutManager);
         mBinding.recyclerBubbles.setAdapter(new ChatRoomAdapter(mModel.mItemList));
+//        mBinding.recyclerBubbles.scrollToPosition(mModel.mItemList.size() - 1); //scroll to end
 
         //Send Button
         mBinding.actionSend.setOnClickListener(button -> {
