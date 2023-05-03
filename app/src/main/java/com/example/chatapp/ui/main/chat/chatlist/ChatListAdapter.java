@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.chatapp.R;
 import com.example.chatapp.databinding.FragmentChatListItemBinding;
-import com.example.chatapp.ui.auth.LoginFragmentDirections;
+import com.example.chatapp.ui.auth.login.LoginFragmentDirections;
 
 import java.util.ArrayList;
 
