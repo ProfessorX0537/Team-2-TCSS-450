@@ -1,5 +1,6 @@
 package com.example.chatapp.ui.main;
 
+import android.app.UiModeManager;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -42,7 +43,7 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         FragmentHomeBinding binding = FragmentHomeBinding.bind(requireView());
 
-        BottomNavigationView temp = ((AppCompatActivity)getActivity()).findViewById(R.id.nav_view);
+//        BottomNavigationView temp = ((AppCompatActivity)getActivity()).findViewById(R.id.nav_view);
 //        temp.setSelectedItemId(R.id.navigation_weather);
 
 //        binding.cardView.setOnClickListener(button ->
