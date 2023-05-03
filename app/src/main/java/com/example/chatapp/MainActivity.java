@@ -6,8 +6,10 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -38,8 +40,33 @@ public class MainActivity extends AppCompatActivity {
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+//        Fragment home = getSupportFragmentManager().findFragmentByTag("HomeFragment");
+//        if (home != null && home.isVisible()) {
+//            //getMenuInflater().inflate(R.menu.toolbar, menu);
+//            Log.d("Hi", "Hi");
+//        } else {
+//            Log.d("Hi2", "Hi2");
+//        });
         getMenuInflater().inflate(R.menu.toolbar, menu);
         return true;
+    }
+
+    /**
+     * When Log out button is clicked removes previous stack data
+     * and moves user back to log in activity
+     * @param item The menu item that was selected.
+     *
+     * @return
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_logout) {
+            //TODO remove user data/token from webservice from logging out
+            Intent intent = new Intent(getApplicationContext(), AuthActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     //Action bar nav back/up
