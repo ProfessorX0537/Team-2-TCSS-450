@@ -17,6 +17,7 @@
     <string name="button_verify_email">Verify Email</string>
     <string name="action_login">Login</string>
     <string name="action_register">Register</string>
+    <string name="action_scroll_to_bottom">Scroll to Bottom</string>
 
     <string name="menu_home">Home</string>
     <string name="menu_weather">Weather</string>

@@ -1,14 +1,18 @@
 package com.example.chatapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 
+import com.example.chatapp.model.UserInfoViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
@@ -18,6 +22,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Accepts intent from AuthActivity and gets users email and JWT
+        // storing them in the UserInfoViewModel for Webservice calls that require JWT auth
+        MainActivityArgs args = MainActivityArgs.fromBundle(getIntent().getExtras());
+        new ViewModelProvider(this,
+                new UserInfoViewModel.UserInfoViewModelFactory(args.getEmail(), args.getJwt())
+        ).get(UserInfoViewModel.class);
 
         //Bottom Nav
         BottomNavigationView navView = findViewById(R.id.nav_view);
@@ -38,8 +49,40 @@ public class MainActivity extends AppCompatActivity {
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+//        Fragment home = getSupportFragmentManager().findFragmentByTag("HomeFragment");
+//        if (home != null && home.isVisible()) {
+//            //getMenuInflater().inflate(R.menu.toolbar, menu);
+//            Log.d("Hi", "Hi");
+//        } else {
+//            Log.d("Hi2", "Hi2");
+//        });
         getMenuInflater().inflate(R.menu.toolbar, menu);
         return true;
+    }
+
+    /**
+     * When Log out button is clicked removes previous stack data
+     * and moves user back to log in activity
+     * @param item The menu item that was selected.
+     *
+     * @return
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_logout) {
+            //TODO remove user data/token from webservice from logging out
+            Intent intent = new Intent(getApplicationContext(), AuthActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    //Action bar nav back/up
+    @Override
+    public boolean onSupportNavigateUp() {
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        return NavigationUI.navigateUp(navController, mAppBarConfiguration) || super.onSupportNavigateUp();
     }
 
 
