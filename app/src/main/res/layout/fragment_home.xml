@@ -10,7 +10,7 @@
     tools:layout_editor_absoluteY="0dp">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardView"
+        android:id="@+id/home_weather_card"
         android:layout_width="362dp"
         android:layout_height="203dp"
         app:cardCornerRadius="20dp"
@@ -100,7 +100,7 @@
         android:textColor="#673AB7"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/cardView"
+        app:layout_constraintBottom_toTopOf="@+id/home_weather_card"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.826"
         app:layout_constraintStart_toStartOf="parent"
@@ -114,7 +114,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView"
+        app:layout_constraintTop_toBottomOf="@+id/home_weather_card"
         app:layout_constraintVertical_bias="0.196">
 
         <com.google.android.material.tabs.TabItem
@@ -147,11 +147,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.102"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView"
+        app:layout_constraintTop_toBottomOf="@+id/home_weather_card"
         app:layout_constraintVertical_bias="0.323" />
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardView5"
+        android:id="@+id/home_message_card"
         android:layout_width="359dp"
         android:layout_height="70dp"
         android:clickable="true"
@@ -215,7 +215,7 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardView6"
+        android:id="@+id/home_request_card"
         android:layout_width="359dp"
         android:layout_height="70dp"
         android:layout_marginTop="16dp"
@@ -224,7 +224,7 @@
         app:cardCornerRadius="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView5">
+        app:layout_constraintTop_toBottomOf="@+id/home_message_card">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
