@@ -1,10 +1,12 @@
 package com.example.chatapp.ui.main.contacts;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.chatapp.R;
@@ -37,6 +39,13 @@ public class ContactRecycleViewAdapter extends RecyclerView.Adapter<ContactRecyc
     @Override
     public void onBindViewHolder(@NonNull ContactViewHolder holder, int position) {
         holder.setContacts(mContacts.get(position));
+
+        holder.binding.cardRoot.setOnClickListener(button -> {
+            Navigation.findNavController(holder.mView).navigate(
+                    ContactFragmentDirections.actionNavigationConnectionsToContactPageFragment()
+            );
+            Log.i("Button","Pressed");
+        });
 
     }
 
