@@ -49,10 +49,25 @@ public class HomeFragment extends Fragment {
 //        binding.cardView.setOnClickListener(button ->
 //                temp.setSelectedItemId(R.id.navigation_weather));
 
-        binding.cardView.setOnClickListener(button ->
-                Navigation.findNavController(requireView()).navigate(
-                        HomeFragmentDirections
-                                .actionNavigationHomeToNavigationWeather()));
+//        binding.cardView.setOnClickListener(button ->
+//                Navigation.findNavController(requireView()).navigate(
+//                        HomeFragmentDirections
+//                                .actionNavigationHomeToNavigationWeather()));
+
+        binding.homeWeatherCard.setOnClickListener(button -> {
+            BottomNavigationView temp = ((AppCompatActivity) getActivity()).findViewById(R.id.nav_view);
+            temp.setSelectedItemId(R.id.navigation_weather);
+        });
+
+        binding.homeMessageCard.setOnClickListener(button -> {
+            BottomNavigationView temp = ((AppCompatActivity) getActivity()).findViewById(R.id.nav_view);
+            temp.setSelectedItemId(R.id.navigation_chat);
+        });
+
+        binding.homeRequestCard.setOnClickListener(button -> {
+            BottomNavigationView temp = ((AppCompatActivity) getActivity()).findViewById(R.id.nav_view);
+            temp.setSelectedItemId(R.id.navigation_connections);
+        });
     }
 
 
