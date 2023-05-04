@@ -55,7 +55,7 @@ public class RegisterFragment extends Fragment {
      * Private field variable to validate user passwords
      */
     private PasswordValidator mPassWordValidator = checkClientPredicate(pwd -> pwd.equals(binding.editPassword2.getText().toString()))
-            .and(checkPwdLength(9))
+            .and(checkPwdLength(7))
             .and(checkPwdSpecialChar())
             .and(checkExcludeWhiteSpace())
             .and(checkPwdDigit())
