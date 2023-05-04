@@ -40,9 +40,10 @@ public class ContactRecycleViewAdapter extends RecyclerView.Adapter<ContactRecyc
     public void onBindViewHolder(@NonNull ContactViewHolder holder, int position) {
         holder.setContacts(mContacts.get(position));
 
+
         holder.binding.cardRoot.setOnClickListener(button -> {
             Navigation.findNavController(holder.mView).navigate(
-                    ContactFragmentDirections.actionNavigationConnectionsToContactPageFragment()
+                    ContactFragmentDirections.actionNavigationConnectionsToContactPageFragment(mContacts.get(position))
             );
             Log.i("Button","Pressed");
         });

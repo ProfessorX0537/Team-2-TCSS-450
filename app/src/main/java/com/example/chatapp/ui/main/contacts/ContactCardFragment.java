@@ -54,12 +54,7 @@ public class ContactCardFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        binding.cardRoot.setOnClickListener(button -> {
-            Navigation.findNavController(getView()).navigate(
-                    ContactFragmentDirections.actionNavigationConnectionsToContactPageFragment()
-            );
-            Log.i("Button","Pressed");
-        });
+
 
     }
 }
