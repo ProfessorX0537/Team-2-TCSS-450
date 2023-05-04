@@ -18,7 +18,7 @@ import com.example.chatapp.databinding.FragmentContactsBinding;
 public class ContactFragment extends Fragment {
 
 
-    private ContactsViewModel mModel;
+//    private ContactsViewModel mModel;
     public ContactFragment() {
         // Required empty public constructor
     }
@@ -26,7 +26,7 @@ public class ContactFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mModel = new ViewModelProvider(getActivity()).get(ContactsViewModel.class);
+//        mModel = new ViewModelProvider(getActivity()).get(ContactsViewModel.class);
     }
 
     @Override

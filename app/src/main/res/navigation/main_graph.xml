@@ -18,7 +18,11 @@
         android:id="@+id/navigation_connections"
         android:name="com.example.chatapp.ui.main.contacts.ContactFragment"
         android:label="fragment_connections"
-        tools:layout="@layout/fragment_contacts" />
+        tools:layout="@layout/fragment_contacts" >
+        <action
+            android:id="@+id/action_navigation_connections_to_contactPageFragment"
+            app:destination="@id/contactPageFragment" />
+    </fragment>
     <fragment
         android:id="@+id/navigation_chat"
         android:name="com.example.chatapp.ui.main.chat.chatlist.ChatListFragment"
@@ -38,4 +42,9 @@
         android:name="com.example.chatapp.ui.main.chat.chatroom.ChatRoomFragment"
         android:label="fragment_chat_room"
         tools:layout="@layout/fragment_chat_room" />
+    <fragment
+        android:id="@+id/contactPageFragment"
+        android:name="com.example.chatapp.ui.main.contacts.ContactPageFragment"
+        android:label="fragment_contact_page"
+        tools:layout="@layout/fragment_contact_page" />
 </navigation>
