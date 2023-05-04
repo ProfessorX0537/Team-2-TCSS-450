@@ -1,11 +1,10 @@
-package com.example.chatapp.ui.main;
+package com.example.chatapp.ui.main.weather;
 
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -27,7 +26,7 @@ public class WeatherFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //android:name="com.example.chatapp.ui.main.WeatherTodayFragment"
+        //android:name="com.example.chatapp.ui.main.weather.WeatherTodayFragment"
     }
 
     @Override
@@ -38,6 +37,13 @@ public class WeatherFragment extends Fragment {
 
         //mBinding.getRoot().setTag(R.id.fragmentContainerView, fragment);
 //        mBinding.fragmentContainerView.addView(mBinding.getRoot().);
+
+        WeatherTodayFragment fragment = new WeatherTodayFragment();
+        requireActivity()
+                .getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.weather_fragment_container, fragment)
+                .commit();
 
         return mBinding.getRoot();
     }

@@ -26,7 +26,7 @@
     </fragment>
     <fragment
         android:id="@+id/navigation_weather"
-        android:name="com.example.chatapp.ui.main.WeatherFragment"
+        android:name="com.example.chatapp.ui.main.weather.WeatherFragment"
         android:label="@string/menu_weather"
         tools:layout="@layout/fragment_weather" />
     <fragment
