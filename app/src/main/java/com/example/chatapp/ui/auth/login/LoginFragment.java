@@ -123,10 +123,10 @@ public class LoginFragment extends Fragment {
 
         //Uncomment this to have login button send you to landing page w/o sign in.
         //NOTICE: this doesn't have a JWT or email so request in app that require it will fail.
-        binding.buttonLogin.setOnClickListener(button -> {Navigation.findNavController(getView())
-                .navigate(LoginFragmentDirections.actionLoginToMainActivity("",""));});
+//        binding.buttonLogin.setOnClickListener(button -> {Navigation.findNavController(getView())
+//                .navigate(LoginFragmentDirections.actionLoginToMainActivity("",""));});
         //comment this out to login w/o actually having to sign in.
-//        binding.buttonLogin.setOnClickListener(this::attemptLogin);
+        binding.buttonLogin.setOnClickListener(this::attemptLogin);
 
         mLoginViewModel.addResponseObserver(
                 getViewLifecycleOwner(),
