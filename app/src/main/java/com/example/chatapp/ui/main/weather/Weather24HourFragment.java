@@ -59,7 +59,7 @@ public class Weather24HourFragment extends Fragment {
         TableRow tr_temperatures = new TableRow(getContext());
         TableRow tr_times = new TableRow(getContext());
 
-        //Set Table Row attrivutes
+        //Set Table Row attributes
         tr_temperatures.setId(10);
         tr_temperatures.setLayoutParams(new TableLayout.LayoutParams(
                 TableLayout.LayoutParams.MATCH_PARENT,
