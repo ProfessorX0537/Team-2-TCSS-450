@@ -6,19 +6,33 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
     <androidx.recyclerview.widget.RecyclerView
 
         android:id="@+id/list_root"
         android:name="edu.uw.tcss450.uiandnavigationlab.ui.blog.ContactFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="408dp"
+        android:layout_height="670dp"
         android:orientation="vertical"
         app:layoutManager="LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         tools:context=".ui.main.contacts.ContactFragment"
         tools:listitem="@layout/fragment_contact_card" />
+
+
+    <SearchView
+        android:id="@+id/searchView"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:iconifiedByDefault="false"
+        app:layout_constraintBottom_toTopOf="@+id/list_root"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:queryHint="Search Contacts" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
