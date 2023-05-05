@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public class ContactCard implements Serializable {
 
+    //ob
     private final String mName;
 
     private final String mNick;
