@@ -96,7 +96,7 @@ public class RegisterViewModel extends AndroidViewModel {
                         final String last,
                         final String email,
                         final String password) {
-        String url = R.string.url_webservices + "auth";
+        String url = getApplication().getString(R.string.url_webservices) + "auth";
         JSONObject body = new JSONObject();
         try {
             body.put("first", first);

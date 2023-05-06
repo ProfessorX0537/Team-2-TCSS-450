@@ -20,6 +20,19 @@
         app:srcCompat="@drawable/ic_launcher_background" />
 
     <EditText
+        android:id="@+id/text_username"
+        android:layout_width="268dp"
+        android:layout_height="49dp"
+        android:ems="10"
+        android:hint="@string/hint_email"
+        android:inputType="textEmailAddress"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/image_logo"
+        app:layout_constraintVertical_bias="0.17000002" />
+
+    <EditText
         android:id="@+id/text_password"
         android:layout_width="268dp"
         android:layout_height="49dp"
@@ -31,19 +44,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_username"
         app:layout_constraintVertical_bias="0.050000012" />
-
-    <EditText
-        android:id="@+id/text_username"
-        android:layout_width="268dp"
-        android:layout_height="49dp"
-        android:ems="10"
-        android:hint="@string/hint_email"
-        android:inputType="text"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/image_logo"
-        app:layout_constraintVertical_bias="0.17000002" />
 
     <Button
         android:id="@+id/button_register"
