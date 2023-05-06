@@ -70,4 +70,8 @@ public class ConnectionViewModel extends AndroidViewModel {
     public String getJSONToken() {
         return mJSONToken.getValue();
     }
+
+    public boolean testJSONToken() {
+        return true; //TODO
+    }
 }
