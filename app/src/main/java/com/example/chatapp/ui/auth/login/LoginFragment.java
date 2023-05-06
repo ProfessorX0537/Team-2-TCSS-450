@@ -24,6 +24,7 @@ import android.view.ViewGroup;
 import com.example.chatapp.R;
 import com.example.chatapp.databinding.FragmentLoginBinding;
 import com.example.chatapp.ui.auth.login.LoginFragmentDirections;
+import com.example.chatapp.utils.ConnectionViewModel;
 import com.example.chatapp.utils.PasswordValidator;
 
 import org.json.JSONException;
@@ -52,6 +53,7 @@ public class LoginFragment extends Fragment {
      * Private field variable to access LoginViewModel
      */
     private LoginViewModel mLoginViewModel;
+    private ConnectionViewModel mConnectionViewModel;
 
     /**
      * Private field variable to validate user Email
@@ -84,9 +86,10 @@ public class LoginFragment extends Fragment {
     public void onCreate(@NonNull Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        mLoginViewModel = new ViewModelProvider(getActivity())
-                .get(LoginViewModel.class);
 
+        mLoginViewModel = new ViewModelProvider(getActivity()).get(LoginViewModel.class);
+
+        mConnectionViewModel = new ViewModelProvider(getActivity()).get(ConnectionViewModel.class);
     }
 
     /**
@@ -121,22 +124,30 @@ public class LoginFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        mLoginViewModel.addResponseObserver(
+                getViewLifecycleOwner(),
+                this::observeResponse
+        );
+
+        mConnectionViewModel.addResponseObserver(
+                getViewLifecycleOwner(),
+                this::observeConnectionResponse
+        );
+
         //Uncomment this to have login button send you to landing page w/o sign in.
         //NOTICE: this doesn't have a JWT or email so request in app that require it will fail.
 //        binding.buttonLogin.setOnClickListener(button -> {Navigation.findNavController(getView())
 //                .navigate(LoginFragmentDirections.actionLoginToMainActivity("",""));});
         //comment this out to login w/o actually having to sign in.
+        binding.buttonLogin.setVisibility(View.GONE);
         binding.buttonLogin.setOnClickListener(this::attemptLogin);
-
-        mLoginViewModel.addResponseObserver(
-                getViewLifecycleOwner(),
-                this::observeResponse);
 
         LoginFragmentArgs args = LoginFragmentArgs.fromBundle(getArguments());
         binding.textUsername.setText(args.getEmail().equals("default") ? "" : args.getEmail());
         binding.textPassword.setText(args.getPassword().equals("default") ? "" : args.getPassword());
 
         //Register Button
+        binding.buttonRegister.setVisibility(View.GONE);
         binding.buttonRegister.setOnClickListener(button -> {
             Navigation.findNavController(getView()).navigate(
                     LoginFragmentDirections.actionLoginToRegisterFragment()
@@ -224,6 +235,19 @@ public class LoginFragment extends Fragment {
             }
         } else {
             Log.d("JSON Response", "No Response");
+        }
+    }
+
+    private void observeConnectionResponse(Boolean connected) {
+        if (connected) {
+            binding.buttonRegister.setVisibility(View.VISIBLE);
+            binding.buttonLogin.setVisibility(View.VISIBLE);
+            binding.textNotConnected.setVisibility(View.GONE);
+        } else {
+            binding.buttonRegister.setVisibility(View.GONE);
+            binding.buttonLogin.setVisibility(View.GONE);
+            binding.textNotConnected.setVisibility(View.VISIBLE);
+            binding.textNotConnected.setText(R.string.not_connected);
         }
     }
 }

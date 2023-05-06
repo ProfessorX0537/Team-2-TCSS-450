@@ -14,6 +14,7 @@ import com.android.volley.Request;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.chatapp.R;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,7 +29,6 @@ import java.util.Objects;
  * @author Xavier Hines
  */
 public class RegisterViewModel extends AndroidViewModel {
-
     /**
      * Private field variable that collect the response from
      * the webservice.
@@ -96,8 +96,7 @@ public class RegisterViewModel extends AndroidViewModel {
                         final String last,
                         final String email,
                         final String password) {
-        String url = "http://10.0.2.2:5000/auth";
-
+        String url = R.string.url_webservices + "auth";
         JSONObject body = new JSONObject();
         try {
             body.put("first", first);

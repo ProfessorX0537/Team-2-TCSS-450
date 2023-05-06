@@ -15,6 +15,7 @@ import com.android.volley.Request;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.chatapp.R;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -87,7 +88,7 @@ public class LoginViewModel extends AndroidViewModel {
      * @param password Users password
      */
     public void connectLogin(final String email, final String password) {
-        String url = "http://10.0.2.2:5000/auth";
+        String url = R.string.url_webservices + "auth";
 
         Request request = new JsonObjectRequest(
                 Request.Method.GET,
