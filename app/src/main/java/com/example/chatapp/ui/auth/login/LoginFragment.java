@@ -143,8 +143,8 @@ public class LoginFragment extends Fragment {
         binding.buttonLogin.setOnClickListener(this::attemptLogin);
 
         LoginFragmentArgs args = LoginFragmentArgs.fromBundle(getArguments());
-        binding.textUsername.setText(args.getEmail().equals("default") ? "" : args.getEmail());
-        binding.textPassword.setText(args.getPassword().equals("default") ? "" : args.getPassword());
+        binding.textUsername.setText(args.getUsername().equals("default") ? "" : args.getUsername()); //TODO
+        binding.textPassword.setText(args.getPassword().equals("default") ? "" : args.getPassword()); //TODO
 
         //Register Button
         binding.buttonRegister.setVisibility(View.GONE);
@@ -160,18 +160,19 @@ public class LoginFragment extends Fragment {
      * @param button
      */
     private void attemptLogin(final View button) {
-        validateEmail();
+        validatePassword();
+//        validateEmail(); //TODO remove No longer using email
     }
 
     /**
      * Checks that the password meets validation requirements
      */
-    private void validateEmail() {
-        mEmailValidator.processResult(
-                mEmailValidator.apply(binding.textUsername.getText().toString().trim()),
-                this::validatePassword,
-                result -> binding.textUsername.setError("Please enter a valid Email address."));
-    }
+//    private void validateEmail() { //TODO remove No longer using email
+//        mEmailValidator.processResult(
+//                mEmailValidator.apply(binding.textUsername.getText().toString().trim()),
+//                this::validatePassword,
+//                result -> binding.textUsername.setError("Please enter a valid Email address."));
+//    }
 
     /**
      * Checks that the password meets validation requirements

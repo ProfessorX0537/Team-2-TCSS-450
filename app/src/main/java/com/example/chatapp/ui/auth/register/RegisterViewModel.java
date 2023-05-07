@@ -95,6 +95,7 @@ public class RegisterViewModel extends AndroidViewModel {
     public void connectRegister(final String first,
                         final String last,
                         final String email,
+                        final String username,
                         final String password) {
         String url = getApplication().getString(R.string.url_webservices) + "auth";
         JSONObject body = new JSONObject();
@@ -102,6 +103,7 @@ public class RegisterViewModel extends AndroidViewModel {
             body.put("first", first);
             body.put("last", last);
             body.put("email", email);
+            body.put("username", username);
             body.put("password", password);
         } catch (JSONException e) {
             e.printStackTrace();
