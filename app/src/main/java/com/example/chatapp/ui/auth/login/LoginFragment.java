@@ -134,7 +134,9 @@ public class LoginFragment extends Fragment {
                 this::observeConnectionResponse
         );
 
-        //Uncomment this to have login button send you to landing page w/o sign in.
+        ///////////////////////////////////////////////////////////////////////////////////////
+        // Uncomment this to have login button send you to landing page w/o sign in.
+        // ////////////////////////////////////////////////////////////////////////////////////
         //NOTICE: this doesn't have a JWT or email so request in app that require it will fail.
 //        binding.buttonLogin.setOnClickListener(button -> {Navigation.findNavController(getView())
 //                .navigate(LoginFragmentDirections.actionLoginToMainActivity("",""));});
@@ -143,7 +145,7 @@ public class LoginFragment extends Fragment {
         binding.buttonLogin.setOnClickListener(this::attemptLogin);
 
         LoginFragmentArgs args = LoginFragmentArgs.fromBundle(getArguments());
-        binding.textUsername.setText(args.getUsername().equals("default") ? "" : args.getUsername()); //TODO
+        binding.textEmail.setText(args.getEmail().equals("default") ? "" : args.getEmail()); //TODO
         binding.textPassword.setText(args.getPassword().equals("default") ? "" : args.getPassword()); //TODO
 
         //Register Button
@@ -160,19 +162,18 @@ public class LoginFragment extends Fragment {
      * @param button
      */
     private void attemptLogin(final View button) {
-        validatePassword();
-//        validateEmail(); //TODO remove No longer using email
+        validateEmail();
     }
 
     /**
      * Checks that the password meets validation requirements
      */
-//    private void validateEmail() { //TODO remove No longer using email
-//        mEmailValidator.processResult(
-//                mEmailValidator.apply(binding.textUsername.getText().toString().trim()),
-//                this::validatePassword,
-//                result -> binding.textUsername.setError("Please enter a valid Email address."));
-//    }
+    private void validateEmail() { //TODO remove No longer using email
+        mEmailValidator.processResult(
+                mEmailValidator.apply(binding.textEmail.getText().toString().trim()),
+                this::validatePassword,
+                result -> binding.textEmail.setError("Please enter a valid Email address."));
+    }
 
     /**
      * Checks that the password meets validation requirements
@@ -189,7 +190,7 @@ public class LoginFragment extends Fragment {
      */
     private void verifyAuthWithServer() {
         mLoginViewModel.connectLogin(
-                binding.textUsername.getText().toString(),
+                binding.textEmail.getText().toString(),
                 binding.textPassword.getText().toString());
         //This is an Asynchronous call. No statements after should rely on the
         //result of connect().
@@ -218,7 +219,7 @@ public class LoginFragment extends Fragment {
         if (response.length() > 0) {
             if (response.has("code")) {
                 try {
-                    binding.textUsername.setError(
+                    binding.textEmail.setError(
                             "Error Authenticating: " +
                                     response.getJSONObject("data").getString("message"));
                 } catch (JSONException e) {
@@ -227,7 +228,7 @@ public class LoginFragment extends Fragment {
             } else {
                 try {
                     navigateToHome(
-                            binding.textUsername.getText().toString(),
+                            binding.textEmail.getText().toString(),
                             response.getString("token")
                     );
                 } catch (JSONException e) {

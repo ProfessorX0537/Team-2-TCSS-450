@@ -20,12 +20,12 @@
         app:srcCompat="@drawable/ic_launcher_background" />
 
     <EditText
-        android:id="@+id/text_username"
+        android:id="@+id/text_email"
         android:layout_width="268dp"
         android:layout_height="49dp"
         android:ems="10"
-        android:hint="@string/hint_username"
-        android:inputType="text"
+        android:hint="@string/hint_email"
+        android:inputType="textEmailAddress"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -42,7 +42,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_username"
+        app:layout_constraintTop_toBottomOf="@+id/text_email"
         app:layout_constraintVertical_bias="0.050000012" />
 
     <Button
