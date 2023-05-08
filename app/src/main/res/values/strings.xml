@@ -29,4 +29,8 @@
     <string name="display_header_verify_email_title">Verify your email</string>
     <string name="test_name">Test Name</string>
 
+    <string name="url_webservices">https://daveed-tcss450-labs.herokuapp.com/</string>
+    <string name="not_connected">No Connection</string>
+    <string name="establishing_connection">Establishing Connection</string>
+
 </resources>

@@ -147,9 +147,9 @@ public class RegisterFragment extends Fragment {
      */
     private void validateNickName() {
         mNameValidator.processResult(
-                mNameValidator.apply(binding.editNickname.getText().toString().trim()),
+                mNameValidator.apply(binding.editUsername.getText().toString().trim()),
                 this::validateEmail,
-                result -> binding.editNickname.setError("Please enter a nickname."));
+                result -> binding.editUsername.setError("Please enter a username."));
     }
 
     /**
@@ -194,6 +194,7 @@ public class RegisterFragment extends Fragment {
                 binding.editFirst.getText().toString(),
                 binding.editLast.getText().toString(),
                 binding.editEmail.getText().toString(),
+                binding.editUsername.getText().toString(),
                 binding.editPassword1.getText().toString());
         //This is an Asynchronous call. No statements after should rely on the
         //result of connect().
