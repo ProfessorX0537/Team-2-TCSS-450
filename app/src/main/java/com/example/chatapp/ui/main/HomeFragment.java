@@ -7,8 +7,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +19,19 @@ import com.example.chatapp.R;
 import com.example.chatapp.databinding.FragmentHomeBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Iterator;
+import java.util.Map;
+
 public class HomeFragment extends Fragment {
+
+    private WeatherApiViewModel mViewModel;
+
+    private FragmentHomeBinding binding;
+
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -25,13 +39,17 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mViewModel = new ViewModelProvider(getActivity()).get(WeatherApiViewModel.class);
+        mViewModel.connectGet();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                   Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        binding = FragmentHomeBinding.inflate(inflater);
+//        return inflater.inflate(R.layout.fragment_home, container, false);
+        return binding.getRoot();
     }
 
     //pop off stack
@@ -41,7 +59,16 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        FragmentHomeBinding binding = FragmentHomeBinding.bind(requireView());
+        //FragmentHomeBinding binding = FragmentHomeBinding.bind(requireView());
+
+
+//        mViewModel.addResponseObserver(getViewLifecycleOwner(), result ->
+//                //result.getJSONObject("daily").getJSONArray("time").getString(0);
+//                binding.textDate.setText(result.toString()));
+        mViewModel.addResponseObserver(
+                getViewLifecycleOwner(),
+                this::observeData
+        );
 
 //        BottomNavigationView temp = ((AppCompatActivity)getActivity()).findViewById(R.id.nav_view);
 //        temp.setSelectedItemId(R.id.navigation_weather);
@@ -68,6 +95,23 @@ public class HomeFragment extends Fragment {
             BottomNavigationView temp = ((AppCompatActivity) getActivity()).findViewById(R.id.nav_view);
             temp.setSelectedItemId(R.id.navigation_connections);
         });
+    }
+
+    private void observeData(JSONObject result) {
+        JSONObject daily;
+        String date;
+        //JSONArray temp = result.getJSONArray("daily");
+
+//            daily = result.getJSONObject("daily");
+//            date = daily.getJSONArray("time").getString(0);
+//            Log.d("hi", hi.getJSONArray("time").toString());
+
+        JSONArray jsonArray = new JSONArray();
+        jsonArray.put(result);
+
+        Log.d("hi3", jsonArray.toString());
+        binding.textDate.setText("hi");
+        //binding.textDate.setText(result.getJSONArray("timezone").toString());
     }
 
 
