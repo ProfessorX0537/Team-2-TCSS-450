@@ -15,6 +15,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -48,12 +49,18 @@ public class WeatherApiViewModel extends AndroidViewModel {
 //        }
         //mResponse.setValue(result);
         JSONObject daily;
+        JSONArray daily2;
+        JSONObject time;
         try {
             //JSONArray temp = result.getJSONArray("daily");
 
             daily = result.getJSONObject("daily");
             mDate = daily.getJSONArray("time").getString(0);
+            //daily2 = result.getJSONArray("daily_units");
+            time = result.getJSONObject("daily_units");
+
 //            Log.d("hi", hi.getJSONArray("time").toString());
+//            Log.d("hi", time.getString("time"));
             Log.d("hi", mDate);
         } catch (JSONException e) {
             throw new RuntimeException(e);
