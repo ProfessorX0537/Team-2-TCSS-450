@@ -125,17 +125,19 @@ public class RegisterFragment extends Fragment {
      * @return boolean that dictates whether or not to suppress keyboard.
      */
     private boolean passwordReqs(View view, MotionEvent motionEvent) {
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
-        alertDialogBuilder.setMessage(R.string.snackbar_register_password_requirements);
-        alertDialogBuilder.setTitle("Password Requirements");
-        alertDialogBuilder.setNegativeButton("ok", new DialogInterface.OnClickListener(){
+        if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
+            alertDialogBuilder.setMessage(R.string.snackbar_register_password_requirements);
+            alertDialogBuilder.setTitle("Password Requirements");
+            alertDialogBuilder.setNegativeButton("ok", new DialogInterface.OnClickListener(){
 
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-            }
-        });
-        AlertDialog alertDialog = alertDialogBuilder.create();
-        alertDialog.show();
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                }
+            });
+            AlertDialog alertDialog = alertDialogBuilder.create();
+            alertDialog.show();
+        }
         return false;
     }
 
