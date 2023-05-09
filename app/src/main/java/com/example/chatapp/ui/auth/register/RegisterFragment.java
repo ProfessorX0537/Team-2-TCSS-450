@@ -2,9 +2,12 @@ package com.example.chatapp.ui.auth.register;
 
 import static com.example.chatapp.utils.PasswordValidator.*;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -14,6 +17,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
+import com.example.chatapp.R;
 import com.example.chatapp.databinding.FragmentRegisterBinding;
 import com.example.chatapp.utils.PasswordValidator;
 
@@ -21,13 +25,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- * To register a new user. <br>
- * - username <br>
- * - email <br>
- * - password <br>
- * - password 2nd time to match <br>
- * - "register" button <br>
- * - "cancel" button <br>
+ * Fragment that will allow a new user to register with our service so that they can
+ * login to our application.
+ * @author Xavier Hines
  */
 public class RegisterFragment extends Fragment {
     /**
@@ -111,9 +111,32 @@ public class RegisterFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        binding.editPassword1.setOnTouchListener(this::passwordReqs);
         binding.buttonRegister.setOnClickListener(this::tryRegister);
         mRegisterModel.addResponseObserver(getViewLifecycleOwner(),
                 this::observeResponse);
+    }
+
+    /**
+     * Method called when the first password editText is touched. This informs
+     * the user of the minimum requirements of a password.
+     * @param view The View returned by {@link #onCreateView(LayoutInflater, ViewGroup, Bundle)}.
+     * @param motionEvent The event registered by the system
+     * @return boolean that dictates whether or not to suppress keyboard.
+     */
+    private boolean passwordReqs(View view, MotionEvent motionEvent) {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
+        alertDialogBuilder.setMessage(R.string.snackbar_register_password_requirements);
+        alertDialogBuilder.setTitle("Password Requirements");
+        alertDialogBuilder.setNegativeButton("ok", new DialogInterface.OnClickListener(){
+
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+            }
+        });
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+        return false;
     }
 
     /**
