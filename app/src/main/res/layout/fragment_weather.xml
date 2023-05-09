@@ -5,77 +5,58 @@
     android:id="@+id/root_weather"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.main.WeatherFragment">
+    tools:context=".ui.main.weather.WeatherFragment">
 
 
     <EditText
         android:id="@+id/text_location"
-        android:layout_width="268dp"
-        android:layout_height="49dp"
-        android:layout_marginStart="68dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="6dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="6dp"
         android:ems="10"
+        android:hint="@string/hint_weather_location"
         android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/weather_fragment_container"
-        android:layout_width="409dp"
-        android:layout_height="578dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="128dp"
+        app:layout_constraintTop_toBottomOf="@+id/tabLayout"
+        tools:layout_editor_absoluteX="-27dp" />
 
-    <RadioGroup
-        android:id="@+id/radioGroup"
-        android:layout_width="334dp"
-        android:layout_height="68dp"
-        android:layout_marginTop="16dp"
-        android:checkedButton="@id/button_view_today"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.493"
-        app:layout_constraintStart_toStartOf="parent"
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         app:layout_constraintTop_toBottomOf="@+id/text_location">
 
-        <RadioButton
-            android:id="@+id/button_view_today"
+        <com.google.android.material.tabs.TabItem
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="12dp"
-            android:layout_weight="1"
-            android:background="@drawable/radio_weather_selector"
-            android:button="@android:color/transparent"
             android:text="Today"
-            android:textAlignment="center"
-            android:textColor="@drawable/text_weather_color"
-             />
+            tools:layout_editor_absoluteX="3dp"
+            tools:layout_editor_absoluteY="109dp" />
 
-        <RadioButton
-            android:id="@+id/button_view_24hour"
+        <com.google.android.material.tabs.TabItem
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="12dp"
-            android:layout_weight="1"
-            android:background="@drawable/radio_weather_selector"
-            android:button="@android:color/transparent"
-            android:text="24 Hour"
-            android:textAlignment="center"
-            android:textColor="@drawable/text_weather_color"
-             />
+            android:text="24 Hour" />
 
-        <RadioButton
-            android:id="@+id/button_view_10day"
+        <com.google.android.material.tabs.TabItem
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="12dp"
-            android:layout_weight="1"
-            android:background="@drawable/radio_weather_selector"
-            android:button="@android:color/transparent"
-            android:text="10 Day"
-            android:textAlignment="center"
-            android:textColor="@drawable/text_weather_color"
-            />
-    </RadioGroup>
+            android:text="10 Day" />
+    </com.google.android.material.tabs.TabLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

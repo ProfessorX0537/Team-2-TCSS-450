@@ -104,10 +104,10 @@ public class HomeFragment extends Fragment {
 //                        HomeFragmentDirections
 //                                .actionNavigationHomeToNavigationWeather()));
 
-        binding.homeWeatherCard.setOnClickListener(button -> {
-            BottomNavigationView temp = ((AppCompatActivity) getActivity()).findViewById(R.id.nav_view);
-            temp.setSelectedItemId(R.id.navigation_weather);
-        });
+//        binding.homeWeatherCard.setOnClickListener(button -> {
+//            BottomNavigationView temp = ((AppCompatActivity) getActivity()).findViewById(R.id.nav_view);
+//            temp.setSelectedItemId(R.id.navigation_weather);
+//        });
 
         binding.homeMessageCard.setOnClickListener(button -> {
             BottomNavigationView temp = ((AppCompatActivity) getActivity()).findViewById(R.id.nav_view);
