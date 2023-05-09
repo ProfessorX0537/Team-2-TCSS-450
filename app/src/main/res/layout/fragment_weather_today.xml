@@ -5,49 +5,107 @@
     android:id="@+id/layout_weather_today"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.main.weather.WeatherTodayFragment" >
+    tools:context=".ui.main.weather.WeatherTodayFragment">
 
-    <TextView
-        android:id="@+id/text_date"
-        android:layout_width="246dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="16dp"
-        android:text="April 28 2023"
-        android:textSize="28dp"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/weather_today_card"
+        android:layout_width="362dp"
+        android:layout_height="203dp"
+        app:cardCornerRadius="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.109">
 
-    <TextView
-        android:id="@+id/text_temperature"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="8dp"
-        android:text="64 °F"
-        android:textSize="60sp"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_weather"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".ui.main.WeatherTodayFragment">
+
+            <TextView
+                android:id="@+id/text_date"
+                android:layout_width="193dp"
+                android:layout_height="43dp"
+                android:gravity="right"
+                android:text="May 4, 2023"
+                android:textSize="28dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.917"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.058" />
+
+            <TextView
+                android:id="@+id/text_daycondition"
+                android:layout_width="169dp"
+                android:layout_height="35dp"
+                android:layout_marginStart="24dp"
+                android:gravity="right"
+                android:text="Raining"
+                android:textColor="#2196F3"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.923"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_date"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <TextView
+                android:id="@+id/text_temperature"
+                android:layout_width="164dp"
+                android:layout_height="103dp"
+                android:gravity="right"
+                android:text="58 °F"
+                android:textColor="#000000"
+                android:textSize="60sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.937"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_daycondition"
+                app:layout_constraintVertical_bias="0.0" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ImageView
+            android:id="@+id/image_weathercondtion_1"
+            android:layout_width="161dp"
+            android:layout_height="100dp"
+            android:src="@drawable/baseline_cloud_24"
+            tools:layout_conversion_absoluteHeight="109dp"
+            tools:layout_conversion_absoluteWidth="106dp"
+            tools:layout_editor_absoluteX="24dp"
+            tools:layout_editor_absoluteY="71dp" />
+
+        <ImageView
+            android:id="@+id/image_weathercondition_2"
+            android:layout_width="147dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/baseline_grain_24" />
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card1"
+        android:layout_width="363dp"
+        android:layout_height="317dp"
+        android:layout_marginTop="32dp"
+        app:cardCornerRadius="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.51"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_date" />
+        app:layout_constraintTop_toBottomOf="@+id/weather_today_card">
 
-    <TextView
-        android:id="@+id/text_daycondition"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
-        android:text="Sunny"
-        android:textSize="34sp"
-        app:layout_constraintStart_toEndOf="@+id/text_temperature"
-        app:layout_constraintTop_toBottomOf="@+id/text_date" />
-
-    <TextView
-        android:id="@+id/text_conditions"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="28dp"
-        android:text="Conditions"
-        android:textSize="34sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_temperature" />
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="Conditions"
+            android:textSize="34sp" />
+    </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

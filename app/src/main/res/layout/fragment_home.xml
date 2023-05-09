@@ -10,7 +10,7 @@
     tools:layout_editor_absoluteY="0dp">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/home_weather_card"
+        android:id="@+id/weather_today_card"
         android:layout_width="362dp"
         android:layout_height="203dp"
         app:cardCornerRadius="20dp"
@@ -75,7 +75,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ImageView
-            android:id="@+id/imageView6"
+            android:id="@+id/image_weathercondtion_1"
             android:layout_width="161dp"
             android:layout_height="100dp"
             android:src="@drawable/baseline_cloud_24"
@@ -85,7 +85,7 @@
             tools:layout_editor_absoluteY="71dp" />
 
         <ImageView
-            android:id="@+id/imageView7"
+            android:id="@+id/image_weathercondition_2"
             android:layout_width="147dp"
             android:layout_height="match_parent"
             android:src="@drawable/baseline_grain_24" />
@@ -100,7 +100,7 @@
         android:textColor="#673AB7"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/home_weather_card"
+        app:layout_constraintBottom_toTopOf="@+id/weather_today_card"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.826"
         app:layout_constraintStart_toStartOf="parent"
@@ -114,7 +114,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/home_weather_card"
+        app:layout_constraintTop_toBottomOf="@+id/weather_today_card"
         app:layout_constraintVertical_bias="0.196">
 
         <com.google.android.material.tabs.TabItem
@@ -147,7 +147,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.102"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/home_weather_card"
+        app:layout_constraintTop_toBottomOf="@+id/weather_today_card"
         app:layout_constraintVertical_bias="0.323" />
 
     <androidx.cardview.widget.CardView

@@ -9,22 +9,28 @@ import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.example.chatapp.R;
+import com.example.chatapp.databinding.FragmentWeather24HourBinding;
+import com.example.chatapp.model.WeatherInfoViewModel;
 
 import java.util.Random;
 
 
 public class Weather24HourFragment extends Fragment {
 
+    private WeatherInfoViewModel mModel;
+    private FragmentWeather24HourBinding mBinding;
 
     public Weather24HourFragment() {
         // Required empty public constructor
@@ -33,42 +39,57 @@ public class Weather24HourFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mModel = new ViewModelProvider(getActivity()).get(WeatherInfoViewModel.class);
+        mModel.pullWeatherUpdates();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_weather24_hour, container, false);
+        mBinding = FragmentWeather24HourBinding.inflate(inflater);
+        return mBinding.getRoot();
     }
 
     @SuppressLint("ResourceType")
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setTemperatueTable();
+        setTables();
 
     }
 
     @SuppressLint("ResourceType")
-    public void setTemperatueTable() {
+    public void setTables() {
         //Get table layout object
-        TableLayout tl = (TableLayout) getActivity().findViewById(R.id.table_temp);
+        TableLayout temperatureTable = mBinding.tableTemperature;
+        TableLayout precipitationTable = mBinding.tablePrecipitation;
+        TableLayout windTable = mBinding.tableWind;
 
-        //Create rows
-        TableRow tr_temperatures = new TableRow(getContext());
-        TableRow tr_times = new TableRow(getContext());
+        //Grab rows
+        TableRow tr_temperatures = mBinding.trTemperatures;
+        TableRow tr_weatherConditions = mBinding.trWeatherConditions;
+        TableRow tr_times = mBinding.trTimes;
+        TableRow tr_precipitation = mBinding.trPrecipitation;
 
         //Set Table Row attributes
-        tr_temperatures.setId(10);
-        tr_temperatures.setLayoutParams(new TableLayout.LayoutParams(
-                TableLayout.LayoutParams.MATCH_PARENT,
-                TableLayout.LayoutParams.WRAP_CONTENT));
+        //Row for temps
+        //tr_temperatures.setId(10);
+        //tr_temperatures.setLayoutParams(new TableLayout.LayoutParams(
+//                TableLayout.LayoutParams.MATCH_PARENT,
+//                TableLayout.LayoutParams.WRAP_CONTENT));
 
-        tr_times.setId(11);
-        tr_times.setLayoutParams(new TableLayout.LayoutParams(
-                TableLayout.LayoutParams.MATCH_PARENT,
-                TableLayout.LayoutParams.WRAP_CONTENT));
+        //Row for conditions image (cloudy, sunny, etc)
+        //tr_weatherConditions.setId(11);
+        //tr_weatherConditions.setLayoutParams(new TableLayout.LayoutParams(
+//                TableLayout.LayoutParams.MATCH_PARENT,
+//                TableLayout.LayoutParams.WRAP_CONTENT));
+
+        //Row for times
+        //tr_times.setId(12);
+        //tr_times.setLayoutParams(new TableLayout.LayoutParams(
+//                TableLayout.LayoutParams.MATCH_PARENT,
+//                TableLayout.LayoutParams.WRAP_CONTENT));
 
         //Fill rows with 24 hours worth of data
         //TODO: Fill with real data from weather API
@@ -77,7 +98,9 @@ public class Weather24HourFragment extends Fragment {
 
             Random rand = new Random();
 
-            //Create textlabels
+            //TEMPERATURE TABLE
+
+            //Set random degrees
             TextView label_temperature = new TextView(getContext());
             label_temperature.setId(20 + i);
             label_temperature.setText((68 + rand.nextInt(10)) + "°");
@@ -88,6 +111,15 @@ public class Weather24HourFragment extends Fragment {
             label_temperature.setPadding(5, 5, 5, 5);
             tr_temperatures.addView(label_temperature);// add the column to the table row here
 
+            //Set condition images
+            ImageView weatherCondition = new ImageView(getContext());
+            weatherCondition.setId(50 + i);
+            weatherCondition.setImageDrawable(getActivity().getDrawable(R.drawable.angry_clouds));
+            weatherCondition.setAdjustViewBounds(true);
+            weatherCondition.setMaxWidth(5);
+            tr_weatherConditions.addView(weatherCondition);
+
+            //Set times
             TextView label_time = new TextView(getContext());
             label_time.setId(40 + i);// define id that must be unique
 
@@ -105,12 +137,28 @@ public class Weather24HourFragment extends Fragment {
             label_time.setPadding(5, 5, 5, 5); // set the padding (if required)
             tr_times.addView(label_time); // add the column to the table row here
 
+            //PRECIPITATION TABLE
+            //SEt random precip values
+            TextView label_precipitation = new TextView(getContext());
+            label_precipitation.setId(60 + i);
+            label_precipitation.setText((rand.nextInt(100)) + "%");
+            label_precipitation.setTextColor(Color.BLACK);
+            label_precipitation.setTextSize(20);
+            label_precipitation.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            label_precipitation.setGravity(Gravity.CENTER);
+            label_precipitation.setPadding(5, 5, 5, 5);
+            tr_precipitation.addView(label_precipitation);// add the column to the table row here
 
         }
 
-        //Add rows to table
-        tl.addView(tr_temperatures);
-        tl.addView(tr_times);
+
+
+        //Add copy of time rows to tables
+
+        TableRow trTimeCopy1 = new TableRow(tr_times.getContext());
+        precipitationTable.addView(trTimeCopy1);
+        //temperatureTable.addView(tr_weatherConditions);
+        //temperatureTable.addView(tr_times);
 
     }
 }
