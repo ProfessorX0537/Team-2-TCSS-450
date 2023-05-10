@@ -5,47 +5,61 @@
     android:id="@+id/frameLayout2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background"
+
     tools:context=".ui.auth.register.VerifyEmailFragment">
 
-    <EditText
-        android:id="@+id/edit_verification_number"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="280dp"
-        android:layout_marginEnd="100dp"
-        android:ems="10"
-        android:hint="@string/hint_verify_email"
-        android:inputType="numberPassword"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/button_verify_email"
         android:layout_width="205dp"
         android:layout_height="52dp"
         android:layout_marginStart="100dp"
-        android:layout_marginTop="32dp"
         android:layout_marginEnd="100dp"
+        android:layout_marginBottom="200dp"
         android:text="@string/button_verify_email"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_verification_number" />
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent" />
 
-    <EditText
-        android:id="@+id/edit_verify_emailtext"
-        android:layout_width="185dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="114dp"
-        android:layout_marginTop="123dp"
-        android:layout_marginEnd="114dp"
-        android:editable="false"
-        android:ems="10"
-        android:inputType="text"
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
         android:text="@string/display_header_verify_email_title"
-        android:textSize="24sp"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="@string/display_subheader_verify_email"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:layout_constraintTop_toBottomOf="@+id/textView3"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="155dp"
+        android:layout_marginEnd="156dp"
+        android:src="@drawable/emailicon"
+        app:layout_constraintBottom_toTopOf="@+id/button_verify_email"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
