@@ -23,6 +23,7 @@
             android:id="@+id/layout_weather"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@color/light_primary"
             tools:context=".ui.main.WeatherTodayFragment">
 
             <TextView
@@ -32,6 +33,7 @@
                 android:gravity="right"
                 android:text="May 4, 2023"
                 android:textSize="28dp"
+                android:textColor="@color/text_primary"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.917"
@@ -46,7 +48,7 @@
                 android:layout_marginStart="24dp"
                 android:gravity="right"
                 android:text="Raining"
-                android:textColor="#2196F3"
+                android:textColor="@color/text_primary"
                 android:textSize="24sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -61,7 +63,7 @@
                 android:layout_height="103dp"
                 android:gravity="right"
                 android:text="58 °F"
-                android:textColor="#000000"
+                android:textColor="@color/text_primary"
                 android:textSize="60sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -94,6 +96,7 @@
         android:layout_width="363dp"
         android:layout_height="317dp"
         android:layout_marginTop="32dp"
+        android:backgroundTint="@color/light_primary"
         app:cardCornerRadius="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.51"
@@ -106,6 +109,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:text="Conditions"
+            android:textColor="@color/text_primary"
             android:textSize="34sp" />
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

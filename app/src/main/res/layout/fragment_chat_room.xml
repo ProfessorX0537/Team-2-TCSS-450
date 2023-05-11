@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:windowSoftInputMode="adjustResize"
+    android:background="@drawable/background"
     tools:context=".ui.main.chat.chatroom.ChatRoomFragment">
 
     <androidx.recyclerview.widget.RecyclerView
@@ -24,6 +25,7 @@
         android:id="@+id/cardView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:cardBackgroundColor="@color/primary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -57,6 +59,8 @@
                     android:layout_marginRight="5dp"
                     android:ems="10"
                     android:hint="@string/hint_chat_enter_text"
+                    android:textColorHint="@color/text_primary"
+                    android:textColor="@color/text_primary"
                     android:inputType="text|textAutoComplete|textAutoCorrect|textCapSentences|textEnableTextConversionSuggestions|textMultiLine"
                     android:scrollHorizontally="false"
                     android:singleLine="false" />
@@ -69,6 +73,7 @@
                 android:layout_margin="8dp"
                 android:clickable="true"
                 android:src="@drawable/ic_chatsend_white_24dp"
+                app:backgroundTint="@color/accent_color"
                 app:ensureMinTouchTargetSize="true"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -85,6 +90,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/action_scroll_to_bottom"
+        app:backgroundTint="@color/dark_primary"
         app:cornerRadius="0dp"
         app:layout_constraintBottom_toBottomOf="@+id/recycler_bubbles"
         app:layout_constraintEnd_toEndOf="parent"
