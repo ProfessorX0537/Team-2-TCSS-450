@@ -25,6 +25,7 @@ public class ChatRoomFragment extends Fragment {
         super.onCreate(savedInstanceState);
         mModel = new ViewModelProvider(getActivity()).get(ChatRoomViewModel.class);
         mModel.setupItemsList();
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Chat Room");
     }
 
     @Override

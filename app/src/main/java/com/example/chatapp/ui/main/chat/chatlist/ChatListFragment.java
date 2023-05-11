@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,6 +26,7 @@ public class ChatListFragment extends Fragment {
         super.onCreate(savedInstanceState);
         mModel = new ViewModelProvider(getActivity()).get(ChatListViewModel.class);
         mModel.setupItemsList(); //TODO remove for webservice
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Chats");
     }
 
     @Override

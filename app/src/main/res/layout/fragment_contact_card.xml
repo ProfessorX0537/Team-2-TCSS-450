@@ -10,6 +10,7 @@
     android:focusable="auto"
     android:focusableInTouchMode="false"
     android:foreground="@drawable/custom_bg"
+    app:cardBackgroundColor="@color/light_primary"
     app:cardCornerRadius="5dp"
     tools:context=".ui.main.contacts.ContactCardFragment">
 
