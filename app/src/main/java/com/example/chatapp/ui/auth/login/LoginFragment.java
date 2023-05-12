@@ -65,7 +65,7 @@ public class LoginFragment extends Fragment {
      * Private field variable to validate user passwords
      */
     private PasswordValidator mPassWordValidator = checkClientPredicate(pwd -> pwd.equals(binding.textPassword.getText().toString()))
-            .and(checkPwdLength(7))
+            .and(checkPwdLength(9))
             .and(checkPwdSpecialChar())
             .and(checkExcludeWhiteSpace())
             .and(checkPwdDigit())
@@ -141,7 +141,7 @@ public class LoginFragment extends Fragment {
         binding.buttonLogin.setOnClickListener(button -> {Navigation.findNavController(getView())
                 .navigate(LoginFragmentDirections.actionLoginToMainActivity("",""));});
         //comment this out to login w/o actually having to sign in.
-//        binding.buttonLogin.setVisibility(View.GONE);
+        binding.buttonLogin.setVisibility(View.GONE);
 //        binding.buttonLogin.setOnClickListener(this::attemptLogin);
 
         LoginFragmentArgs args = LoginFragmentArgs.fromBundle(getArguments());

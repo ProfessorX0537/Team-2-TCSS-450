@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class ContactCard implements Serializable {
 
-    //ob
+    // builds contact card using builder pattern
     private final String mName;
 
     private final String mNick;
@@ -42,6 +42,7 @@ public class ContactCard implements Serializable {
         public ContactCard build(){return new ContactCard(this);}
     }
 
+    // build contact card
     private ContactCard(final Builder builder){
         this.mEmail = builder.mEmail;
         this.mNick = builder.mNick;

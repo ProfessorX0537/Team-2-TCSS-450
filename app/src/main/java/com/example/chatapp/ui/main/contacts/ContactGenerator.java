@@ -3,13 +3,16 @@ package com.example.chatapp.ui.main.contacts;
 import java.util.Arrays;
 import java.util.List;
 
+
 public class ContactGenerator {
 
     private static final ContactCard[] CARDS;
+    //demo data
     private static final String[] testNames = {"Deanna Smith","Heidi Carney","Sean Thomas","Kyle Travis","Bethany Gilbert","Linda Robles",
             "Courtney Jones","Jennifer Rojas","Brian Fisher","Rebecca Pineda","Robert Jones","Lisa Nguyen DDS","Tiffany Lambert",
             "Gabriel Thompson","Alexandria Moses","Chad Greene","Jamie Morrison","Julie Werner","Cameron Pierce","Brittany Williamson"};
 
+    // creates a list of contact cards
     static {
         CARDS = new ContactCard[testNames.length];
 
@@ -19,6 +22,7 @@ public class ContactGenerator {
         }
     }
 
+    // returns a list of contact cards
     public static List<ContactCard> getCardList() {return Arrays.asList(CARDS);}
 
     public static ContactCard[] getCARDS() {return Arrays.copyOf(CARDS, CARDS.length);}
