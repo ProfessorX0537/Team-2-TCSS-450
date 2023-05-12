@@ -52,35 +52,24 @@ public class ContactFragment extends Fragment {
 
         FragmentContactsBinding binding = FragmentContactsBinding.bind(getView());
 
+        // checks if user is scrolling up or down and hides search bar accordingly
         binding.listRoot.addOnScrollListener(new RecyclerView.OnScrollListener() {
             private int lastFirstVisibleItem;
-
-
-
-
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
 
-
-
                 int firstVisibleItem = ((LinearLayoutManager)recyclerView.getLayoutManager()).findFirstVisibleItemPosition();
-
                 Log.i("Scroll Y", String.valueOf(firstVisibleItem));
-
-
 
                 if(lastFirstVisibleItem<firstVisibleItem){
 
                     binding.searchView.setVisibility(View.GONE);
-
                     Log.d("RecyclerView scrolled: ", "up!");
-
 
                 } else if (lastFirstVisibleItem>firstVisibleItem){
                         binding.searchView.setVisibility(View.VISIBLE);
 
                         Log.d("RecyclerView scrolled: ", "down!");
-
                 }
 
 
