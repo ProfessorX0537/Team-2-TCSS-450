@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 
 import com.example.chatapp.R;
 import com.example.chatapp.databinding.FragmentHomeBinding;
+import com.example.chatapp.model.WeatherInfoViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.json.JSONArray;
@@ -32,7 +33,7 @@ import java.util.Map;
 
 public class HomeFragment extends Fragment {
 
-    private WeatherApiViewModel mViewModel;
+    private WeatherInfoViewModel mViewModel;
 
     private FragmentHomeBinding binding;
 
@@ -43,7 +44,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mViewModel = new ViewModelProvider(getActivity()).get(WeatherApiViewModel.class);
+        mViewModel = new ViewModelProvider(getActivity()).get(WeatherInfoViewModel.class);
         mViewModel.connectGet();
     }
 
