@@ -1,6 +1,7 @@
 package com.example.chatapp.model;
 
 import android.app.Application;
+import android.text.style.IconMarginSpan;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -51,27 +52,24 @@ public class WeatherInfoViewModel extends AndroidViewModel {
     }
 
     private void handleResult(final JSONObject result) {
-//        try {
-//            mResponse.setValue(result);
-//            JSONObject temp = result.getJSONObject("timezone");
-//        } catch (JSONException e) {
-//            throw new RuntimeException(e);
-//        }
-        //mResponse.setValue(result);
-        JSONObject daily;
+
+        Log.d("TEST", "handle result test");
+        JSONObject currentWeather;
         JSONArray daily2;
         JSONObject time;
         try {
             //JSONArray temp = result.getJSONArray("daily");
-
-            daily = result.getJSONObject("daily");
-            mDate = daily.getJSONArray("time").getString(0);
+            Log.d("TEST", "JSON: " + result);
+            currentWeather = result.getJSONObject("current_weather");
+            Log.d("TEST", "Current Weather time is: " + currentWeather);
+            mDate = currentWeather.getString("time");
+            Log.d("TEST", "Current time is: " + mDate);
             //daily2 = result.getJSONArray("daily_units");
-            time = result.getJSONObject("daily_units");
+            //time = currentWeather.getJSONObject("time");
 
 //            Log.d("hi", hi.getJSONArray("time").toString());
 //            Log.d("hi", time.getString("time"));
-            Log.d("hi", mDate);
+            //Log.d("hi", mDate);
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
@@ -79,6 +77,7 @@ public class WeatherInfoViewModel extends AndroidViewModel {
     }
 
     private void handleError(final VolleyError error) {
+
         if (Objects.isNull(error.networkResponse)) {
             try {
                 mResponse.setValue(new JSONObject("{" +
@@ -91,6 +90,9 @@ public class WeatherInfoViewModel extends AndroidViewModel {
         else {
             String data = new String(error.networkResponse.data, Charset.defaultCharset())
                     .replace('\"', '\'');
+
+            Log.e("Bad Request", "handleError " + data);
+
             try {
                 mResponse.setValue(new JSONObject("{" +
                         "code:" + error.networkResponse.statusCode +
@@ -104,11 +106,20 @@ public class WeatherInfoViewModel extends AndroidViewModel {
 
     public void connectGet() {
         String url = getApplication().getString(R.string.url_webservices) + "weather";
+        //String url = "http://192.168.1.123:5000/weather";
+
+        String latitude = "&latitude=" + -87.244843;
+        String longitude = "?longitude=" + -122.42595;
+
+        url += longitude;
+        url += latitude;
+
+
 
         Request request = new JsonObjectRequest(
                 Request.Method.GET,
                 url,
-                null, //no body for this get request
+                null,
                 this::handleResult,
                 this::handleError);
 
