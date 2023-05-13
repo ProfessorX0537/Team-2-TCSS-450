@@ -30,7 +30,6 @@ public class ContactFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        mModel = new ViewModelProvider(getActivity()).get(ContactsViewModel.class);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Contacts");
     }
 
     @Override

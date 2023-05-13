@@ -94,7 +94,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/card1"
         android:layout_width="363dp"
-        android:layout_height="317dp"
+        android:layout_height="200dp"
         android:layout_marginTop="32dp"
         android:backgroundTint="@color/light_primary"
         app:cardCornerRadius="20dp"
@@ -107,8 +107,8 @@
             android:id="@+id/textView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text="Conditions"
+            android:layout_marginStart="10dp"
+            android:text="@string/textview_weather_conditions"
             android:textColor="@color/text_primary"
             android:textSize="34sp" />
     </androidx.cardview.widget.CardView>
