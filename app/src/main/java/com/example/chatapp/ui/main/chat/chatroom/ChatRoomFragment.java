@@ -22,6 +22,7 @@ public class ChatRoomFragment extends Fragment {
     private ChatRoomItemsViewModel mItemsModel;
     private FragmentChatRoomBinding mBinding;
     private UserInfoViewModel mUserInfoModel;
+    private ChatRoomSendViewModel mSendModel;
     private int HARD_CODED_CHAT_ID = 1; //TODO REMOVE
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -32,6 +33,8 @@ public class ChatRoomFragment extends Fragment {
 
         mItemsModel = provider.get(ChatRoomItemsViewModel.class);
         mItemsModel.getFirstMessages(HARD_CODED_CHAT_ID, mUserInfoModel.getJwt()); //CHANGE CHAT ID
+
+        mSendModel = provider.get(ChatRoomSendViewModel.class);
     }
 
     @Override
@@ -90,10 +93,15 @@ public class ChatRoomFragment extends Fragment {
                 });
 
         //Send Button
+        //Send button was clicked. Send the message via the SendViewModel
         mBinding.actionSend.setOnClickListener(button -> {
-            mBinding.textMessageInput.setText("");
-            //TODO Actually send text
+            mSendModel.sendMessage(HARD_CODED_CHAT_ID,
+                    mUserInfoModel.getJwt(),
+                    mBinding.textMessageInput.getText().toString());
         });
+        //when we get the response back from the server, clear the edittext
+        mSendModel.addResponseObserver(getViewLifecycleOwner(), response ->
+                mBinding.textMessageInput.setText(""));
     }
 
     //Hides bottom menu bar
