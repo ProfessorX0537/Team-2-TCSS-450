@@ -9,17 +9,27 @@
     android:background="@drawable/background"
     tools:context=".ui.main.chat.chatroom.ChatRoomFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_bubbles"
-        android:layout_width="match_parent"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_container"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/cardView2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:orientation="vertical"
-        app:layoutManager="LinearLayoutManager"
-        tools:listitem="@layout/fragment_chat_room_bubble_send" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_bubbles"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layoutManager="LinearLayoutManager"
+            app:layout_constraintBottom_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:listitem="@layout/fragment_chat_room_bubble_send" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView2"
@@ -92,7 +102,7 @@
         android:text="@string/action_scroll_to_bottom"
         app:backgroundTint="@color/dark_primary"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toBottomOf="@+id/recycler_bubbles"
+        app:layout_constraintBottom_toTopOf="@+id/cardView2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
