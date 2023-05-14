@@ -35,7 +35,7 @@ public class ChatRoomItem  implements Serializable {
         final JSONObject msg = new JSONObject(cmAsJson);
         return new ChatRoomItem(msg.getInt("messageid"),
                 msg.getString("message"),
-                msg.getString("email"),
+                msg.getString("username"),
                 msg.getString("timestamp"));
     }
 

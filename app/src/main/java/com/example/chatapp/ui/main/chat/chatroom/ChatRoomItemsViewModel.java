@@ -182,7 +182,7 @@ public class ChatRoomItemsViewModel extends AndroidViewModel {
                 ChatRoomItem cMessage = new ChatRoomItem(
                         message.getInt("messageid"),
                         message.getString("message"),
-                        message.getString("email"),
+                        message.getString("username"),
                         message.getString("timestamp")
                 );
                 if (!list.contains(cMessage)) {

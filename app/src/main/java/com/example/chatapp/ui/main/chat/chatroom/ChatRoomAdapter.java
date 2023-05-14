@@ -21,16 +21,16 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private static int VIEWTYPE_RECIEVE = 0;
     private static int VIEWTYPE_SEND = 1;
     public final List<ChatRoomItem> mChatRoomItems;
-    private final String mEmail;
+    private final String mUsername;
 
-    public ChatRoomAdapter(List<ChatRoomItem> mChatRoomItems, String email) {
+    public ChatRoomAdapter(List<ChatRoomItem> mChatRoomItems, String username) {
         this.mChatRoomItems = mChatRoomItems;
-        mEmail = email;
+        mUsername = username;
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (mEmail.equals(mChatRoomItems.get(position).getSender())) {
+        if (mUsername.equals(mChatRoomItems.get(position).getSender())) {
             return VIEWTYPE_RECIEVE;
         } else {
             return VIEWTYPE_SEND;
@@ -54,12 +54,12 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ChatRoomItem curr = mChatRoomItems.get(position);
         if (getItemViewType(position) == VIEWTYPE_RECIEVE) {
-            ChatRoomViewHolderRec holder1 = (ChatRoomViewHolderRec) holder;
+            ChatRoomViewHolderRec holder1 = (ChatRoomViewHolderRec) holder; //cast
             holder1.mBinding.textSender.setText(curr.getSender());
             holder1.mBinding.textMessage.setText(curr.getMessage());
             holder1.mBinding.textDate.setText(curr.getTimeStamp());
         } else { //VIEWTYPE_SEND
-            ChatRoomViewHolderSend holder1 = (ChatRoomViewHolderSend) holder;
+            ChatRoomViewHolderSend holder1 = (ChatRoomViewHolderSend) holder; //cast
             holder1.mBinding.textMessage.setText(curr.getMessage());
             holder1.mBinding.textDate.setText(curr.getTimeStamp());
         }

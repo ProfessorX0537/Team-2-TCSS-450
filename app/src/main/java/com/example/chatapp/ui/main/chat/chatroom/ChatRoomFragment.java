@@ -10,7 +10,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,7 +31,7 @@ public class ChatRoomFragment extends Fragment {
         mUserInfoModel = provider.get(UserInfoViewModel.class);
 
         mItemsModel = provider.get(ChatRoomItemsViewModel.class);
-        mItemsModel.getFirstMessages(HARD_CODED_CHAT_ID, mUserInfoModel.getmJwt()); //CHANGE CHAT ID
+        mItemsModel.getFirstMessages(HARD_CODED_CHAT_ID, mUserInfoModel.getJwt()); //CHANGE CHAT ID
     }
 
     @Override
@@ -47,25 +46,25 @@ public class ChatRoomFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        //SetRefreshing shows the internal Swiper view progress bar. Show this until messages load
-        mBinding.swipeContainer.setRefreshing(true);
+        //Swipe refresh Container
+        mBinding.swipeContainer.setRefreshing(true); //SetRefreshing shows the internal Swiper view progress bar. Show this until messages load
         //When the user scrolls to the top of the RV, the swiper list will "refresh"
         //The user is out of messages, go out to the service and get more
         mBinding.swipeContainer.setOnRefreshListener(() -> {
-            mItemsModel.getNextMessages(HARD_CODED_CHAT_ID, mUserInfoModel.getmJwt());
+            mItemsModel.getNextMessages(HARD_CODED_CHAT_ID, mUserInfoModel.getJwt());
         });
 
         //recycler //TODO listen for ArrayList change
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setStackFromEnd(true);
         mBinding.recyclerBubbles.setLayoutManager(linearLayoutManager);
-        mBinding.recyclerBubbles.setAdapter(new ChatRoomAdapter(mItemsModel.getMessageListByChatId(HARD_CODED_CHAT_ID), mUserInfoModel.getEmail()));
-//        mBinding.recyclerBubbles.getAdapter().setStateRestorationPolicy(RecyclerView.Adapter.StateRestorationPolicy.ALLOW);
+        mBinding.recyclerBubbles.setAdapter(new ChatRoomAdapter(mItemsModel.getMessageListByChatId(HARD_CODED_CHAT_ID), mUserInfoModel.getUsername()));
+//        mBinding.recyclerBubbles.getAdapter().setStateRestorationPolicy(RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY);
 
         //Show scroll to bottom button when not at bottom
-        mBinding.actionScrollToBottom.setVisibility(View.GONE); //hide initialy
+        mBinding.actionScrollToBottom.setVisibility(View.GONE); //hide initially
         mBinding.actionScrollToBottom.setOnClickListener(button -> {
-            mBinding.recyclerBubbles.smoothScrollToPosition(mItemsModel.getmMessages().size() - 1); //scroll to end
+            mBinding.recyclerBubbles.smoothScrollToPosition(mBinding.recyclerBubbles.getAdapter().getItemCount() - 1); //scroll to end
             mBinding.actionScrollToBottom.setVisibility(View.GONE); //hide self
         });
         mBinding.recyclerBubbles.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -81,13 +80,13 @@ public class ChatRoomFragment extends Fragment {
             }
         });
 
+        //Change in items/message listener
         mItemsModel.addMessageObserver(HARD_CODED_CHAT_ID, getViewLifecycleOwner(),
-                //TODO Scroll position restore
                 list -> {
-                    Parcelable recyclerViewState = mBinding.recyclerBubbles.getLayoutManager().onSaveInstanceState();
-                    mBinding.recyclerBubbles.getAdapter().notifyDataSetChanged();
+//                    Parcelable recyclerViewState = mBinding.recyclerBubbles.getLayoutManager().onSaveInstanceState();
+                    mBinding.recyclerBubbles.getAdapter().notifyItemInserted(mBinding.recyclerBubbles.getAdapter().getItemCount() - 1); //tell recycler to update
                     mBinding.swipeContainer.setRefreshing(false);
-                    mBinding.recyclerBubbles.getLayoutManager().onRestoreInstanceState(recyclerViewState);
+//                    mBinding.recyclerBubbles.getLayoutManager().onRestoreInstanceState(recyclerViewState);
                 });
 
         //Send Button
