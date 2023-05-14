@@ -14,20 +14,23 @@ import com.example.chatapp.databinding.FragmentChatRoomBubbleReceiveBinding;
 import com.example.chatapp.databinding.FragmentChatRoomBubbleSendBinding;
 
 import java.util.ArrayList;
+import java.util.List;
 
 //https://droidbyme.medium.com/android-recyclerview-with-multiple-view-type-multiple-view-holder-af798458763b
 public class ChatRoomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static int VIEWTYPE_RECIEVE = 0;
     private static int VIEWTYPE_SEND = 1;
-    public final ArrayList<ChatRoomItem> mChatRoomItems;
+    public final List<ChatRoomItem> mChatRoomItems;
+    private final String mEmail;
 
-    public ChatRoomAdapter(ArrayList<ChatRoomItem> mChatRoomItems) {
+    public ChatRoomAdapter(List<ChatRoomItem> mChatRoomItems, String email) {
         this.mChatRoomItems = mChatRoomItems;
+        mEmail = email;
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (mChatRoomItems.get(position).ismIsFromOther()) {
+        if (mEmail.equals(mChatRoomItems.get(position).getSender())) {
             return VIEWTYPE_RECIEVE;
         } else {
             return VIEWTYPE_SEND;
@@ -52,13 +55,13 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         ChatRoomItem curr = mChatRoomItems.get(position);
         if (getItemViewType(position) == VIEWTYPE_RECIEVE) {
             ChatRoomViewHolderRec holder1 = (ChatRoomViewHolderRec) holder;
-            holder1.mBinding.textSender.setText(curr.getmSenderName());
-            holder1.mBinding.textMessage.setText(curr.getmMessage());
-            holder1.mBinding.textDate.setText(curr.getmDate());
+            holder1.mBinding.textSender.setText(curr.getSender());
+            holder1.mBinding.textMessage.setText(curr.getMessage());
+            holder1.mBinding.textDate.setText(curr.getTimeStamp());
         } else { //VIEWTYPE_SEND
             ChatRoomViewHolderSend holder1 = (ChatRoomViewHolderSend) holder;
-            holder1.mBinding.textMessage.setText(curr.getmMessage());
-            holder1.mBinding.textDate.setText(curr.getmDate());
+            holder1.mBinding.textMessage.setText(curr.getMessage());
+            holder1.mBinding.textDate.setText(curr.getTimeStamp());
         }
     }
 

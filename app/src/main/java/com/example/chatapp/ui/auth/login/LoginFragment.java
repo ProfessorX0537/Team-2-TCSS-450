@@ -204,13 +204,15 @@ public class LoginFragment extends Fragment {
      * If successfully verified with the server the user will be navigated
      * to the landing page and their email and JWT will be passed to
      * userinfo view-model for access inside of the application.
-     * @param email Users email
-     * @param jwt Users JWT
+     * @param email User's email
+     * @param jwt User's JWT
+     * @param memberID User's memberID
+     * @param username  User's username
      */
-    private void navigateToHome(final String email, final String jwt) {
+    private void navigateToHome(final String email, final String jwt, final int memberID, final String username) {
         Navigation.findNavController(getView())
                 .navigate(LoginFragmentDirections
-                        .actionLoginToMainActivity(email, jwt));
+                        .actionLoginToMainActivity(email, jwt, memberID, username));
     }
 
     /**
@@ -233,7 +235,9 @@ public class LoginFragment extends Fragment {
                 try {
                     navigateToHome(
                             binding.textEmail.getText().toString(),
-                            response.getString("token")
+                            response.getString("token"),
+                            response.getInt("memberid"),
+                            response.getString("username")
                     );
                 } catch (JSONException e) {
                     Log.e("JSON Parse Error", e.getMessage());
