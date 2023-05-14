@@ -138,15 +138,19 @@ public class LoginFragment extends Fragment {
         // Uncomment this to have login button send you to landing page w/o sign in.
         // ////////////////////////////////////////////////////////////////////////////////////
         //NOTICE: this doesn't have a JWT or email so request in app that require it will fail.
-        binding.buttonLogin.setOnClickListener(button -> {Navigation.findNavController(getView())
-                .navigate(LoginFragmentDirections.actionLoginToMainActivity("",""));});
+//        binding.buttonLogin.setOnClickListener(button -> {Navigation.findNavController(getView())
+//                .navigate(LoginFragmentDirections.actionLoginToMainActivity("",""));});
         //comment this out to login w/o actually having to sign in.
         binding.buttonLogin.setVisibility(View.GONE);
-//        binding.buttonLogin.setOnClickListener(this::attemptLogin);
+        binding.buttonLogin.setOnClickListener(this::attemptLogin);
 
         LoginFragmentArgs args = LoginFragmentArgs.fromBundle(getArguments());
         binding.textEmail.setText(args.getEmail().equals("default") ? "" : args.getEmail()); //TODO
         binding.textPassword.setText(args.getPassword().equals("default") ? "" : args.getPassword()); //TODO
+
+        //TODO Remove when shipping
+        binding.textEmail.setText("test1@test.com");
+        binding.textPassword.setText("Password123!");
 
         //Register Button
         binding.buttonRegister.setVisibility(View.GONE);
