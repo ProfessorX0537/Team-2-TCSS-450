@@ -10,29 +10,22 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.chatapp.R;
 import com.example.chatapp.databinding.FragmentChatRoomBinding;
-import com.example.chatapp.model.UserInfoViewModel;
 
 public class ChatRoomFragment extends Fragment {
-    private ChatRoomItemsViewModel mItemsModel;
+    private ChatRoomViewModel mModel;
     private FragmentChatRoomBinding mBinding;
-    private UserInfoViewModel mUserInfoModel;
-    private int HARD_CODED_CHAT_ID = 1; //TODO REMOVE
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ViewModelProvider provider = new ViewModelProvider(getActivity());
+        mModel = new ViewModelProvider(getActivity()).get(ChatRoomViewModel.class);
+        mModel.setupItemsList();
 
-        mUserInfoModel = provider.get(UserInfoViewModel.class);
-
-        mItemsModel = provider.get(ChatRoomItemsViewModel.class);
-        mItemsModel.getFirstMessages(HARD_CODED_CHAT_ID, mUserInfoModel.getmJwt()); //CHANGE CHAT ID
     }
 
     @Override
@@ -47,25 +40,16 @@ public class ChatRoomFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        //SetRefreshing shows the internal Swiper view progress bar. Show this until messages load
-        mBinding.swipeContainer.setRefreshing(true);
-        //When the user scrolls to the top of the RV, the swiper list will "refresh"
-        //The user is out of messages, go out to the service and get more
-        mBinding.swipeContainer.setOnRefreshListener(() -> {
-            mItemsModel.getNextMessages(HARD_CODED_CHAT_ID, mUserInfoModel.getmJwt());
-        });
-
         //recycler //TODO listen for ArrayList change
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        linearLayoutManager.setStackFromEnd(true);
-        mBinding.recyclerBubbles.setLayoutManager(linearLayoutManager);
-        mBinding.recyclerBubbles.setAdapter(new ChatRoomAdapter(mItemsModel.getMessageListByChatId(HARD_CODED_CHAT_ID), mUserInfoModel.getEmail()));
-//        mBinding.recyclerBubbles.getAdapter().setStateRestorationPolicy(RecyclerView.Adapter.StateRestorationPolicy.ALLOW);
+        LinearLayoutManager lnearLayoutManager = new LinearLayoutManager(getContext());
+        lnearLayoutManager.setStackFromEnd(true);
+        mBinding.recyclerBubbles.setLayoutManager(lnearLayoutManager);
+        mBinding.recyclerBubbles.setAdapter(new ChatRoomAdapter(mModel.mItemList));
 
         //Show scroll to bottom button when not at bottom
         mBinding.actionScrollToBottom.setVisibility(View.GONE); //hide initialy
         mBinding.actionScrollToBottom.setOnClickListener(button -> {
-            mBinding.recyclerBubbles.smoothScrollToPosition(mItemsModel.getmMessages().size() - 1); //scroll to end
+            mBinding.recyclerBubbles.smoothScrollToPosition(mModel.mItemList.size() - 1); //scroll to end
             mBinding.actionScrollToBottom.setVisibility(View.GONE); //hide self
         });
         mBinding.recyclerBubbles.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -80,15 +64,6 @@ public class ChatRoomFragment extends Fragment {
                 }
             }
         });
-
-        mItemsModel.addMessageObserver(HARD_CODED_CHAT_ID, getViewLifecycleOwner(),
-                //TODO Scroll position restore
-                list -> {
-                    Parcelable recyclerViewState = mBinding.recyclerBubbles.getLayoutManager().onSaveInstanceState();
-                    mBinding.recyclerBubbles.getAdapter().notifyDataSetChanged();
-                    mBinding.swipeContainer.setRefreshing(false);
-                    mBinding.recyclerBubbles.getLayoutManager().onRestoreInstanceState(recyclerViewState);
-                });
 
         //Send Button
         mBinding.actionSend.setOnClickListener(button -> {
