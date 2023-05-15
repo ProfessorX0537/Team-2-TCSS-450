@@ -8,6 +8,7 @@ import androidx.lifecycle.AndroidViewModel;
 
 import com.example.chatapp.R;
 import com.example.chatapp.ui.main.chat.chatlist.ChatListItem;
+import com.example.chatapp.ui.main.weather.Weather10DayCardItem;
 import com.example.chatapp.ui.main.weather.Weather24HourCardItem;
 
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ import java.util.Random;
 public class WeatherInfoViewModel extends AndroidViewModel {
 
     public ArrayList<Weather24HourCardItem> mToday;
+    public ArrayList<Weather10DayCardItem> mDays;
     // Time in 24 hour integer form -> ArrayList with 4 items:
     // [Temperature, ConditionType(Rain,sunny,etc), Precipitation, Wind Speed]
     private HashMap<Integer, ArrayList<String>> m24Hours;
@@ -25,6 +27,7 @@ public class WeatherInfoViewModel extends AndroidViewModel {
         super(application);
         m24Hours = new HashMap<>();
         mToday = new ArrayList<>(24);
+        mDays = new ArrayList<>(10);
     }
 
     //@Todo: Pull information from web service, delete random data
@@ -65,6 +68,23 @@ public class WeatherInfoViewModel extends AndroidViewModel {
                     "Precipitation " + i
             );
             mToday.add(curr);
+        }
+    }
+
+    /**
+     * fills arraylist with fake data for 10 day weather cards
+     * @author Xavier Hines
+     */
+    public void setupWeather10DayCards() { //TODO remove for webservice
+
+        for (int i = 0; i < 10; i++) {
+            Weather10DayCardItem curr = new Weather10DayCardItem(
+                    "Day " + i,
+                    "Temp " +i,
+
+                    "Precipitation " + i
+            );
+            mDays.add(curr);
         }
     }
 }
