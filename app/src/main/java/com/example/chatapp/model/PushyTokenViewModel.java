@@ -1,4 +1,4 @@
-package edu.uw.tcss450.lab5_authentication_daveed.model;
+package com.example.chatapp.model;
 
 import android.app.Application;
 import android.os.AsyncTask;
@@ -14,6 +14,8 @@ import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.example.chatapp.R;
+import com.example.chatapp.io.RequestQueueSingleton;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,8 +25,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import edu.uw.tcss450.lab5_authentication_daveed.R;
-import edu.uw.tcss450.lab5_authentication_daveed.io.RequestQueueSingleton;
 import me.pushy.sdk.Pushy;
 
 public class PushyTokenViewModel extends AndroidViewModel{
@@ -109,7 +109,7 @@ public class PushyTokenViewModel extends AndroidViewModel{
             throw new IllegalStateException("No pushy token. Do NOT call until token is retrieved");
         }
 
-        String url = getApplication().getResources().getString(R.string.base_url) +
+        String url = getApplication().getResources().getString(R.string.url_webservices) +
                 "auth";
 
         JSONObject body = new JSONObject();
