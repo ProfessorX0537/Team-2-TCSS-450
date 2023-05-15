@@ -12,9 +12,6 @@ import androidx.core.app.NotificationCompat;
 
 import org.json.JSONException;
 
-import edu.uw.tcss450.lab5_authentication_daveed.AuthActivity;
-import edu.uw.tcss450.lab5_authentication_daveed.R;
-import edu.uw.tcss450.lab5_authentication_daveed.ui.chat.ChatMessage;
 import me.pushy.sdk.Pushy;
 
 import static android.app.ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND;
@@ -81,7 +78,7 @@ public class PushReceiver extends BroadcastReceiver {
             //https://developer.android.com/guide/topics/ui/notifiers/notifications
             NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
                     .setAutoCancel(true)
-                    .setSmallIcon(R.drawable.ic_chat_notification)
+                    .setSmallIcon(R.drawable.ic_chat_black_24dp)
                     .setContentTitle("Message from: " + message.getSender())
                     .setContentText(message.getMessage())
                     .setPriority(NotificationCompat.PRIORITY_DEFAULT)

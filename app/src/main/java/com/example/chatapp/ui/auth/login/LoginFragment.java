@@ -267,7 +267,9 @@ public class LoginFragment extends Fragment {
                     mUserViewModel = new ViewModelProvider(getActivity(),
                             new UserInfoViewModel.UserInfoViewModelFactory(
                                     binding.textEmail.getText().toString().trim(),
-                                    response.getString("token")
+                                    response.getString("token"),
+                                    response.getInt("memberid"),
+                                    response.getString("username")
                             )).get(UserInfoViewModel.class);
                     sendPushyToken();
 
@@ -303,7 +305,7 @@ public class LoginFragment extends Fragment {
      * Helper to abstract the request to send the pushy token to the web service
      */
     private void sendPushyToken() {
-        mPushyTokenViewModel.sendTokenToWebservice(mUserViewModel.getmJwt());
+        mPushyTokenViewModel.sendTokenToWebservice(mUserViewModel.getJwt());
     }
 
     /**
@@ -321,7 +323,9 @@ public class LoginFragment extends Fragment {
             } else {
                 navigateToHome(
                         binding.textEmail.getText().toString(),
-                        mUserViewModel.getmJwt()
+                        mUserViewModel.getJwt(),
+                        mUserViewModel.getMemberID(),
+                        mUserViewModel.getUsername()
                 );
             }
         }

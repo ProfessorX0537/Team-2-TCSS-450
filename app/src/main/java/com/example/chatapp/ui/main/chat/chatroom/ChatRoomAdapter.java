@@ -30,7 +30,7 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public int getItemViewType(int position) {
-        if (mUsername.equals(mChatRoomItems.get(position).getSender())) {
+        if (!mUsername.equals(mChatRoomItems.get(position).getSender())) {
             return VIEWTYPE_RECIEVE;
         } else {
             return VIEWTYPE_SEND;
