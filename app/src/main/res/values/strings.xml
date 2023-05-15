@@ -47,7 +47,8 @@
     <string name="test_name">Test Name</string>
 
     <string name="url_webservices">https://daveed-tcss450-labs.herokuapp.com/</string>
-    <string name="not_connected">No Connection</string>
-    <string name="establishing_connection">Establishing Connection</string>
+<!--    <string name="url_webservices">http://192.168.1.2:5000/</string>-->
+    <string name="establishing_connection">Establishing Connection...</string>
+    <string name="logging_in">Logging In...</string>
 
 </resources>
