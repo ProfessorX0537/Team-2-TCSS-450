@@ -31,7 +31,7 @@ public class ChatRoomSendViewModel extends AndroidViewModel {
     public ChatRoomSendViewModel(@NonNull Application application) {
         super(application);
         mResponse = new MutableLiveData<>();
-        mResponse.setValue(new JSONObject());
+        mResponse.setValue(null);
     }
 
     public void addResponseObserver(@NonNull LifecycleOwner owner,

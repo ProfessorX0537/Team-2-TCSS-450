@@ -24,6 +24,7 @@ public class ChatRoomFragment extends Fragment {
     private UserInfoViewModel mUserInfoModel;
     private ChatRoomSendViewModel mSendModel;
     private int HARD_CODED_CHAT_ID = 1; //TODO REMOVE
+    private boolean isSending = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -75,7 +76,6 @@ public class ChatRoomFragment extends Fragment {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-
                 if (recyclerView.canScrollVertically(1)) { //if can scroll down
                     mBinding.actionScrollToBottom.setVisibility(View.VISIBLE);
                 } else {
@@ -87,10 +87,17 @@ public class ChatRoomFragment extends Fragment {
         //Change in items/message listener
         mItemsModel.addMessageObserver(HARD_CODED_CHAT_ID, getViewLifecycleOwner(),
                 list -> {
+                    //TODO Save scroll position
 //                    Parcelable recyclerViewState = mBinding.recyclerBubbles.getLayoutManager().onSaveInstanceState();
                     mBinding.recyclerBubbles.getAdapter().notifyDataSetChanged(); //tell recycler to update
                     mBinding.swipeContainer.setRefreshing(false);
 //                    mBinding.recyclerBubbles.getLayoutManager().onRestoreInstanceState(recyclerViewState);
+
+                    //Scroll to bottom if change was from self sending
+                    if (isSending) {
+                        mBinding.recyclerBubbles.smoothScrollToPosition(mBinding.recyclerBubbles.getAdapter().getItemCount() - 1); //scroll to end
+                        isSending = false;
+                    }
                 });
 
         //Send Button
@@ -102,8 +109,10 @@ public class ChatRoomFragment extends Fragment {
         });
         //when we get the response back from the server, clear the edittext
         mSendModel.addResponseObserver(getViewLifecycleOwner(), response -> {
-            mBinding.textMessageInput.setText("");
-            mBinding.recyclerBubbles.smoothScrollToPosition(mBinding.recyclerBubbles.getAdapter().getItemCount() - 1);
+            if (response != null) {
+                mBinding.textMessageInput.setText("");
+                isSending = true;
+            }
         });
     }
 
