@@ -30,6 +30,7 @@
             android:layout_marginStart="12dp"
             android:layout_marginTop="8dp"
             android:text="@string/test_name"
+            android:textColor="@color/text_primary"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -41,6 +42,7 @@
             android:layout_marginStart="12dp"
             android:layout_marginTop="12dp"
             android:text="@string/hint_nickname"
+            android:textColor="@color/text_primary"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/full_name" />
 
@@ -52,6 +54,7 @@
             android:layout_marginStart="12dp"
             android:layout_marginBottom="4dp"
             android:text="@string/hint_email"
+            android:textColor="@color/text_primary"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/nick_name"
@@ -64,6 +67,8 @@
             android:layout_margin="10dp"
             android:layout_marginStart="231dp"
             android:src="@drawable/smaller_remove"
+            android:background="@drawable/round_style"
+            android:backgroundTint="@color/accent_color"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
@@ -79,6 +84,8 @@
             android:layout_margin="10dp"
             android:layout_marginTop="12dp"
             android:src="@android:drawable/stat_notify_chat"
+            android:background="@drawable/round_style"
+            android:backgroundTint="@color/accent_color"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toEndOf="@+id/full_name"

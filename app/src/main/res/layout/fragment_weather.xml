@@ -17,7 +17,8 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:ems="10"
-        android:background="@color/light_primary"
+        android:background="@drawable/round_style"
+        android:backgroundTint="@color/light_primary"
         android:hint="@string/hint_weather_location"
         android:inputType="text"
         android:paddingLeft="10dp"
@@ -43,7 +44,8 @@
         android:layout_marginTop="20dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:background="@color/light_primary"
+        android:background="@drawable/round_style"
+        android:backgroundTint="@color/light_primary"
         app:tabTextColor="@color/text_primary"
         app:tabSelectedTextColor="@color/text_icons"
         app:layout_constraintEnd_toEndOf="parent"
@@ -55,7 +57,7 @@
 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Today"
+            android:text="@string/tab_weather_today"
 
             tools:layout_editor_absoluteX="3dp"
             tools:layout_editor_absoluteY="109dp" />
@@ -64,13 +66,13 @@
 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="24 Hour" />
+            android:text="@string/tab_weather_24hr" />
 
         <com.google.android.material.tabs.TabItem
 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="10 Day" />
+            android:text="@string/tab_weather_10day" />
     </com.google.android.material.tabs.TabLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,6 +8,8 @@ import static com.example.chatapp.utils.PasswordValidator.checkPwdLowerCase;
 import static com.example.chatapp.utils.PasswordValidator.checkPwdSpecialChar;
 import static com.example.chatapp.utils.PasswordValidator.checkPwdUpperCase;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -21,9 +23,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.chatapp.AuthActivity;
+import com.example.chatapp.MainActivity;
 import com.example.chatapp.R;
 import com.example.chatapp.databinding.FragmentLoginBinding;
-import com.example.chatapp.ui.auth.login.LoginFragmentDirections;
+import com.example.chatapp.model.PushyTokenViewModel;
+import com.example.chatapp.model.UserInfoViewModel;
 import com.example.chatapp.utils.ConnectionViewModel;
 import com.example.chatapp.utils.PasswordValidator;
 
@@ -53,7 +58,21 @@ public class LoginFragment extends Fragment {
      * Private field variable to access LoginViewModel
      */
     private LoginViewModel mLoginViewModel;
+
+    /**
+     * ViewModel to test connection to server
+     */
     private ConnectionViewModel mConnectionViewModel;
+
+    /**
+     * PushyTokenViewModel to get token from Pushy servers
+     */
+    private PushyTokenViewModel mPushyTokenViewModel;
+
+    /**
+     * ViewModel that holds user's info
+     */
+    private UserInfoViewModel mUserViewModel;
 
     /**
      * Private field variable to validate user Email
@@ -87,9 +106,11 @@ public class LoginFragment extends Fragment {
 
         super.onCreate(savedInstanceState);
 
+        //ViewModels
         mLoginViewModel = new ViewModelProvider(getActivity()).get(LoginViewModel.class);
-
         mConnectionViewModel = new ViewModelProvider(getActivity()).get(ConnectionViewModel.class);
+        mPushyTokenViewModel = new ViewModelProvider(getActivity())
+                .get(PushyTokenViewModel.class);
     }
 
     /**
@@ -126,27 +147,43 @@ public class LoginFragment extends Fragment {
 
         mLoginViewModel.addResponseObserver(
                 getViewLifecycleOwner(),
-                this::observeResponse
+                this::observeSignInResponse
         );
 
+        //WS connection observe. Make login/register buttons available
         mConnectionViewModel.addResponseObserver(
                 getViewLifecycleOwner(),
-                this::observeConnectionResponse
+                (result) -> {
+                    ((AuthActivity)getActivity()).setConnectedWS(result);
+                    observeConnectionResponse();
+                }
+        );
+        //Pushy Token observe. Make login/register buttons available
+        mPushyTokenViewModel.addTokenObserver(
+                getViewLifecycleOwner(),
+                (token) -> {
+                    Log.i("Pushy Token", "token: " + token);
+                    ((AuthActivity)getActivity()).setConnectedPushy(!token.isEmpty());
+                    observeConnectionResponse();
+                }
         );
 
-        ///////////////////////////////////////////////////////////////////////////////////////
-        // Uncomment this to have login button send you to landing page w/o sign in.
-        // ////////////////////////////////////////////////////////////////////////////////////
-        //NOTICE: this doesn't have a JWT or email so request in app that require it will fail.
-        binding.buttonLogin.setOnClickListener(button -> {Navigation.findNavController(getView())
-                .navigate(LoginFragmentDirections.actionLoginToMainActivity("",""));});
+        //Pushy token observer. Sends to webservice when done.
+        mPushyTokenViewModel.addResponseObserver(
+                getViewLifecycleOwner(),
+                this::observePushyPutResponse);
+
         //comment this out to login w/o actually having to sign in.
         binding.buttonLogin.setVisibility(View.GONE);
-//        binding.buttonLogin.setOnClickListener(this::attemptLogin);
+        binding.buttonLogin.setOnClickListener(this::attemptLogin);
 
         LoginFragmentArgs args = LoginFragmentArgs.fromBundle(getArguments());
         binding.textEmail.setText(args.getEmail().equals("default") ? "" : args.getEmail()); //TODO
         binding.textPassword.setText(args.getPassword().equals("default") ? "" : args.getPassword()); //TODO
+
+        //TODO Remove this placeholder account when shipping
+        binding.textEmail.setText("test1@test.com");
+        binding.textPassword.setText("Password123!");
 
         //Register Button
         binding.buttonRegister.setVisibility(View.GONE);
@@ -162,6 +199,7 @@ public class LoginFragment extends Fragment {
      * @param button
      */
     private void attemptLogin(final View button) {
+        showLoginRegisterButtons(false, R.string.logging_in); //String is unused btw
         validateEmail();
     }
 
@@ -172,7 +210,10 @@ public class LoginFragment extends Fragment {
         mEmailValidator.processResult(
                 mEmailValidator.apply(binding.textEmail.getText().toString().trim()),
                 this::validatePassword,
-                result -> binding.textEmail.setError("Please enter a valid Email address."));
+                result -> {
+                    binding.textEmail.setError("Please enter a valid Email address.");
+                    showLoginRegisterButtons(true, R.string.establishing_connection); //Reshow buttons
+                });
     }
 
     /**
@@ -182,7 +223,10 @@ public class LoginFragment extends Fragment {
         mPassWordValidator.processResult(
                 mPassWordValidator.apply(binding.textPassword.getText().toString().trim()),
                 this::verifyAuthWithServer,
-                result -> binding.textPassword.setError("Please enter a Valid password."));
+                result -> {
+                    binding.textPassword.setError("Please enter a Valid password.");
+                    showLoginRegisterButtons(true, R.string.establishing_connection); //Reshow buttons
+                });
     }
 
     /**
@@ -192,21 +236,22 @@ public class LoginFragment extends Fragment {
         mLoginViewModel.connectLogin(
                 binding.textEmail.getText().toString(),
                 binding.textPassword.getText().toString());
-        //This is an Asynchronous call. No statements after should rely on the
-        //result of connect().
+        //This is an Asynchronous call. No statements after should rely on the result of connect().
     }
 
     /**
      * If successfully verified with the server the user will be navigated
      * to the landing page and their email and JWT will be passed to
      * userinfo view-model for access inside of the application.
-     * @param email Users email
-     * @param jwt Users JWT
+     * @param email User's email
+     * @param jwt User's JWT
+     * @param memberID User's memberID
+     * @param username  User's username
      */
-    private void navigateToHome(final String email, final String jwt) {
+    private void navigateToHome(final String email, final String jwt, final int memberID, final String username) {
         Navigation.findNavController(getView())
                 .navigate(LoginFragmentDirections
-                        .actionLoginToMainActivity(email, jwt));
+                        .actionLoginToMainActivity(email, jwt, memberID, username));
     }
 
     /**
@@ -215,7 +260,7 @@ public class LoginFragment extends Fragment {
      *
      * @param response the Response from the server
      */
-    private void observeResponse(final JSONObject response) {
+    private void observeSignInResponse(final JSONObject response) {
         if (response.length() > 0) {
             if (response.has("code")) {
                 try {
@@ -225,23 +270,48 @@ public class LoginFragment extends Fragment {
                 } catch (JSONException e) {
                     Log.e("JSON Parse Error", e.getMessage());
                 }
+                showLoginRegisterButtons(true, R.string.establishing_connection); //Reshow buttons
             } else {
                 try {
-                    navigateToHome(
-                            binding.textEmail.getText().toString(),
-                            response.getString("token")
-                    );
+
+                    //make UserInfo ViewModel here & sendPushyToken to move to Home
+                    mUserViewModel = new ViewModelProvider(getActivity(),
+                            new UserInfoViewModel.UserInfoViewModelFactory(
+                                    binding.textEmail.getText().toString().trim(),
+                                    response.getString("token"),
+                                    response.getInt("memberid"),
+                                    response.getString("username")
+                            )).get(UserInfoViewModel.class);
+                    sendPushyToken();
+
+                    //Old move to home on sucess
+//                    navigateToHome(
+//                            binding.textEmail.getText().toString(),
+//                            response.getString("token")
+//                    );
+
                 } catch (JSONException e) {
                     Log.e("JSON Parse Error", e.getMessage());
+                    showLoginRegisterButtons(true, R.string.establishing_connection); //Reshow buttons
                 }
             }
         } else {
             Log.d("JSON Response", "No Response");
+            showLoginRegisterButtons(true, R.string.establishing_connection); //Reshow buttons
         }
     }
 
-    private void observeConnectionResponse(Boolean connected) {
-        if (connected) {
+    private void observeConnectionResponse() {
+        //check if WS and Pushy is online
+        if (((AuthActivity)getActivity()).isConnectedWS() && ((AuthActivity) getActivity()).isConnectedPushy()) {
+            showLoginRegisterButtons(true, R.string.establishing_connection); //Reshow buttons. String is unused btw
+        } else {
+            showLoginRegisterButtons(false, R.string.establishing_connection);
+        }
+    }
+
+    private void showLoginRegisterButtons(boolean show, int message) {
+        if (show) {
             binding.buttonRegister.setVisibility(View.VISIBLE);
             binding.buttonLogin.setVisibility(View.VISIBLE);
             binding.textNotConnected.setVisibility(View.GONE);
@@ -249,7 +319,40 @@ public class LoginFragment extends Fragment {
             binding.buttonRegister.setVisibility(View.GONE);
             binding.buttonLogin.setVisibility(View.GONE);
             binding.textNotConnected.setVisibility(View.VISIBLE);
-            binding.textNotConnected.setText(R.string.not_connected);
+            binding.textNotConnected.setText(message);
+        }
+    }
+
+    /**
+     * Helper to abstract the request to send the pushy token to the web service
+     */
+    private void sendPushyToken() {
+        mPushyTokenViewModel.sendTokenToWebservice(mUserViewModel.getJwt());
+    }
+
+    /**
+     * An observer on the HTTP Response from the web server. This observer should be
+     * attached to PushyTokenViewModel.
+     *
+     * @param response the Response from the server
+     */
+    private void observePushyPutResponse(final JSONObject response) {
+        if (response.length() > 0) {
+            if (response.has("code")) {
+                //this error cannot be fixed by the user changing credentials...
+                binding.textEmail.setError(
+                        "Error Authenticating on Push Token. Please contact support");
+                showLoginRegisterButtons(true, R.string.establishing_connection); //Reshow buttons
+            } else {
+                navigateToHome(
+                        binding.textEmail.getText().toString(),
+                        mUserViewModel.getJwt(),
+                        mUserViewModel.getMemberID(),
+                        mUserViewModel.getUsername()
+                );
+                //close AuthActivity
+                getActivity().finish();
+            }
         }
     }
 }

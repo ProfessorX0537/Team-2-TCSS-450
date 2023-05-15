@@ -30,7 +30,6 @@ public class ContactFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        mModel = new ViewModelProvider(getActivity()).get(ContactsViewModel.class);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Contacts");
     }
 
     @Override
@@ -50,7 +49,22 @@ public class ContactFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
 
+        //hides floating button on scroll
         FragmentContactsBinding binding = FragmentContactsBinding.bind(getView());
+        //scrolling
+        binding.listRoot.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                switch (newState) {
+                    case RecyclerView.SCROLL_STATE_IDLE:
+                        binding.addContactFab.setVisibility(View.VISIBLE);
+                        break;
+                    default:
+                        binding.addContactFab.setVisibility(View.GONE);
+                }
+            }
+        });
 
         // checks if user is scrolling up or down and hides search bar accordingly
         binding.listRoot.addOnScrollListener(new RecyclerView.OnScrollListener() {

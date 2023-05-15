@@ -17,14 +17,14 @@
     <fragment
         android:id="@+id/navigation_connections"
         android:name="com.example.chatapp.ui.main.contacts.ContactFragment"
-        android:label="fragment_connections"
+        android:label="@string/menu_connections"
         tools:layout="@layout/fragment_contacts" >
 
     </fragment>
     <fragment
         android:id="@+id/navigation_chat"
         android:name="com.example.chatapp.ui.main.chat.chatlist.ChatListFragment"
-        android:label="fragment_chat"
+        android:label="@string/menu_chat"
         tools:layout="@layout/fragment_chat_list" >
         <action
             android:id="@+id/action_navigation_chat_to_chatRoomFragment"
@@ -38,7 +38,7 @@
     <fragment
         android:id="@+id/chatRoomFragment"
         android:name="com.example.chatapp.ui.main.chat.chatroom.ChatRoomFragment"
-        android:label="fragment_chat_room"
+        android:label="@string/title_chat_room"
         tools:layout="@layout/fragment_chat_room" />
 
 </navigation>

@@ -26,7 +26,6 @@ public class ChatListFragment extends Fragment {
         super.onCreate(savedInstanceState);
         mModel = new ViewModelProvider(getActivity()).get(ChatListViewModel.class);
         mModel.setupItemsList(); //TODO remove for webservice
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Chats");
     }
 
     @Override

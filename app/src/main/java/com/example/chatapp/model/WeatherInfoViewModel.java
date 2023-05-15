@@ -1,6 +1,7 @@
 package com.example.chatapp.model;
 
 import android.app.Application;
+import android.widget.ImageView;
 import android.text.style.IconMarginSpan;
 import android.util.Log;
 
@@ -22,6 +23,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.nio.charset.Charset;
+import com.example.chatapp.R;
+import com.example.chatapp.ui.main.chat.chatlist.ChatListItem;
+import com.example.chatapp.ui.main.weather.Weather10DayCardItem;
+import com.example.chatapp.ui.main.weather.Weather24HourCardItem;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
@@ -29,7 +35,8 @@ import java.util.Random;
 
 public class WeatherInfoViewModel extends AndroidViewModel {
 
-    private ArrayList<String> mToday;
+    public ArrayList<Weather24HourCardItem> mToday;
+    public ArrayList<Weather10DayCardItem> mDays;
     // Time in 24 hour integer form -> ArrayList with 4 items:
     // [Temperature, ConditionType(Rain,sunny,etc), Precipitation, Wind Speed]
     private HashMap<Integer, ArrayList<String>> m24Hours;
@@ -90,6 +97,9 @@ public class WeatherInfoViewModel extends AndroidViewModel {
         else {
             String data = new String(error.networkResponse.data, Charset.defaultCharset())
                     .replace('\"', '\'');
+        mToday = new ArrayList<>(24);
+        mDays = new ArrayList<>(10);
+    }
 
             Log.e("Bad Request", "handleError " + data);
 
@@ -154,6 +164,40 @@ public class WeatherInfoViewModel extends AndroidViewModel {
             m24Hours.put(i, itemList);
 
 
+        }
+    }
+
+    /**
+     * fills arraylist with fake data for 24 hour weather cards
+     * @author Xavier Hines
+     */
+    public void setupWeather24HourCards() { //TODO remove for webservice
+
+        for (int i = 0; i < 24; i++) {
+            Weather24HourCardItem curr = new Weather24HourCardItem(
+                    "Time " + i,
+                    "Temp " +i,
+
+                    "Precipitation " + i
+            );
+            mToday.add(curr);
+        }
+    }
+
+    /**
+     * fills arraylist with fake data for 10 day weather cards
+     * @author Xavier Hines
+     */
+    public void setupWeather10DayCards() { //TODO remove for webservice
+
+        for (int i = 0; i < 10; i++) {
+            Weather10DayCardItem curr = new Weather10DayCardItem(
+                    "Day " + i,
+                    "Temp " +i,
+
+                    "Precipitation " + i
+            );
+            mDays.add(curr);
         }
     }
 }
