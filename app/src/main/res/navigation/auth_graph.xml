@@ -57,12 +57,6 @@
         <argument
             android:name="jwt"
             app:argType="string" />
-        <argument
-            android:name="memberid"
-            app:argType="integer" />
-        <argument
-            android:name="username"
-            app:argType="string" />
     </activity>
 
 
