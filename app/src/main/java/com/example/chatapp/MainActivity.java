@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         //Observe MessageCount and create Badge
-        mNewMessageModel.addMessageCountObserver(this, count -> {
+        mNewMessageModel.addMessageCountObserver(this, count -> { //TODO TEST THIS!!!
             BadgeDrawable badge = binding.navView.getOrCreateBadge(R.id.navigation_chat);
             badge.setMaxCharacterCount(2);
             if (count > 0) {
