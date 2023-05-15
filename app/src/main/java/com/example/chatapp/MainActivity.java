@@ -13,7 +13,6 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -37,9 +36,8 @@ public class MainActivity extends AppCompatActivity {
         // storing them in the UserInfoViewModel for Webservice calls that require JWT auth
         MainActivityArgs args = MainActivityArgs.fromBundle(getIntent().getExtras());
         new ViewModelProvider(this,
-                new UserInfoViewModel.UserInfoViewModelFactory(args.getEmail(), args.getJwt(), args.getMemberid(), args.getUsername())
+                new UserInfoViewModel.UserInfoViewModelFactory(args.getEmail(), args.getJwt())
         ).get(UserInfoViewModel.class);
-        Log.i("UserInfo", args.toString());
 
         //Bottom Nav
         BottomNavigationView navView = findViewById(R.id.nav_view);
