@@ -16,7 +16,7 @@
 
 
     <string name="button_register">Register</string>
-    <string name="button_verify_email">Verify Email</string>
+    <string name="button_verify_email">Resend Email</string>
     <string name="action_login">Login</string>
     <string name="action_register">Register</string>
     <string name="action_scroll_to_bottom">Scroll to Bottom</string>
