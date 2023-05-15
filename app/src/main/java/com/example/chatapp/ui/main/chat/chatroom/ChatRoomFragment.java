@@ -87,7 +87,7 @@ public class ChatRoomFragment extends Fragment {
         mItemsModel.addMessageObserver(HARD_CODED_CHAT_ID, getViewLifecycleOwner(),
                 list -> {
 //                    Parcelable recyclerViewState = mBinding.recyclerBubbles.getLayoutManager().onSaveInstanceState();
-                    mBinding.recyclerBubbles.getAdapter().notifyItemInserted(mBinding.recyclerBubbles.getAdapter().getItemCount() - 1); //tell recycler to update
+                    mBinding.recyclerBubbles.getAdapter().notifyDataSetChanged(); //tell recycler to update
                     mBinding.swipeContainer.setRefreshing(false);
 //                    mBinding.recyclerBubbles.getLayoutManager().onRestoreInstanceState(recyclerViewState);
                 });
