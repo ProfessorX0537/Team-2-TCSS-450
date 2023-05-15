@@ -98,6 +98,11 @@ public class ChatRoomFragment extends Fragment {
                         mBinding.recyclerBubbles.smoothScrollToPosition(mBinding.recyclerBubbles.getAdapter().getItemCount() - 1); //scroll to end
                         isSending = false;
                     }
+
+                    //If at the bottom already, scroll to bottom on new received messages
+                    if (!mBinding.recyclerBubbles.canScrollVertically(1) && mBinding.recyclerBubbles.getAdapter().getItemCount() != 0) {
+                        mBinding.recyclerBubbles.smoothScrollToPosition(mBinding.recyclerBubbles.getAdapter().getItemCount() - 1); //scroll to end
+                    }
                 });
 
         //Send Button
