@@ -49,6 +49,7 @@ public class ContactFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
 
+        //hides floating button on scroll
         FragmentContactsBinding binding = FragmentContactsBinding.bind(getView());
         //scrolling
         binding.listRoot.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -58,11 +59,9 @@ public class ContactFragment extends Fragment {
                 switch (newState) {
                     case RecyclerView.SCROLL_STATE_IDLE:
                         binding.addContactFab.setVisibility(View.VISIBLE);
-//                        mBinding.floatingActionButton.animate().alpha(1f).setDuration(1).setListener(null);
                         break;
                     default:
                         binding.addContactFab.setVisibility(View.GONE);
-//                        mBinding.floatingActionButton.animate().alpha(0f).setDuration(0).setListener(null);
                 }
             }
         });
