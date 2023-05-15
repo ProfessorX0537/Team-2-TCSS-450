@@ -50,6 +50,22 @@ public class ContactFragment extends Fragment {
 
 
         FragmentContactsBinding binding = FragmentContactsBinding.bind(getView());
+        //scrolling
+        binding.listRoot.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                switch (newState) {
+                    case RecyclerView.SCROLL_STATE_IDLE:
+                        binding.addContactFab.setVisibility(View.VISIBLE);
+//                        mBinding.floatingActionButton.animate().alpha(1f).setDuration(1).setListener(null);
+                        break;
+                    default:
+                        binding.addContactFab.setVisibility(View.GONE);
+//                        mBinding.floatingActionButton.animate().alpha(0f).setDuration(0).setListener(null);
+                }
+            }
+        });
 
         // checks if user is scrolling up or down and hides search bar accordingly
         binding.listRoot.addOnScrollListener(new RecyclerView.OnScrollListener() {

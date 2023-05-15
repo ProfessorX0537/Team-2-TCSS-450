@@ -270,6 +270,7 @@ public class LoginFragment extends Fragment {
                 showLoginRegisterButtons(true, R.string.establishing_connection); //Reshow buttons
             } else {
                 try {
+
                     //make UserInfo ViewModel here & sendPushyToken to move to Home
                     mUserViewModel = new ViewModelProvider(getActivity(),
                             new UserInfoViewModel.UserInfoViewModelFactory(
@@ -285,6 +286,7 @@ public class LoginFragment extends Fragment {
 //                            binding.textEmail.getText().toString(),
 //                            response.getString("token")
 //                    );
+
                 } catch (JSONException e) {
                     Log.e("JSON Parse Error", e.getMessage());
                     showLoginRegisterButtons(true, R.string.establishing_connection); //Reshow buttons
