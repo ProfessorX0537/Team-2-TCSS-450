@@ -24,6 +24,7 @@ public class ChatRoomFragment extends Fragment {
     private UserInfoViewModel mUserInfoModel;
     private ChatRoomSendViewModel mSendModel;
     private int HARD_CODED_CHAT_ID = 1; //TODO REMOVE
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,20 +101,23 @@ public class ChatRoomFragment extends Fragment {
                     mBinding.textMessageInput.getText().toString());
         });
         //when we get the response back from the server, clear the edittext
-        mSendModel.addResponseObserver(getViewLifecycleOwner(), response ->
-                mBinding.textMessageInput.setText(""));
+        mSendModel.addResponseObserver(getViewLifecycleOwner(), response -> {
+            mBinding.textMessageInput.setText("");
+            mBinding.recyclerBubbles.smoothScrollToPosition(mBinding.recyclerBubbles.getAdapter().getItemCount() - 1);
+        });
     }
 
     //Hides bottom menu bar
     @Override
     public void onResume() {
         super.onResume();
-        ((AppCompatActivity)getActivity()).findViewById(R.id.nav_view).setVisibility(View.GONE);
+        ((AppCompatActivity) getActivity()).findViewById(R.id.nav_view).setVisibility(View.GONE);
     }
+
     @Override
     public void onStop() {
         super.onStop();
-        ((AppCompatActivity)getActivity()).findViewById(R.id.nav_view).setVisibility(View.VISIBLE);
+        ((AppCompatActivity) getActivity()).findViewById(R.id.nav_view).setVisibility(View.VISIBLE);
     }
 
 }
