@@ -8,6 +8,8 @@ import static com.example.chatapp.utils.PasswordValidator.checkPwdLowerCase;
 import static com.example.chatapp.utils.PasswordValidator.checkPwdSpecialChar;
 import static com.example.chatapp.utils.PasswordValidator.checkPwdUpperCase;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -22,6 +24,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.chatapp.AuthActivity;
+import com.example.chatapp.MainActivity;
 import com.example.chatapp.R;
 import com.example.chatapp.databinding.FragmentLoginBinding;
 import com.example.chatapp.model.PushyTokenViewModel;
@@ -347,6 +350,8 @@ public class LoginFragment extends Fragment {
                         mUserViewModel.getMemberID(),
                         mUserViewModel.getUsername()
                 );
+                //close AuthActivity
+                getActivity().finish();
             }
         }
     }
