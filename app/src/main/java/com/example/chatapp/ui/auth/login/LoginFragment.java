@@ -196,6 +196,7 @@ public class LoginFragment extends Fragment {
      * @param button
      */
     private void attemptLogin(final View button) {
+        showLoginRegisterButtons(false, R.string.logging_in); //String is unused btw
         validateEmail();
     }
 
@@ -206,7 +207,10 @@ public class LoginFragment extends Fragment {
         mEmailValidator.processResult(
                 mEmailValidator.apply(binding.textEmail.getText().toString().trim()),
                 this::validatePassword,
-                result -> binding.textEmail.setError("Please enter a valid Email address."));
+                result -> {
+                    binding.textEmail.setError("Please enter a valid Email address.");
+                    showLoginRegisterButtons(true, R.string.establishing_connection); //Reshow buttons
+                });
     }
 
     /**
@@ -216,7 +220,10 @@ public class LoginFragment extends Fragment {
         mPassWordValidator.processResult(
                 mPassWordValidator.apply(binding.textPassword.getText().toString().trim()),
                 this::verifyAuthWithServer,
-                result -> binding.textPassword.setError("Please enter a Valid password."));
+                result -> {
+                    binding.textPassword.setError("Please enter a Valid password.");
+                    showLoginRegisterButtons(true, R.string.establishing_connection); //Reshow buttons
+                });
     }
 
     /**
@@ -226,8 +233,7 @@ public class LoginFragment extends Fragment {
         mLoginViewModel.connectLogin(
                 binding.textEmail.getText().toString(),
                 binding.textPassword.getText().toString());
-        //This is an Asynchronous call. No statements after should rely on the
-        //result of connect().
+        //This is an Asynchronous call. No statements after should rely on the result of connect().
     }
 
     /**
@@ -261,6 +267,7 @@ public class LoginFragment extends Fragment {
                 } catch (JSONException e) {
                     Log.e("JSON Parse Error", e.getMessage());
                 }
+                showLoginRegisterButtons(true, R.string.establishing_connection); //Reshow buttons
             } else {
                 try {
                     //make UserInfo ViewModel here & sendPushyToken to move to Home
@@ -280,16 +287,26 @@ public class LoginFragment extends Fragment {
 //                    );
                 } catch (JSONException e) {
                     Log.e("JSON Parse Error", e.getMessage());
+                    showLoginRegisterButtons(true, R.string.establishing_connection); //Reshow buttons
                 }
             }
         } else {
             Log.d("JSON Response", "No Response");
+            showLoginRegisterButtons(true, R.string.establishing_connection); //Reshow buttons
         }
     }
 
     private void observeConnectionResponse() {
         //check if WS and Pushy is online
         if (((AuthActivity)getActivity()).isConnectedWS() && ((AuthActivity) getActivity()).isConnectedPushy()) {
+            showLoginRegisterButtons(true, R.string.establishing_connection); //Reshow buttons. String is unused btw
+        } else {
+            showLoginRegisterButtons(false, R.string.establishing_connection);
+        }
+    }
+
+    private void showLoginRegisterButtons(boolean show, int message) {
+        if (show) {
             binding.buttonRegister.setVisibility(View.VISIBLE);
             binding.buttonLogin.setVisibility(View.VISIBLE);
             binding.textNotConnected.setVisibility(View.GONE);
@@ -297,7 +314,7 @@ public class LoginFragment extends Fragment {
             binding.buttonRegister.setVisibility(View.GONE);
             binding.buttonLogin.setVisibility(View.GONE);
             binding.textNotConnected.setVisibility(View.VISIBLE);
-            binding.textNotConnected.setText(R.string.not_connected);
+            binding.textNotConnected.setText(message);
         }
     }
 
@@ -320,6 +337,7 @@ public class LoginFragment extends Fragment {
                 //this error cannot be fixed by the user changing credentials...
                 binding.textEmail.setError(
                         "Error Authenticating on Push Token. Please contact support");
+                showLoginRegisterButtons(true, R.string.establishing_connection); //Reshow buttons
             } else {
                 navigateToHome(
                         binding.textEmail.getText().toString(),
