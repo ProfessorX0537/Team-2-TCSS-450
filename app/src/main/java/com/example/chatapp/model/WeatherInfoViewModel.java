@@ -51,6 +51,8 @@ public class WeatherInfoViewModel extends AndroidViewModel {
         mResponse.setValue(new JSONObject());
         mDate = ("");
         m24Hours = new HashMap<>();
+        mToday = new ArrayList<>(24);
+        mDays = new ArrayList<>(10);
     }
 
     public void addResponseObserver(@NonNull LifecycleOwner owner,
@@ -66,11 +68,11 @@ public class WeatherInfoViewModel extends AndroidViewModel {
         JSONObject time;
         try {
             //JSONArray temp = result.getJSONArray("daily");
-            Log.d("TEST", "JSON: " + result);
+            Log.d("WEATHER", "JSON: " + result);
             currentWeather = result.getJSONObject("current_weather");
-            Log.d("TEST", "Current Weather time is: " + currentWeather);
+            Log.d("WEATHER", "Current Weather time is: " + currentWeather);
             mDate = currentWeather.getString("time");
-            Log.d("TEST", "Current time is: " + mDate);
+            Log.d("WEATHER", "Current time is: " + mDate);
             //daily2 = result.getJSONArray("daily_units");
             //time = currentWeather.getJSONObject("time");
 
@@ -97,9 +99,6 @@ public class WeatherInfoViewModel extends AndroidViewModel {
         else {
             String data = new String(error.networkResponse.data, Charset.defaultCharset())
                     .replace('\"', '\'');
-        mToday = new ArrayList<>(24);
-        mDays = new ArrayList<>(10);
-    }
 
             Log.e("Bad Request", "handleError " + data);
 
@@ -123,8 +122,6 @@ public class WeatherInfoViewModel extends AndroidViewModel {
 
         url += longitude;
         url += latitude;
-
-
 
         Request request = new JsonObjectRequest(
                 Request.Method.GET,
