@@ -20,6 +20,10 @@ import com.example.chatapp.databinding.FragmentContactsBinding;
 
 public class ContactFragment extends Fragment {
 
+    ContactsViewModel mModel;
+
+
+
 
 //    private ContactsViewModel mModel;
     public ContactFragment() {
@@ -29,7 +33,7 @@ public class ContactFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        mModel = new ViewModelProvider(getActivity()).get(ContactsViewModel.class);
+        mModel = new ViewModelProvider(getActivity()).get(ContactsViewModel.class);
     }
 
     @Override
@@ -95,12 +99,12 @@ public class ContactFragment extends Fragment {
 
         binding.listRoot.setAdapter(new ContactRecycleViewAdapter(ContactGenerator.getCardList()));
 
-/*        mModel.addContactsObserver(getViewLifecycleOwner(), contactsList -> {
+        mModel.addContactsObserver(getViewLifecycleOwner(), contactsList -> {
             if (!contactsList.isEmpty()) {
                 binding.listRoot.setAdapter(
                         new ContactRecycleViewAdapter(contactsList)
                 );
             }
-        });*/
+        });
     }
 }
