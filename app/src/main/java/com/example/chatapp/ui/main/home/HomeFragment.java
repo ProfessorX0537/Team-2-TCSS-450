@@ -1,5 +1,6 @@
 package com.example.chatapp.ui.main.home;
 
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
@@ -168,17 +169,28 @@ public class HomeFragment extends Fragment {
 //                throw new RuntimeException(e);
 //            }
             try {
+                Date date = new Date();   // given date
+                Calendar calendar = GregorianCalendar.getInstance(); // creates a new calendar instance
+                calendar.setTime(date);   // assigns calendar to given date
+                int currentHour = calendar.get(Calendar.HOUR_OF_DAY); // gets hour in 24h format
+                int currentMonth = calendar.get(Calendar.MONTH);       // gets month number, NOTE this is zero based!
+                int currentDay = calendar.get(Calendar.DAY_OF_MONTH);
+                int currentYear = calendar.get(Calendar.YEAR);
+
                 JSONObject current = result.getJSONObject("current_weather");
-                String currentTemp = current.getString("temperature")+"°F";
-                String currentDate = current.getString("time");
+                String currentTemp = Math.round(Float.parseFloat(current.getString("temperature"))) + "°F";
+                String currentDate = mViewModel.mMonthName[currentMonth] + " " + currentDay + ", " + currentYear;
+
                 int currentWeatherCode = Integer.parseInt(current.getString("weathercode"));
                 int iconID = WeatherCodes.getWeatherIconName(currentWeatherCode);
                 Drawable icon = AppCompatResources.getDrawable(getContext(), iconID);
+
                 mBinding.textTemperature.setText(currentTemp);
                 mBinding.textDaycondition.setText(WeatherCodes.getWeatherCodeName(currentWeatherCode));
                 mBinding.imageWeathercondtion1.setImageDrawable(icon);
                 mBinding.textDate.setText(currentDate);
-//                Log.d("hi", currentWeatherCode +"");
+                mBinding.homeTextLocation.setText("98402");
+//                Log.d("hi", temp+"");
             } catch (JSONException e) {
                 throw new RuntimeException(e);
             }
