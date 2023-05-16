@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 
 import com.example.chatapp.R;
 import com.example.chatapp.databinding.FragmentHomeBinding;
+import com.example.chatapp.model.WeatherInfoViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.json.JSONArray;
@@ -26,7 +27,7 @@ import java.util.GregorianCalendar;
 
 public class HomeFragment extends Fragment {
 
-    private WeatherApiViewModel mViewModel;
+    private WeatherInfoViewModel mViewModel;
 
     private FragmentHomeBinding binding;
 
@@ -37,7 +38,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mViewModel = new ViewModelProvider(getActivity()).get(WeatherApiViewModel.class);
+        mViewModel = new ViewModelProvider(getActivity()).get(WeatherInfoViewModel.class);
         mViewModel.connectGet();
     }
 
@@ -133,23 +134,23 @@ public class HomeFragment extends Fragment {
 //    }
     private void observeData(JSONObject result) {
         if (result.length() != 0) {
-            try {
-                Date date = new Date();   // given date
-                Calendar calendar = GregorianCalendar.getInstance(); // creates a new calendar instance
-                calendar.setTime(date);   // assigns calendar to given date
-                int currentHour = calendar.get(Calendar.HOUR_OF_DAY); // gets hour in 24h format
-                int currentMonth = calendar.get(Calendar.MONTH);       // gets month number, NOTE this is zero based!
-                Log.d("time", currentHour + "");
-                //Log.d("time", Calendar.getInstance().getTime().toString());
-                JSONObject currentDate = result.getJSONObject("daily");
-                JSONObject currentTemp = result.getJSONObject("hourly");
-                JSONArray temp = currentDate.getJSONArray("time");
-                Log.d("temp", currentTemp.getJSONArray("temperature_2m").getString(currentHour));
-                binding.textDate.setText(currentDate.getJSONArray("time").getString(0));
-                binding.textTemperature.setText(currentTemp.getJSONArray("temperature_2m").getString(currentHour));
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
+//            try {
+//                Date date = new Date();   // given date
+//                Calendar calendar = GregorianCalendar.getInstance(); // creates a new calendar instance
+//                calendar.setTime(date);   // assigns calendar to given date
+//                int currentHour = calendar.get(Calendar.HOUR_OF_DAY); // gets hour in 24h format
+//                int currentMonth = calendar.get(Calendar.MONTH);       // gets month number, NOTE this is zero based!
+//                Log.d("time", currentHour + "");
+//                //Log.d("time", Calendar.getInstance().getTime().toString());
+//                JSONObject currentDate = result.getJSONObject("daily");
+//                JSONObject currentTemp = result.getJSONObject("hourly");
+//                JSONArray temp = currentDate.getJSONArray("time");
+//                Log.d("temp", currentTemp.getJSONArray("temperature_2m").getString(currentHour));
+//                binding.textDate.setText(currentDate.getJSONArray("time").getString(0));
+//                binding.textTemperature.setText(currentTemp.getJSONArray("temperature_2m").getString(currentHour));
+//            } catch (Exception e) {
+//                throw new RuntimeException(e);
+//            }
         }
     }
 

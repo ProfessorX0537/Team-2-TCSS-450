@@ -27,7 +27,6 @@ public class WeatherFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //android:name="com.example.chatapp.ui.main.weather.WeatherTodayFragment"
     }
 
     @Override
@@ -102,42 +101,6 @@ public class WeatherFragment extends Fragment {
 
             }
         });
-
-
-
-        //Use a Lamda expression to add the OnClickListener
-
-//        mBinding.tabViewToday.setOnClickListener(button -> {
-//            Log.d("TEST", "Today View");
-//            WeatherTodayFragment fragment = new WeatherTodayFragment();
-//            requireActivity()
-//                    .getSupportFragmentManager()
-//                    .beginTransaction()
-//                    .replace(R.id.weather_fragment_container, fragment)
-//                    .commit();
-//
-//        });
-
-//        mBinding.buttonView24hour.setOnClickListener(button -> {
-//            Log.d("TEST", "24 Hour View");
-//            Weather24HourFragment fragment = new Weather24HourFragment();
-//            requireActivity()
-//                    .getSupportFragmentManager()
-//                    .beginTransaction()
-//                    .replace(R.id.weather_fragment_container, fragment)
-//                    .commit();
-//
-//        });
-//        mBinding.buttonView10day.setOnClickListener(button -> {
-//            Log.d("TEST", "10 Day View");
-//            Weather10DayFragment fragment = new Weather10DayFragment();
-//            requireActivity()
-//                    .getSupportFragmentManager()
-//                    .beginTransaction()
-//                    .replace(R.id.weather_fragment_container, fragment)
-//                    .commit();
-//
-//        });
 
     }
 
