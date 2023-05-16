@@ -69,8 +69,9 @@ public class ChatRoomFragment extends Fragment {
         //Show scroll to bottom button when not at bottom
         mBinding.actionScrollToBottom.setVisibility(View.GONE); //hide initially
         mBinding.actionScrollToBottom.setOnClickListener(button -> {
-            mBinding.recyclerBubbles.smoothScrollToPosition(mBinding.recyclerBubbles.getAdapter().getItemCount() - 1); //scroll to end
             mBinding.actionScrollToBottom.setVisibility(View.GONE); //hide self
+            mBinding.recyclerBubbles.smoothScrollToPosition(mBinding.recyclerBubbles.getAdapter().getItemCount() - 1); //scroll to end
+            mBinding.actionScrollToBottom.setText(R.string.action_scroll_to_bottom); //reset new message alert
         });
         mBinding.recyclerBubbles.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -80,6 +81,7 @@ public class ChatRoomFragment extends Fragment {
                     mBinding.actionScrollToBottom.setVisibility(View.VISIBLE);
                 } else {
                     mBinding.actionScrollToBottom.setVisibility(View.GONE);
+                    mBinding.actionScrollToBottom.setText(R.string.action_scroll_to_bottom); //reset new message alert
                 }
             }
         });
@@ -100,8 +102,14 @@ public class ChatRoomFragment extends Fragment {
                     }
 
                     //If at the bottom already, scroll to bottom on new received messages
-                    if (!mBinding.recyclerBubbles.canScrollVertically(1) && mBinding.recyclerBubbles.getAdapter().getItemCount() != 0) {
-                        mBinding.recyclerBubbles.smoothScrollToPosition(mBinding.recyclerBubbles.getAdapter().getItemCount() - 1); //scroll to end
+                    if (mBinding.recyclerBubbles.getAdapter().getItemCount() != 0) {
+                        if (!mBinding.recyclerBubbles.canScrollVertically(1)) {
+                            mBinding.recyclerBubbles.smoothScrollToPosition(mBinding.recyclerBubbles.getAdapter().getItemCount() - 1); //scroll to end
+                        } else {
+                            //else show scroll to bottom button
+                            mBinding.actionScrollToBottom.setVisibility(View.VISIBLE);
+                            mBinding.actionScrollToBottom.setText(R.string.action_scroll_to_bottom_new); //alert of new message
+                        }
                     }
                 });
 
