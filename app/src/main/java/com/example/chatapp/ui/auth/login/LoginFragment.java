@@ -9,6 +9,8 @@ import static com.example.chatapp.utils.PasswordValidator.checkPwdSpecialChar;
 import static com.example.chatapp.utils.PasswordValidator.checkPwdUpperCase;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -254,6 +256,26 @@ public class LoginFragment extends Fragment {
                         .actionLoginToMainActivity(email, jwt, memberID, username));
     }
 
+    private void resendVerificationLogin(View view) {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext())
+                .setPositiveButton(R.string.alert_action_login_negative, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mLoginViewModel.connectResendVerification(binding.textEmail.getText().toString());
+                    }
+                })
+                .setNegativeButton(R.string.alert_action_login_positive, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+        alertDialogBuilder.setMessage(R.string.alert_message_login_unverified);
+        alertDialogBuilder.setTitle(R.string.alert_title_login_unverified_email);
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+    }
+
     /**
      * An observer on the HTTP Response from the web server. This observer should be
      * attached to LoginViewModel.
@@ -267,6 +289,9 @@ public class LoginFragment extends Fragment {
                     binding.textEmail.setError(
                             "Error Authenticating: " +
                                     response.getJSONObject("data").getString("message"));
+                    if(response.getJSONObject("data").getString("message").equals("Account needs verification.")) {
+                        resendVerificationLogin(this.getView());
+                    }
                 } catch (JSONException e) {
                     Log.e("JSON Parse Error", e.getMessage());
                 }
