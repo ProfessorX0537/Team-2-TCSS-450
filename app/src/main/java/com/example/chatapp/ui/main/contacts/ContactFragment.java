@@ -113,6 +113,7 @@ public class ContactFragment extends Fragment {
 
     private void requestConnection(View view) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
+        alertDialogBuilder.setTitle(R.string.textview_connections_request);
         LayoutInflater inflater = requireActivity().getLayoutInflater();
         alertDialogBuilder.setView(inflater.inflate(R.layout.dialog_addconnection, null))
                 .setPositiveButton(R.string.action_connections_Add, new DialogInterface.OnClickListener() {
