@@ -45,6 +45,8 @@ public class WeatherInfoViewModel extends AndroidViewModel {
 
     private String mDate;
 
+    private String mLocation;
+
     public WeatherInfoViewModel(@NonNull Application application) {
         super(application);
         mResponse = new MutableLiveData<>();
@@ -62,26 +64,26 @@ public class WeatherInfoViewModel extends AndroidViewModel {
 
     private void handleResult(final JSONObject result) {
 
-        Log.d("TEST", "handle result test");
         JSONObject currentWeather;
-        JSONArray daily2;
-        JSONObject time;
+        JSONObject houryUnits;
+        JSONObject hourly;
+        JSONObject dailyUnits;
+        JSONObject daily;
         try {
-            //JSONArray temp = result.getJSONArray("daily");
-            Log.d("WEATHER", "JSON: " + result);
             currentWeather = result.getJSONObject("current_weather");
             Log.d("WEATHER", "Current Weather time is: " + currentWeather);
-            mDate = currentWeather.getString("time");
-            Log.d("WEATHER", "Current time is: " + mDate);
-            //daily2 = result.getJSONArray("daily_units");
-            //time = currentWeather.getJSONObject("time");
+            houryUnits = result.getJSONObject("hourly_units");
+            hourly = result.getJSONObject("hourly");
+            dailyUnits = result.getJSONObject("daily_units");
+            daily = result.getJSONObject("daily");
 
-//            Log.d("hi", hi.getJSONArray("time").toString());
-//            Log.d("hi", time.getString("time"));
-            //Log.d("hi", mDate);
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
+
+
+
+
         mResponse.setValue(result);
     }
 
@@ -117,11 +119,13 @@ public class WeatherInfoViewModel extends AndroidViewModel {
         String url = getApplication().getString(R.string.url_webservices) + "weather";
         //String url = "http://192.168.1.123:5000/weather";
 
-        String latitude = "&latitude=" + -87.244843;
-        String longitude = "?longitude=" + -122.42595;
+//        String latitude = "&latitude=" + -87.244843;
+//        String longitude = "?longitude=" + -122.42595;
+//
+//        url += longitude;
+//        url += latitude;
 
-        url += longitude;
-        url += latitude;
+        url += "?zipcode=98335";
 
         Request request = new JsonObjectRequest(
                 Request.Method.GET,
@@ -173,7 +177,7 @@ public class WeatherInfoViewModel extends AndroidViewModel {
         for (int i = 0; i < 24; i++) {
             Weather24HourCardItem curr = new Weather24HourCardItem(
                     "Time " + i,
-                    "Temp " +i,
+                    "Temp " + i,
 
                     "Precipitation " + i
             );

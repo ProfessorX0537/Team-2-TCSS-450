@@ -110,6 +110,8 @@ public class WeatherFragment extends Fragment {
         mBinding = null;
     }
 
+    public void updateLocation() {
 
+    }
 
 }
