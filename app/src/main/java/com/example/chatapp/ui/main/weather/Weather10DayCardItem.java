@@ -1,11 +1,14 @@
 package com.example.chatapp.ui.main.weather;
 
+import android.graphics.drawable.Drawable;
+
 public class Weather10DayCardItem {
     private final String mDay;
 
-    private final String mTemperature;
+    private final String mTemperatureMax;
+    private final String mTemperatureMin;
 
-    //private final Drawable mIcon;
+    private final Drawable mIcon;
 
     private final String mPrecipitation;
 
@@ -13,14 +16,16 @@ public class Weather10DayCardItem {
     /**
      * Constructor Weather24HourCardItem
      * @param mDay the hour of the day (1:00 pm)
-     * @param mTemperature the temperature at the given time
+     * @param mTemperatureMax the temperature at the given time
      * @param mPrecipitation the precipitation at the given time
      */
-    public Weather10DayCardItem(String mDay, String mTemperature, String mPrecipitation) {
+    public Weather10DayCardItem(String mDay, String mTemperatureMax, String mTemperatureMin,
+                                String mPrecipitation, Drawable mIcon) {
         //TODO parse data & format
         this.mDay = mDay;
-        this.mTemperature = mTemperature;
-        //this.mIcon = mIcon;
+        this.mTemperatureMax = mTemperatureMax;
+        this.mTemperatureMin = mTemperatureMin;
+        this.mIcon = mIcon;
         this.mPrecipitation = mPrecipitation;
     }
 
@@ -45,10 +50,28 @@ public class Weather10DayCardItem {
     }
 
     /**
-     * returns this Temperature
+     * returns max temperature for the day
      * @return mTemperature
      */
-    public String getmTemperature() {
-        return mTemperature;
+    public String getmTemperatureMax() {
+        return mTemperatureMax;
     }
+
+    /**
+     * returns min temperature for the day
+     * @return mTemperature
+     */
+    public String getmTemperatureMin () {
+        return mTemperatureMin;
+    }
+
+    /**
+     * Returns drawable for weather condition icon
+     * @return weather condition icon
+     */
+    public Drawable getmIcon() {
+        return mIcon;
+    }
+
+
 }

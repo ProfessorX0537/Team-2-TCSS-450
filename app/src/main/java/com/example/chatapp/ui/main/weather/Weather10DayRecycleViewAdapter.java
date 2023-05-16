@@ -32,8 +32,9 @@ public class Weather10DayRecycleViewAdapter extends RecyclerView.Adapter<Weather
     public void onBindViewHolder(@NonNull Weather10DayViewHolder holder, int position) {
         //TODO images and text for conditions
         holder.mBinding.idCardDay.setText(mWeather10DayCardItems.get(position).getmDay());
-        holder.mBinding.idCardTemperature.setText(mWeather10DayCardItems.get(position).getmTemperature());
-        //holder.mBinding.idCardConditionIcon.setImageDrawable(mWeather24HourCardFragments.get(position).getmIcon());
+        holder.mBinding.idCardTemperatureMax.setText(mWeather10DayCardItems.get(position).getmTemperatureMax());
+        holder.mBinding.idCardTemperatureMin.setText(mWeather10DayCardItems.get(position).getmTemperatureMin());
+        holder.mBinding.idCardConditionIcon.setImageDrawable(mWeather10DayCardItems.get(position).getmIcon());
         holder.mBinding.idCardPrecipitation.setText(mWeather10DayCardItems.get(position).getmPrecipitation());
     }
 

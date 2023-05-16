@@ -40,15 +40,13 @@ public class WeatherInfoViewModel extends AndroidViewModel {
 
     public ArrayList<Weather24HourCardItem> mToday;
     public ArrayList<Weather10DayCardItem> mDays;
-    // Time in 24 hour integer form -> ArrayList with 4 items:
-    // [Temperature, ConditionType(Rain,sunny,etc), Precipitation, Wind Speed]
 
     private MutableLiveData<JSONObject> mResponse;
 
     private String mTime;
 
     private String mLocation;
-    private HashMap<Integer, String> mWeatherCodeIcons;
+
 
     public WeatherInfoViewModel(@NonNull Application application) {
         super(application);
@@ -57,7 +55,6 @@ public class WeatherInfoViewModel extends AndroidViewModel {
         mTime = ("");
         mToday = new ArrayList<>(24);
         mDays = new ArrayList<>(10);
-        mWeatherCodeIcons = new HashMap<>();
 
 
     }
@@ -87,6 +84,7 @@ public class WeatherInfoViewModel extends AndroidViewModel {
             daily = result.getJSONObject("daily");
 
             setupWeather24HourCards(houryUnits, hourly);
+            setupWeather10DayCards(dailyUnits, daily);
 
         } catch (JSONException e) {
             throw new RuntimeException(e);
@@ -126,7 +124,8 @@ public class WeatherInfoViewModel extends AndroidViewModel {
 
     public void connectGet() {
         String url = getApplication().getString(R.string.url_webservices) + "weather";
-        //String url = "http://192.168.1.123:5000/weather";
+
+        //Todo: Pull zipcode/coords from user input
 
 //        String latitude = "&latitude=" + -87.244843;
 //        String longitude = "?longitude=" + -122.42595;
@@ -157,7 +156,7 @@ public class WeatherInfoViewModel extends AndroidViewModel {
      * fills arraylist with fake data for 24 hour weather cards
      * @author Xavier Hines
      */
-    public void setupWeather24HourCards(JSONObject hourlyUnit, JSONObject hourly) throws JSONException { //TODO remove for webservice
+    public void setupWeather24HourCards(JSONObject hourlyUnit, JSONObject hourly) throws JSONException {
 
         String tempUnit = hourlyUnit.getString("temperature_2m");
 
@@ -200,7 +199,7 @@ public class WeatherInfoViewModel extends AndroidViewModel {
             }
 
             //Get temperature given the time
-            String temperature = temperatures.getString(startingIndex + i);
+            int temperature = temperatures.getInt(startingIndex + i);
 
             //Get precipitation chance given the time
             String precipitationChance = precipitationChances.getString(startingIndex + i);
@@ -225,13 +224,48 @@ public class WeatherInfoViewModel extends AndroidViewModel {
      * fills arraylist with fake data for 10 day weather cards
      * @author Xavier Hines
      */
-    public void setupWeather10DayCards() { //TODO remove for webservice
+    public void setupWeather10DayCards(JSONObject dailyUnits, JSONObject daily) throws JSONException {
 
+        String tempUnit = dailyUnits.getString("temperature_2m_max");
+
+        //Get dates
+        JSONArray dates = daily.getJSONArray("time");
+
+        //Get max temperature for day
+        JSONArray maxTemps = daily.getJSONArray("temperature_2m_max");
+        //Get min temperature for day
+        JSONArray minTemps = daily.getJSONArray("temperature_2m_min");
+        //Get precipitation chance for day
+        JSONArray precipitationChances = daily.getJSONArray("precipitation_probability_max");
+        //Get weather code
+        JSONArray weatherCodes = daily.getJSONArray("weathercode");
+
+        //Create weather cards for the next 10 days from above array data
         for (int i = 0; i < 10; i++) {
+
+            //Get date
+            String date = "";
+            if (i == 0) {
+                date = "Today";
+            } else {
+                date = dates.getString(i).substring(5);
+            }
+            //Get temps
+            int tempMax = maxTemps.getInt(i);
+            int tempMin = minTemps.getInt(i);
+
+            //Get Precipitation chance
+            String precipitationChance = precipitationChances.getString(i);
+
+            int iconID = WeatherCodes.getWeatherIconName(weatherCodes.getInt(i));
+            Drawable icon = AppCompatResources.getDrawable(getApplication(), iconID);
+
             Weather10DayCardItem curr = new Weather10DayCardItem(
-                    "Day " + i,
-                    "Temp " +i,
-                    "Precipitation " + i
+                    date,
+                    tempMax + tempUnit,
+                    tempMin + tempUnit,
+                    "Precipitation Chance: " + precipitationChance + "%",
+                    icon
             );
             mDays.add(curr);
         }

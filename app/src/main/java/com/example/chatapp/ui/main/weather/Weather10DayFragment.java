@@ -36,7 +36,7 @@ public class Weather10DayFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mModel = new ViewModelProvider(getActivity()).get(WeatherInfoViewModel.class);
-        mModel.setupWeather10DayCards();//TODO fix method in viewmodel to load actual data
+
     }
 
     @Override
