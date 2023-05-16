@@ -33,4 +33,8 @@ public class ChatListItem implements Serializable  {
     public int getmNotifCount() {
         return mNotifCount;
     }
+
+    public int getmRoomID() {
+        return mRoomID;
+    }
 }

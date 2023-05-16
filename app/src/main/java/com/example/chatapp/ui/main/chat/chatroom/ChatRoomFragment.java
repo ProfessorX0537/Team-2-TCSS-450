@@ -23,18 +23,23 @@ public class ChatRoomFragment extends Fragment {
     private FragmentChatRoomBinding mBinding;
     private UserInfoViewModel mUserInfoModel;
     private ChatRoomSendViewModel mSendModel;
-    private int HARD_CODED_CHAT_ID = 1; //TODO REMOVE
+//    private int HARD_CODED_CHAT_ID = 1; //TODO REMOVE
+    private int mChatID;
     private boolean isSending = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //ChatID
+        mChatID = ChatRoomFragmentArgs.fromBundle(getArguments()).getChatid();
+
+        //ViewModels
         ViewModelProvider provider = new ViewModelProvider(getActivity());
 
         mUserInfoModel = provider.get(UserInfoViewModel.class);
 
         mItemsModel = provider.get(ChatRoomItemsViewModel.class);
-        mItemsModel.getFirstMessages(HARD_CODED_CHAT_ID, mUserInfoModel.getJwt()); //TODO CHANGE CHAT ID
+        mItemsModel.getFirstMessages(mChatID, mUserInfoModel.getJwt()); //TODO CHANGE CHAT ID
 
         mSendModel = provider.get(ChatRoomSendViewModel.class);
     }
@@ -56,14 +61,14 @@ public class ChatRoomFragment extends Fragment {
         //When the user scrolls to the top of the RV, the swiper list will "refresh"
         //The user is out of messages, go out to the service and get more
         mBinding.swipeContainer.setOnRefreshListener(() -> {
-            mItemsModel.getNextMessages(HARD_CODED_CHAT_ID, mUserInfoModel.getJwt());
+            mItemsModel.getNextMessages(mChatID, mUserInfoModel.getJwt());
         });
 
         //recycler //TODO listen for ArrayList change
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setStackFromEnd(true);
         mBinding.recyclerBubbles.setLayoutManager(linearLayoutManager);
-        mBinding.recyclerBubbles.setAdapter(new ChatRoomAdapter(mItemsModel.getMessageListByChatId(HARD_CODED_CHAT_ID), mUserInfoModel.getUsername()));
+        mBinding.recyclerBubbles.setAdapter(new ChatRoomAdapter(mItemsModel.getMessageListByChatId(mChatID), mUserInfoModel.getUsername()));
 //        mBinding.recyclerBubbles.getAdapter().setStateRestorationPolicy(RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY);
 
         //Show scroll to bottom button when not at bottom
@@ -87,7 +92,7 @@ public class ChatRoomFragment extends Fragment {
         });
 
         //Change in items/message listener
-        mItemsModel.addMessageObserver(HARD_CODED_CHAT_ID, getViewLifecycleOwner(),
+        mItemsModel.addMessageObserver(mChatID, getViewLifecycleOwner(),
                 list -> {
                     //TODO Save scroll position
 //                    Parcelable recyclerViewState = mBinding.recyclerBubbles.getLayoutManager().onSaveInstanceState();
@@ -116,7 +121,7 @@ public class ChatRoomFragment extends Fragment {
         //Send Button
         //Send button was clicked. Send the message via the SendViewModel
         mBinding.actionSend.setOnClickListener(button -> {
-            mSendModel.sendMessage(HARD_CODED_CHAT_ID,
+            mSendModel.sendMessage(mChatID,
                     mUserInfoModel.getJwt(),
                     mBinding.textMessageInput.getText().toString());
         });
