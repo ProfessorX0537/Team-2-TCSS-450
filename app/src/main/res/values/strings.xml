@@ -67,6 +67,37 @@
 
     <string name="establishing_connection">Establishing Connection...</string>
     <string name="logging_in">Logging In...</string>
+    
+    <string name="weathercode_clear">Clear</string>
+    <string name="weathercode_partly_clear">Partly clear</string>
+    <string name="weathercode_partly_cloudy">Partly cloudy</string>
+    <string name="weathercode_overcast">Overcast</string>
+    <string name="weathercode_fog">Fog</string>
+    <string name="weathercode_rime_fog">Rime fog</string>
+    <string name="weathercode_drizzle_light">Drizzle low</string>
+    <string name="weathercode_drizzle_med">Drizzle med</string>
+    <string name="weathercode_drizzle_high">Drizzle high</string>
+    <string name="weathercode_freezing_drizzle_light">Freezing drizzle</string>
+    <string name="weathercode_freezing_drizzle_high">Freezing drizzle</string>
+    <string name="weathercode_rain_light">Light rain</string>
+    <string name="weathercode_rain_moderate">Moderate rain</string>
+    <string name="weathercode_rain_heavy">Heavy rain</string>
+    <string name="weathercode_freezing_rain_light">Freezing rain</string>
+    <string name="weathercode_freezing_rain_heavy">Freezing rain</string>
+    <string name="weathercode_light_snow">Light snow</string>
+    <string name="weathercode_moderate_snow">Moderate snow</string>
+    <string name="weathercode_heavy_snow">Heavy snow</string>
+    <string name="weathercode_snow_grains">Snow grains</string>
+    <string name="weathercode_rain_showers_light">Light showers</string>
+    <string name="weathercode_rain_showers_moderate">Moderate showers</string>
+    <string name="weathercode_rain_showers_heavy">Heavy showers</string>
+    <string name="weathercode_snow_showers_light">Snow showers</string>
+    <string name="weathercode_snow_showers_heavy">Snow showers</string>
+    <string name="weathercode_storm">Thunderstorm</string>
+    <string name="weathercode_storm_hail">Slight Hailstorm</string>
+    <string name="weathercode_storm_hail_heavy">Heavy Hailstorm</string>
+
+
 
     <!-- URL -->
         <string name="url_webservices">https://daveed-tcss450-labs.herokuapp.com/</string> <!-- Heroku -->
