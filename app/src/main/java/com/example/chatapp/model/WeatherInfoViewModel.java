@@ -41,6 +41,8 @@ public class WeatherInfoViewModel extends AndroidViewModel {
     public ArrayList<Weather24HourCardItem> mToday;
     public ArrayList<Weather10DayCardItem> mDays;
 
+    public String[] mMonthName;
+
     private MutableLiveData<JSONObject> mResponse;
 
     private String mTime;
@@ -55,6 +57,9 @@ public class WeatherInfoViewModel extends AndroidViewModel {
         mTime = ("");
         mToday = new ArrayList<>(24);
         mDays = new ArrayList<>(10);
+        mMonthName = new String[]{"Jan", "Feb", "Mar", "April",
+                                    "May", "June", "July", "Aug",
+                                    "Sept", "Oct", "Nov", "Dec"};
         mLocation = "98402"; //Default location
 
 
