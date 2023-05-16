@@ -1,10 +1,11 @@
 package com.example.chatapp.ui.main.home;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -16,9 +17,10 @@ import android.view.ViewGroup;
 import com.example.chatapp.R;
 import com.example.chatapp.databinding.FragmentHomeBinding;
 import com.example.chatapp.model.WeatherInfoViewModel;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.example.chatapp.ui.main.weather.WeatherCodes;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Calendar;
@@ -29,7 +31,8 @@ public class HomeFragment extends Fragment {
 
     private WeatherInfoViewModel mViewModel;
 
-    private FragmentHomeBinding binding;
+    private FragmentHomeBinding mBinding;
+
 
     public HomeFragment() {
         // Required empty public constructor
@@ -46,9 +49,9 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                   Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        binding = FragmentHomeBinding.inflate(inflater);
+        mBinding = FragmentHomeBinding.inflate(inflater);
 //        return inflater.inflate(R.layout.fragment_home, container, false);
-        return binding.getRoot();
+        return mBinding.getRoot();
     }
 
     //pop off stack
@@ -60,8 +63,21 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         //FragmentHomeBinding binding = FragmentHomeBinding.bind(requireView());
 
+        Date date = new Date();   // given date
+        Calendar calendar = GregorianCalendar.getInstance(); // creates a new calendar instance
+        calendar.setTime(date);   // assigns calendar to given date
+        int currentHour = calendar.get(Calendar.HOUR_OF_DAY); // gets hour in 24h format
+        int currentMonth = calendar.get(Calendar.MONTH);       // gets month number, NOTE this is zero based!
+        Log.d("time", currentHour + "");
+        //mBinding.textDate.setText(mViewModel.);
+
         mViewModel.addResponseObserver(
                 getViewLifecycleOwner(),
+                this::observeData
+        );
+
+//        mViewModel.addResponseObserver(
+//                getViewLifecycleOwner(),
 //                result ->
 //                {
 //                    if (result.length() == 0) {
@@ -76,8 +92,8 @@ public class HomeFragment extends Fragment {
 //                        }
 //                    }
 //                }
-                this::observeData
-        );
+//                this::observeData
+//        );
 
         //mViewModel.addResponseObserver(getViewLifecycleOwner(), result ->
                 //result.getJSONObject("daily").getJSONArray("time").getString(0);
@@ -151,6 +167,21 @@ public class HomeFragment extends Fragment {
 //            } catch (Exception e) {
 //                throw new RuntimeException(e);
 //            }
+            try {
+                JSONObject current = result.getJSONObject("current_weather");
+                String currentTemp = current.getString("temperature")+"°F";
+                String currentDate = current.getString("time");
+                int currentWeatherCode = Integer.parseInt(current.getString("weathercode"));
+                int iconID = WeatherCodes.getWeatherIconName(currentWeatherCode);
+                Drawable icon = AppCompatResources.getDrawable(getContext(), iconID);
+                mBinding.textTemperature.setText(currentTemp);
+                mBinding.textDaycondition.setText(WeatherCodes.getWeatherCodeName(currentWeatherCode));
+                mBinding.imageWeathercondtion1.setImageDrawable(icon);
+                mBinding.textDate.setText(currentDate);
+//                Log.d("hi", currentWeatherCode +"");
+            } catch (JSONException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 

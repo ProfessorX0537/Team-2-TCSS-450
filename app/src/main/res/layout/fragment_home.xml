@@ -62,36 +62,35 @@
 
             <TextView
                 android:id="@+id/text_temperature"
-                android:layout_width="164dp"
-                android:layout_height="103dp"
+                android:layout_width="199dp"
+                android:layout_height="86dp"
                 android:gravity="right"
-                android:text="58 °F"
+                android:text="58.9 °F"
                 android:textColor="@color/text_primary"
                 android:textSize="60sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.937"
+                app:layout_constraintHorizontal_bias="0.92"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/text_daycondition"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintVertical_bias="0.466" />
+
+            <ImageView
+                android:id="@+id/image_weathercondtion_1"
+                android:layout_width="138dp"
+                android:layout_height="132dp"
+                android:src="@drawable/baseline_cloud_24"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.071"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.492"
+                tools:layout_conversion_absoluteHeight="109dp"
+                tools:layout_conversion_absoluteWidth="106dp" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <ImageView
-            android:id="@+id/image_weathercondtion_1"
-            android:layout_width="161dp"
-            android:layout_height="100dp"
-            android:src="@drawable/baseline_cloud_24"
-            tools:layout_conversion_absoluteHeight="109dp"
-            tools:layout_conversion_absoluteWidth="106dp"
-            tools:layout_editor_absoluteX="24dp"
-            tools:layout_editor_absoluteY="71dp" />
-
-        <ImageView
-            android:id="@+id/image_weathercondition_2"
-            android:layout_width="147dp"
-            android:layout_height="match_parent"
-            android:src="@drawable/baseline_grain_24" />
     </androidx.cardview.widget.CardView>
 
     <TextView

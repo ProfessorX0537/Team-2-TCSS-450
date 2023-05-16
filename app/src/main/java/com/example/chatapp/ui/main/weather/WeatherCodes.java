@@ -47,7 +47,39 @@ public class WeatherCodes {
         }
 
 
-
     }
 
+    public static String getWeatherCodeName(int weatherCode) {
+
+        HashMap<Integer, String> weatherIcons = new HashMap<>();
+        weatherIcons.put(0, "Clear");
+        weatherIcons.put(1, "Partly clear");
+        weatherIcons.put(2, "Partly cloudy");
+        weatherIcons.put(3, "Overcast");
+//        weatherIcons.put(45, R.drawable.fog);
+//        weatherIcons.put(48, R.drawable.fog);
+//        weatherIcons.put(51, R.drawable.rain);
+//        weatherIcons.put(53, R.drawable.rain);
+//        weatherIcons.put(55, R.drawable.rain);
+//        weatherIcons.put(61, R.drawable.rain);
+//        weatherIcons.put(63, R.drawable.rain);
+//        weatherIcons.put(65, R.drawable.rain);
+//        weatherIcons.put(80, R.drawable.rain);
+//        weatherIcons.put(81, R.drawable.rain);
+//        weatherIcons.put(82, R.drawable.rain);
+//        weatherIcons.put(71, R.drawable.snow);
+//        weatherIcons.put(73, R.drawable.snow);
+//        weatherIcons.put(75, R.drawable.snow);
+//        weatherIcons.put(85, R.drawable.snow);
+//        weatherIcons.put(86, R.drawable.snow);
+//        weatherIcons.put(95, R.drawable.thunder);
+//        weatherIcons.put(96, R.drawable.snow_thunder);
+//        weatherIcons.put(99, R.drawable.snow_thunder);
+
+        if (weatherIcons.containsKey(weatherCode)) {
+            return weatherIcons.get(weatherCode);
+        } else {
+            return weatherIcons.get(0);
+        }
+    }
 }
