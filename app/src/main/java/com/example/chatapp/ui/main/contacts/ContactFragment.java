@@ -1,5 +1,7 @@
 package com.example.chatapp.ui.main.contacts;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -54,24 +56,25 @@ public class ContactFragment extends Fragment {
 
 
         //hides floating button on scroll
-        FragmentContactsBinding binding = FragmentContactsBinding.bind(getView());
+        FragmentContactsBinding mBinding = FragmentContactsBinding.bind(getView());
+        mBinding.addContactFab.setOnClickListener(this::requestConnection);
         //scrolling
-        binding.listRoot.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        mBinding.listRoot.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 switch (newState) {
                     case RecyclerView.SCROLL_STATE_IDLE:
-                        binding.addContactFab.setVisibility(View.VISIBLE);
+                        mBinding.addContactFab.setVisibility(View.VISIBLE);
                         break;
                     default:
-                        binding.addContactFab.setVisibility(View.GONE);
+                        mBinding.addContactFab.setVisibility(View.GONE);
                 }
             }
         });
 
         // checks if user is scrolling up or down and hides search bar accordingly
-        binding.listRoot.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        mBinding.listRoot.addOnScrollListener(new RecyclerView.OnScrollListener() {
             private int lastFirstVisibleItem;
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
@@ -81,11 +84,11 @@ public class ContactFragment extends Fragment {
 
                 if(lastFirstVisibleItem<firstVisibleItem){
 
-                    binding.searchView.setVisibility(View.GONE);
+                    mBinding.searchView.setVisibility(View.GONE);
                     Log.d("RecyclerView scrolled: ", "up!");
 
                 } else if (lastFirstVisibleItem>firstVisibleItem){
-                        binding.searchView.setVisibility(View.VISIBLE);
+                        mBinding.searchView.setVisibility(View.VISIBLE);
 
                         Log.d("RecyclerView scrolled: ", "down!");
                 }
@@ -97,14 +100,35 @@ public class ContactFragment extends Fragment {
 
         });
 
-        binding.listRoot.setAdapter(new ContactRecycleViewAdapter(ContactGenerator.getCardList()));
+        mBinding.listRoot.setAdapter(new ContactRecycleViewAdapter(ContactGenerator.getCardList()));
 
         mModel.addContactsObserver(getViewLifecycleOwner(), contactsList -> {
             if (!contactsList.isEmpty()) {
-                binding.listRoot.setAdapter(
+                mBinding.listRoot.setAdapter(
                         new ContactRecycleViewAdapter(contactsList)
                 );
             }
         });
+    }
+
+    private void requestConnection(View view) {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
+        LayoutInflater inflater = requireActivity().getLayoutInflater();
+        alertDialogBuilder.setView(inflater.inflate(R.layout.dialog_addconnection, null))
+                .setPositiveButton(R.string.action_connections_Add, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //TODO: add connection request stuff here.
+                    }
+                })
+                .setNegativeButton(R.string.action_connections_cancel, new DialogInterface.OnClickListener(){
+
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                    }
+                });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
     }
 }
