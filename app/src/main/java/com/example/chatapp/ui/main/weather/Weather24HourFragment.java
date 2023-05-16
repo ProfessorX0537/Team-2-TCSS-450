@@ -49,7 +49,7 @@ public class Weather24HourFragment extends Fragment {
         //TODO may be creating two instances of weather info viewmodel
         mModel = new ViewModelProvider(getActivity()).get(WeatherInfoViewModel.class);
         //mModel.pullWeatherUpdates(); //replace with my fake data
-        mModel.setupWeather24HourCards();//TODO fix method in viewmodel to load actual data
+        //mModel.setupWeather24HourCards();//TODO fix method in viewmodel to load actual data
 
     }
 

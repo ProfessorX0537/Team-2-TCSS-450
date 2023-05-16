@@ -13,7 +13,7 @@ public class Weather24HourCardItem extends Fragment {
 
     private final String mTemperature;
 
-    //private final Drawable mIcon;
+    private final Drawable mIcon;
 
     private final String mPrecipitation;
 
@@ -24,11 +24,11 @@ public class Weather24HourCardItem extends Fragment {
      * @param mTemperature the temperature at the given time
      * @param mPrecipitation the precipitation at the given time
      */
-    public Weather24HourCardItem(String mTime, String mTemperature, String mPrecipitation) {
+    public Weather24HourCardItem(String mTime, String mTemperature, String mPrecipitation, Drawable mIcon) {
         //TODO parse data & format
         this.mTime = mTime;
         this.mTemperature = mTemperature;
-        //this.mIcon = mIcon;
+        this.mIcon = mIcon;
         this.mPrecipitation = mPrecipitation;
     }
 
@@ -40,9 +40,9 @@ public class Weather24HourCardItem extends Fragment {
         return mPrecipitation;
     }
 
-//    public Drawable getmIcon() {
-//        return mIcon;
-//    }
+    public Drawable getmIcon() {
+        return mIcon;
+    }
 
     /**
      * returns this Time
