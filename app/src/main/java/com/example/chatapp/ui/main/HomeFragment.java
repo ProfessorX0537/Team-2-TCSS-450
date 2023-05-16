@@ -1,5 +1,6 @@
-package com.example.chatapp.ui.main.home;
+package com.example.chatapp.ui.main;
 
+import android.app.UiModeManager;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -7,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,11 +20,15 @@ import com.example.chatapp.databinding.FragmentHomeBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.time.Month;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Iterator;
+import java.util.Map;
 
 public class HomeFragment extends Fragment {
 
@@ -103,15 +109,15 @@ public class HomeFragment extends Fragment {
 //            temp.setSelectedItemId(R.id.navigation_weather);
 //        });
 
-//        binding.homeMessageCard.setOnClickListener(button -> {
-//            BottomNavigationView temp = ((AppCompatActivity) getActivity()).findViewById(R.id.nav_view);
-//            temp.setSelectedItemId(R.id.navigation_chat);
-//        });
-//
-//        binding.homeRequestCard.setOnClickListener(button -> {
-//            BottomNavigationView temp = ((AppCompatActivity) getActivity()).findViewById(R.id.nav_view);
-//            temp.setSelectedItemId(R.id.navigation_connections);
-//        });
+        binding.homeMessageCard.setOnClickListener(button -> {
+            BottomNavigationView temp = ((AppCompatActivity) getActivity()).findViewById(R.id.nav_view);
+            temp.setSelectedItemId(R.id.navigation_chat);
+        });
+
+        binding.homeRequestCard.setOnClickListener(button -> {
+            BottomNavigationView temp = ((AppCompatActivity) getActivity()).findViewById(R.id.nav_view);
+            temp.setSelectedItemId(R.id.navigation_connections);
+        });
     }
 
 //    private void observeData(JSONObject result) {

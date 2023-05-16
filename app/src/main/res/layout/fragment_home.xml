@@ -2,11 +2,11 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/root_home"
+    android:id="@+id/frameLayout3"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    tools:context=".ui.main.HomeFragment"
     android:background="@drawable/background"
-    tools:context=".ui.main.home.HomeFragment"
     tools:layout_editor_absoluteX="0dp"
     tools:layout_editor_absoluteY="0dp">
 
@@ -35,8 +35,8 @@
                 android:layout_height="43dp"
                 android:gravity="right"
                 android:text="May 4, 2023"
-                android:textColor="@color/text_primary"
                 android:textSize="28dp"
+                android:textColor="@color/text_primary"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.917"
@@ -115,6 +115,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
+        app:tabTextColor="@color/text_primary"
+        app:tabSelectedTextColor="@color/text_icons"
         android:background="@drawable/round_style"
         android:backgroundTint="@color/light_primary"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -122,9 +124,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/weather_today_card"
-        app:layout_constraintVertical_bias="0.196"
-        app:tabSelectedTextColor="@color/text_icons"
-        app:tabTextColor="@color/text_primary">
+        app:layout_constraintVertical_bias="0.196">
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
@@ -159,15 +159,119 @@
         app:layout_constraintTop_toBottomOf="@+id/weather_today_card"
         app:layout_constraintVertical_bias="0.323" />
 
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fragmentContainerView3"
-        android:name="com.example.chatapp.ui.main.home.HomeFragment"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/home_message_card"
+        android:layout_width="359dp"
+        android:layout_height="70dp"
+        android:clickable="true"
+        android:focusable="true"
+        app:cardCornerRadius="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.489"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tabLayout4"
-        app:layout_constraintVertical_bias="0.528"/>
+        app:layout_constraintVertical_bias="0.135">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/light_primary"
+            >
+
+            <TextView
+                android:id="@+id/text_cfb3"
+                android:layout_width="54dp"
+                android:layout_height="29dp"
+                android:layout_margin="5dp"
+                android:text="cfb3:"
+                android:textColor="#673AB7"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.052"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.609" />
+
+            <TextView
+                android:id="@+id/text_message"
+                android:layout_width="229dp"
+                android:layout_height="31dp"
+                android:layout_margin="5dp"
+                android:text="Sent a new message"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.035"
+                app:layout_constraintStart_toEndOf="@+id/text_cfb3"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.615" />
+
+            <TextView
+                android:id="@+id/text_home_datetime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_marginTop="4dp"
+                android:text="May 4"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.95"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/home_request_card"
+        android:layout_width="359dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="16dp"
+        android:clickable="true"
+        android:focusable="true"
+        app:cardCornerRadius="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/home_message_card">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/light_primary"
+            >
+
+            <TextView
+                android:id="@+id/text_request"
+                android:layout_width="300dp"
+                android:layout_height="37dp"
+                android:layout_margin="5dp"
+                android:text="John Doe has requested to connect"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.271"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.636" />
+
+            <TextView
+                android:id="@+id/text_datetime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_marginTop="4dp"
+                android:text="May 4"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.95"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
