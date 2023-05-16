@@ -1,11 +1,13 @@
 package com.example.chatapp.model;
 
 import android.app.Application;
+import android.graphics.drawable.Drawable;
 import android.widget.ImageView;
 import android.text.style.IconMarginSpan;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.MutableLiveData;
@@ -27,6 +29,7 @@ import com.example.chatapp.R;
 import com.example.chatapp.ui.main.chat.chatlist.ChatListItem;
 import com.example.chatapp.ui.main.weather.Weather10DayCardItem;
 import com.example.chatapp.ui.main.weather.Weather24HourCardItem;
+import com.example.chatapp.ui.main.weather.WeatherCodes;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,20 +42,24 @@ public class WeatherInfoViewModel extends AndroidViewModel {
     public ArrayList<Weather10DayCardItem> mDays;
     // Time in 24 hour integer form -> ArrayList with 4 items:
     // [Temperature, ConditionType(Rain,sunny,etc), Precipitation, Wind Speed]
-    private HashMap<Integer, ArrayList<String>> m24Hours;
 
     private MutableLiveData<JSONObject> mResponse;
 
-    private String mDate;
+    private String mTime;
+
+    private String mLocation;
+    private HashMap<Integer, String> mWeatherCodeIcons;
 
     public WeatherInfoViewModel(@NonNull Application application) {
         super(application);
         mResponse = new MutableLiveData<>();
         mResponse.setValue(new JSONObject());
-        mDate = ("");
-        m24Hours = new HashMap<>();
+        mTime = ("");
         mToday = new ArrayList<>(24);
         mDays = new ArrayList<>(10);
+        mWeatherCodeIcons = new HashMap<>();
+
+
     }
 
     public void addResponseObserver(@NonNull LifecycleOwner owner,
@@ -62,26 +69,30 @@ public class WeatherInfoViewModel extends AndroidViewModel {
 
     private void handleResult(final JSONObject result) {
 
-        Log.d("TEST", "handle result test");
         JSONObject currentWeather;
-        JSONArray daily2;
-        JSONObject time;
+        JSONObject houryUnits;
+        JSONObject hourly;
+        JSONObject dailyUnits;
+        JSONObject daily;
         try {
-            //JSONArray temp = result.getJSONArray("daily");
-            Log.d("WEATHER", "JSON: " + result);
             currentWeather = result.getJSONObject("current_weather");
-            Log.d("WEATHER", "Current Weather time is: " + currentWeather);
-            mDate = currentWeather.getString("time");
-            Log.d("WEATHER", "Current time is: " + mDate);
-            //daily2 = result.getJSONArray("daily_units");
-            //time = currentWeather.getJSONObject("time");
+            //Set the current time
+            mTime = currentWeather.getString("time");
+            //mTime = mTime.substring(11, mTime.length() - 3);
+            Log.d("WEATHER", "Time is: " + mTime);
 
-//            Log.d("hi", hi.getJSONArray("time").toString());
-//            Log.d("hi", time.getString("time"));
-            //Log.d("hi", mDate);
+            houryUnits = result.getJSONObject("hourly_units");
+            hourly = result.getJSONObject("hourly");
+            dailyUnits = result.getJSONObject("daily_units");
+            daily = result.getJSONObject("daily");
+
+            setupWeather24HourCards(houryUnits, hourly);
+
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
+
+
         mResponse.setValue(result);
     }
 
@@ -117,11 +128,13 @@ public class WeatherInfoViewModel extends AndroidViewModel {
         String url = getApplication().getString(R.string.url_webservices) + "weather";
         //String url = "http://192.168.1.123:5000/weather";
 
-        String latitude = "&latitude=" + -87.244843;
-        String longitude = "?longitude=" + -122.42595;
+//        String latitude = "&latitude=" + -87.244843;
+//        String longitude = "?longitude=" + -122.42595;
+//
+//        url += longitude;
+//        url += latitude;
 
-        url += longitude;
-        url += latitude;
+        url += "?zipcode=98402";
 
         Request request = new JsonObjectRequest(
                 Request.Method.GET,
@@ -139,43 +152,70 @@ public class WeatherInfoViewModel extends AndroidViewModel {
                 .add(request);
     }
 
-    //TEMP FOR FILLING DATA
-    //@Todo: Pull information from web service, delete random data
-    public void pullWeatherUpdates() {
-
-        Random rand = new Random();
-        for (int i = 1; i <= 24; i++) {
-
-            //Get values for each item
-            String temp = "" + (68 +rand.nextInt(10));
-            String weatherCond = "Rainy";
-            String precipitation = "" + rand.nextInt(100);
-            String windSpeed = "" + rand.nextInt(14);
-
-            ArrayList<String> itemList = new ArrayList<>();
-            itemList.add(temp);
-            itemList.add(weatherCond);
-            itemList.add(precipitation);
-            itemList.add(windSpeed);
-
-            m24Hours.put(i, itemList);
-
-
-        }
-    }
 
     /**
      * fills arraylist with fake data for 24 hour weather cards
      * @author Xavier Hines
      */
-    public void setupWeather24HourCards() { //TODO remove for webservice
+    public void setupWeather24HourCards(JSONObject hourlyUnit, JSONObject hourly) throws JSONException { //TODO remove for webservice
 
-        for (int i = 0; i < 24; i++) {
+        String tempUnit = hourlyUnit.getString("temperature_2m");
+
+        //Find starting point in hourly time array, index position will be used for
+        //all other data arrays.
+        JSONArray times = hourly.getJSONArray("time");
+
+        int startingIndex = 0;
+        while (startingIndex < times.length()) {
+            if (times.get(startingIndex).equals(mTime)) {
+                Log.d("Weather", "Found the time at index " + startingIndex);
+                Log.d("Weather", "Current time: " + times.get(startingIndex));
+                break;
+            }
+            startingIndex++;
+        }
+
+        //Instantiate arrays with data we need
+        JSONArray temperatures = hourly.getJSONArray("temperature_2m");
+        JSONArray precipitationChances = hourly.getJSONArray("precipitation_probability");
+        JSONArray weatherCodes = hourly.getJSONArray("weathercode");
+
+        //Now for the next 24 hours from our starting time, get the data from the arrays for
+        //times, temperatures, precipitation chance, weather codes for icons
+        for (int i = 1; i <= 24; i++) {
+
+            //Get time string
+            String time = times.getString(startingIndex + i);
+            time = time.substring(11, time.length() - 3);
+
+            //Reformat to 12 hour clock
+            int twelveHour = Integer.parseInt(time);
+            if (twelveHour == 0) {
+                time = "12 AM";
+            }
+            else if (twelveHour > 12) {
+                time = (twelveHour - 12) + " PM";
+            } else {
+                time = twelveHour + " AM";
+            }
+
+            //Get temperature given the time
+            String temperature = temperatures.getString(startingIndex + i);
+
+            //Get precipitation chance given the time
+            String precipitationChance = precipitationChances.getString(startingIndex + i);
+
+            //Get Drawable icon for weather code
+            int weatherCode = weatherCodes.getInt(startingIndex + i);
+            int iconID = WeatherCodes.getWeatherIconName(weatherCode);
+            Drawable icon = AppCompatResources.getDrawable(getApplication(), iconID);
+
+            //Construct card for the hour
             Weather24HourCardItem curr = new Weather24HourCardItem(
-                    "Time " + i,
-                    "Temp " +i,
-
-                    "Precipitation " + i
+                    time,
+                    (temperature + tempUnit),
+                    ("Precipitation Chance: " + precipitationChance + "%"),
+                    icon
             );
             mToday.add(curr);
         }
@@ -191,10 +231,10 @@ public class WeatherInfoViewModel extends AndroidViewModel {
             Weather10DayCardItem curr = new Weather10DayCardItem(
                     "Day " + i,
                     "Temp " +i,
-
                     "Precipitation " + i
             );
             mDays.add(curr);
         }
     }
+
 }

@@ -40,7 +40,7 @@ public class Weather24HourRecycleViewAdapter extends RecyclerView.Adapter<Weathe
         //TODO images and text for conditions
         holder.mBinding.idCardTime.setText(mWeather24HourCardFragments.get(position).getmTime());
         holder.mBinding.idCardTemperature.setText(mWeather24HourCardFragments.get(position).getmTemperature());
-        //holder.mBinding.idCardConditionIcon.setImageDrawable(mWeather24HourCardFragments.get(position).getmIcon());
+        holder.mBinding.idCardConditionIcon.setImageDrawable(mWeather24HourCardFragments.get(position).getmIcon());
         holder.mBinding.idCardPrecipitation.setText(mWeather24HourCardFragments.get(position).getmPrecipitation());
 
     }
