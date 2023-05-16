@@ -34,7 +34,7 @@ public class ChatRoomFragment extends Fragment {
         mUserInfoModel = provider.get(UserInfoViewModel.class);
 
         mItemsModel = provider.get(ChatRoomItemsViewModel.class);
-        mItemsModel.getFirstMessages(HARD_CODED_CHAT_ID, mUserInfoModel.getJwt()); //CHANGE CHAT ID
+        mItemsModel.getFirstMessages(HARD_CODED_CHAT_ID, mUserInfoModel.getJwt()); //TODO CHANGE CHAT ID
 
         mSendModel = provider.get(ChatRoomSendViewModel.class);
     }
