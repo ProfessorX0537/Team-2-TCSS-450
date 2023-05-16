@@ -27,6 +27,7 @@ import com.example.chatapp.model.UserInfoViewModel;
 import com.example.chatapp.services.PushReceiver;
 import com.example.chatapp.ui.main.chat.chatroom.ChatRoomItem;
 import com.example.chatapp.ui.main.chat.chatroom.ChatRoomItemsViewModel;
+import com.example.chatapp.ui.main.contacts.ContactsViewModel;
 import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -35,6 +36,7 @@ import java.util.Objects;
 public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
     private NewMessageCountViewModel mNewMessageModel;
+    private ContactsViewModel mContactViewModel;
 
     private ActivityMainBinding binding;
 
@@ -91,6 +93,9 @@ public class MainActivity extends AppCompatActivity {
                 badge.setVisible(false);
             }
         });
+
+
+
     }
 
     /**

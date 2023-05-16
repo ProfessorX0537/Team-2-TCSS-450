@@ -25,4 +25,10 @@ public class ContactsViewModel extends AndroidViewModel {
                                     @NonNull Observer<? super List<ContactCard>> observer) {
         mContacts.observe(owner, observer);
     }
+
+    public void setContacts(List<ContactCard> contacts){ mContacts.setValue(contacts);}
+
+    public List<ContactCard> getContacts(){return mContacts.getValue();}
+
+
 }
