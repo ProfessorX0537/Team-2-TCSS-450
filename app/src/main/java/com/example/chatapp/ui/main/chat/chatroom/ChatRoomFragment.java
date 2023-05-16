@@ -61,7 +61,9 @@ public class ChatRoomFragment extends Fragment {
         //When the user scrolls to the top of the RV, the swiper list will "refresh"
         //The user is out of messages, go out to the service and get more
         mBinding.swipeContainer.setOnRefreshListener(() -> {
-            mItemsModel.getNextMessages(mChatID, mUserInfoModel.getJwt());
+            if (!mItemsModel.getNextMessages(mChatID, mUserInfoModel.getJwt())) {
+                mBinding.swipeContainer.setRefreshing(false);
+            }
         });
 
         //recycler //TODO listen for ArrayList change

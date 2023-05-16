@@ -123,7 +123,14 @@ public class ChatRoomItemsViewModel extends AndroidViewModel {
      * @param chatId the chatroom id to request messages of
      * @param jwt the users signed JWT
      */
-    public void getNextMessages(final int chatId, final String jwt) {
+    public boolean getNextMessages(final int chatId, final String jwt) {
+        //if mMessage is size 0, don't refresh because there is no point.
+        try {
+            mMessages.get(chatId).getValue().get(0).getMessageId();
+        } catch (IndexOutOfBoundsException e) {
+            return false; //tell caller, this is unsuccessful
+        }
+
         String url = getApplication().getResources().getString(R.string.url_webservices) +
                 "messages/" +
                 chatId +
@@ -155,6 +162,7 @@ public class ChatRoomItemsViewModel extends AndroidViewModel {
                 .addToRequestQueue(request);
 
         //code here will run
+        return true;
     }
 
     /**
