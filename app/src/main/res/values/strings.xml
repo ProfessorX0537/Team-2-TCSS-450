@@ -50,7 +50,7 @@
     <string name="logging_in">Logging In...</string>
 
     <!-- URL -->
-<!--        <string name="url_webservices">https://daveed-tcss450-labs.herokuapp.com/</string> &lt;!&ndash; Heroku &ndash;&gt;-->
-        <string name="url_webservices">http://192.168.1.2:5000/</string> <!-- David -->
+        <string name="url_webservices">https://daveed-tcss450-labs.herokuapp.com/</string> <!-- Heroku -->
+<!--        <string name="url_webservices">http://192.168.1.2:5000/</string> &lt;!&ndash; David &ndash;&gt;-->
 
 </resources>
