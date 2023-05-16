@@ -125,7 +125,7 @@ public class RegisterFragment extends Fragment {
      * @return boolean that dictates whether or not to suppress keyboard.
      */
     private boolean passwordReqs(View view, MotionEvent motionEvent) {
-        if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+        if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
             alertDialogBuilder.setMessage(R.string.snackbar_register_password_requirements);
             alertDialogBuilder.setTitle("Password Requirements");
@@ -229,13 +229,6 @@ public class RegisterFragment extends Fragment {
      * After request comes back from webservice will navigate to the verify email fragment.
      */
     private void navigateToVerifyEmail() {
-//        RegisterFragmentDirections.ActionRegisterFragmentToLogin directions =
-//            RegisterFragmentDirections.actionRegisterFragmentToLogin();
-//
-//
-//        directions.setEmail(binding.editEmail.getText().toString());
-//        directions.setPassword(binding.editPassword1.getText().toString());
-
         Navigation.findNavController(getView()).navigate(
                 RegisterFragmentDirections.actionRegisterFragmentToVerifyEmailFragment());
     }
