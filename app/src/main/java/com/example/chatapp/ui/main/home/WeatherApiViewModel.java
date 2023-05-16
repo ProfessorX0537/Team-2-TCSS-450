@@ -1,4 +1,4 @@
-package com.example.chatapp.ui.main;
+package com.example.chatapp.ui.main.home;
 
 import android.app.Application;
 import android.util.Log;
