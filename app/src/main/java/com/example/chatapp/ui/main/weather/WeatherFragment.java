@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,11 +14,13 @@ import android.view.ViewGroup;
 
 import com.example.chatapp.R;
 import com.example.chatapp.databinding.FragmentWeatherBinding;
+import com.example.chatapp.model.WeatherInfoViewModel;
 import com.google.android.material.tabs.TabLayout;
 
 public class WeatherFragment extends Fragment {
 
     private FragmentWeatherBinding mBinding;
+    private WeatherInfoViewModel mModel;
 
     public WeatherFragment() {
         // Required empty public constructor
@@ -26,6 +29,7 @@ public class WeatherFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mModel = new ViewModelProvider(getActivity()).get(WeatherInfoViewModel.class);
 
     }
 
@@ -68,6 +72,7 @@ public class WeatherFragment extends Fragment {
                             .replace(R.id.weather_fragment_container, fragment)
                             .commit();
 
+
                         break;
                     case 1:
                         Log.d("TEST", "24 Hour Tab Selected");
@@ -87,8 +92,13 @@ public class WeatherFragment extends Fragment {
                                 .beginTransaction()
                                 .replace(R.id.weather_fragment_container, fragment3)
                                 .commit();
-                        break;
+                        updateLocation();
+
                 }
+
+                mBinding.buttonLocation.setOnClickListener(button -> {
+                    updateLocation();
+                });
             }
 
             @Override
@@ -111,7 +121,7 @@ public class WeatherFragment extends Fragment {
     }
 
     public void updateLocation() {
-
+        mModel.setmLocation(mBinding.textLocation.getText().toString());
     }
 
 }
