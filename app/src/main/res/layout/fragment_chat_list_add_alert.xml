@@ -7,7 +7,7 @@
     android:paddingRight="20dp">
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/edit_text_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 </LinearLayout>
