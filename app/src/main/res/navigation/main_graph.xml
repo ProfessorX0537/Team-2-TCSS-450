@@ -39,6 +39,10 @@
         android:id="@+id/chatRoomFragment"
         android:name="com.example.chatapp.ui.main.chat.chatroom.ChatRoomFragment"
         android:label="@string/title_chat_room"
-        tools:layout="@layout/fragment_chat_room" />
+        tools:layout="@layout/fragment_chat_room" >
+        <argument
+            android:name="chatid"
+            app:argType="integer" />
+    </fragment>
 
 </navigation>
