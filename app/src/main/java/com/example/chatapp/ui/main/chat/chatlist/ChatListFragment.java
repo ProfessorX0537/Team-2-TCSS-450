@@ -4,33 +4,34 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.chatapp.R;
 import com.example.chatapp.databinding.FragmentChatListBinding;
+import com.example.chatapp.model.UserInfoViewModel;
 
 public class ChatListFragment extends Fragment {
-    private ChatListViewModel mModel;
+    private ChatListItemViewModel mModel;
     private FragmentChatListBinding mBinding;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mModel = new ViewModelProvider(getActivity()).get(ChatListViewModel.class);
-        mModel.setupItemsList(); //TODO remove for webservice
+
+        //UserInfoViewModel
+        UserInfoViewModel userinfo = new ViewModelProvider(getActivity()).get(UserInfoViewModel.class);
+
+        mModel = new ViewModelProvider(getActivity()).get(ChatListItemViewModel.class);
+        mModel.getChatRooms(userinfo.getMemberID(), userinfo.getJwt());
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         mBinding = FragmentChatListBinding.inflate(inflater);
         return mBinding.getRoot();
@@ -39,9 +40,15 @@ public class ChatListFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        //mModel.mItemList observe
+        mModel.addItemListObserver(getViewLifecycleOwner(), list -> {
+            if (mBinding.rootRecycler.getAdapter() == null) {
+                mBinding.rootRecycler.setAdapter(new ChatListAdapter(mModel.mItemList.getValue()));
+            } else {
+                mBinding.rootRecycler.getAdapter().notifyDataSetChanged();
+            }
+        });
 
-        //recycler //TODO listen for ArrayList change
-        mBinding.rootRecycler.setAdapter(new ChatListAdapter(mModel.mItemList));
 
         //scrolling
         mBinding.rootRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
