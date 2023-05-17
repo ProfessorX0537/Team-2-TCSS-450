@@ -30,6 +30,7 @@ public class ChatRoomAddUserRequestsViewModel extends AndroidViewModel {
     private MutableLiveData<JSONObject> mRemoveFromChatResponse;
     private MutableLiveData<JSONObject> mRemoveSelfFromChatResponse;
     private MutableLiveData<JSONObject> mAddToChatResponse;
+    private MutableLiveData<JSONObject> mRenameChatResponse;
 
     public ChatRoomAddUserRequestsViewModel(@NonNull Application application) {
         super(application);
@@ -47,6 +48,10 @@ public class ChatRoomAddUserRequestsViewModel extends AndroidViewModel {
     }
     public void addAddToChatResponseObserver(@NonNull LifecycleOwner owner, @NonNull Observer<? super JSONObject> observer) {
         mAddToChatResponse.observe(owner, observer);
+    }
+
+    public void addRenameChatResponseObserver(@NonNull LifecycleOwner owner, @NonNull Observer<? super JSONObject> observer) {
+        mRenameChatResponse.observe(owner, observer);
     }
 
     ////////REQUESTS (async)/////////
@@ -138,6 +143,10 @@ public class ChatRoomAddUserRequestsViewModel extends AndroidViewModel {
         //Instantiate the RequestQueue and add the request to the queue
         RequestQueueSingleton.getInstance(getApplication().getApplicationContext())
                 .addToRequestQueue(request);
+    }
+
+    public void requsetRenameChat(int chatId, String username, String jwt) {
+
     }
 
     private void handleError(final VolleyError error) {
