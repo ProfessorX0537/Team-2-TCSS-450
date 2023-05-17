@@ -17,14 +17,27 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <Button
+        android:id="@+id/button_close_window"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:alpha="0"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/cardView"
+        app:layout_constraintStart_toStartOf="@+id/imageView2"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="invisible" />
+
     <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
         android:layout_width="256dp"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" >
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -67,17 +80,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent">
 
-                            <ImageButton
-                                android:id="@+id/button_create"
-                                android:layout_width="0dp"
-                                android:layout_height="0dp"
-                                android:layout_margin="0dp"
-                                android:alpha="0"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-
                             <TextView
                                 android:id="@+id/text_username"
                                 android:layout_width="wrap_content"
@@ -96,10 +98,24 @@
                                 android:layout_width="42dp"
                                 android:layout_height="42dp"
                                 android:layout_margin="8dp"
+                                android:alpha="0.5"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent"
                                 app:srcCompat="@drawable/baseline_add_circle_outline_24" />
+
+                            <ImageButton
+                                android:id="@+id/button_create"
+                                android:layout_width="0dp"
+                                android:layout_height="0dp"
+                                android:layout_margin="0dp"
+                                android:alpha="0"
+                                android:visibility="invisible"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                tools:visibility="invisible" />
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
