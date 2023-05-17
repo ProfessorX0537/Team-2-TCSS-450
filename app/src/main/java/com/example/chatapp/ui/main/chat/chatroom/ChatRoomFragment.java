@@ -70,11 +70,16 @@ public class ChatRoomFragment extends Fragment {
         mBinding.toolbar2.setTitle(ChatRoomFragmentArgs.fromBundle(getArguments()).getChatName());
         //Contacts menu button
         mBinding.toolbar2.getMenu().getItem(0).setOnMenuItemClickListener(button -> {
-            Log.d("ChatRoomFragment", "Add users Button Clicked"); //TODO
+            Log.d("ChatRoomFragment", "Add users Button Clicked");
+            if (mBinding.fragmentViewAddUser.getVisibility() == View.GONE) { //toggle show it
+                mBinding.fragmentViewAddUser.setVisibility(View.VISIBLE);
+            } else {
+                mBinding.fragmentViewAddUser.setVisibility(View.GONE);
+            }
             return true;
         });
         //Back Navigation
-        mBinding.toolbar2.setNavigationIcon(R.drawable.baseline_arrow_back_24);
+//        mBinding.toolbar2.setNavigationIcon(R.drawable.baseline_arrow_back_24);
         mBinding.toolbar2.setNavigationOnClickListener(button -> {
             getActivity().onBackPressed();
         });
