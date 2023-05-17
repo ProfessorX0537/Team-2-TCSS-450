@@ -61,46 +61,44 @@
             app:layout_constraintVertical_bias="0.314" />
 
         <ImageButton
-            android:id="@+id/remove_button"
-            android:layout_width="58dp"
-            android:layout_height="62dp"
-            android:layout_margin="10dp"
-            android:layout_marginStart="231dp"
-            android:src="@drawable/smaller_remove"
-            android:background="@drawable/round_style"
-            android:backgroundTint="@color/accent_color"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toEndOf="@+id/full_name"
-            app:layout_constraintTop_toBottomOf="@+id/chat_button"
-            app:layout_constraintVertical_bias="0.2"
-            tools:ignore="SpeakableTextPresentCheck" />
-
-        <ImageButton
             android:id="@+id/chat_button"
             android:layout_width="58dp"
             android:layout_height="62dp"
             android:layout_margin="10dp"
-            android:layout_marginTop="12dp"
-            android:src="@android:drawable/stat_notify_chat"
             android:background="@drawable/round_style"
             android:backgroundTint="@color/accent_color"
+            android:src="@android:drawable/stat_notify_chat"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toEndOf="@+id/full_name"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="SpeakableTextPresentCheck" />
 
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:src="?attr/selectableItemBackgroundBorderless"
+        <ImageButton
+            android:id="@+id/decline_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/baseline_close_24"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/chat_button"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.08" />
+
+        <ImageButton
+            android:id="@+id/add_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="208dp"
+            android:src="@drawable/baseline_add_circle_outline_24"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/decline_button"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/nick_name"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.08" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
