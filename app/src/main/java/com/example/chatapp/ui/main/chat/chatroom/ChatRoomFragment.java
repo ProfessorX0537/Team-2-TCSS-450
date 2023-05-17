@@ -30,6 +30,7 @@ public class ChatRoomFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         //ChatID
         mChatID = ChatRoomFragmentArgs.fromBundle(getArguments()).getChatid();
 
@@ -55,6 +56,9 @@ public class ChatRoomFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        //Title
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(ChatRoomFragmentArgs.fromBundle(getArguments()).getChatName());
 
         //Swipe refresh Container
         mBinding.swipeContainer.setRefreshing(true); //SetRefreshing shows the internal Swiper view progress bar. Show this until messages load

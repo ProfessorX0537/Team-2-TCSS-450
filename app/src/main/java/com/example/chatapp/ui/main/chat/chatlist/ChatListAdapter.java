@@ -49,7 +49,10 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatLi
         //navgiations //TODO go to unique chat room
         holder.mBinding.actionOpenChatRoom.setOnClickListener(button -> {
             Navigation.findNavController(holder.itemView).navigate(
-                    com.example.chatapp.ui.main.chat.chatlist.ChatListFragmentDirections.actionNavigationChatToChatRoomFragment(mChatListItems.get(position).getmRoomID())
+                    com.example.chatapp.ui.main.chat.chatlist.ChatListFragmentDirections.actionNavigationChatToChatRoomFragment(
+                            mChatListItems.get(position).getmRoomID(),
+                            mChatListItems.get(position).getmRoomName()
+                    )
             );
         });
     }
