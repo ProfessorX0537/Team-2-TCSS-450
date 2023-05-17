@@ -1,10 +1,12 @@
 package com.example.chatapp.ui.main.chat.chatroom.add;
 
+import android.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.chatapp.R;
@@ -14,9 +16,11 @@ import java.util.ArrayList;
 
 public class ChatRoomAddUserAdapter extends RecyclerView.Adapter<ChatRoomAddUserAdapter.ChatRoomAddUserViewHolder> {
     public final ArrayList<ChatRoomAddUserItem> mUserList;
+    private final ChatRoomAddUserFragment mParentFrament;
 
-    public ChatRoomAddUserAdapter(ArrayList<ChatRoomAddUserItem> userList) {
+    public ChatRoomAddUserAdapter(ArrayList<ChatRoomAddUserItem> userList, ChatRoomAddUserFragment parentFragment) {
         mUserList = userList;
+        mParentFrament = parentFragment;
     }
 
     @NonNull
@@ -29,8 +33,15 @@ public class ChatRoomAddUserAdapter extends RecyclerView.Adapter<ChatRoomAddUser
 
     @Override
     public void onBindViewHolder(@NonNull ChatRoomAddUserViewHolder holder, int position) {
+        String username = mUserList.get(position).getmUsername();
+
         //aka OnHolderViewCreated
-        holder.mBinding.textUsername.setText(mUserList.get(position).getmUsername());
+        holder.mBinding.textUsername.setText(username);
+
+        //remove button
+        holder.mBinding.buttonKick.setOnClickListener(button -> {
+            mParentFrament.showAlertConfirmToKickUser(username, "Kick " + username + " from the chat room?", false); //TODO String
+        });
     }
 
     @Override
