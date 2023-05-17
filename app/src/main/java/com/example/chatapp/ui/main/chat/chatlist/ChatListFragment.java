@@ -21,6 +21,7 @@ import com.example.chatapp.model.UserInfoViewModel;
 import com.example.chatapp.ui.main.chat.chatlist.add.ChatListAddViewModel;
 
 public class ChatListFragment extends Fragment {
+    private UserInfoViewModel userinfo;
     private ChatListItemViewModel mItemModel;
     private ChatListAddViewModel mAddModel;
     private FragmentChatListBinding mBinding;
@@ -30,7 +31,7 @@ public class ChatListFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         //ViewModels
-        UserInfoViewModel userinfo = new ViewModelProvider(getActivity()).get(UserInfoViewModel.class);
+        userinfo = new ViewModelProvider(getActivity()).get(UserInfoViewModel.class);
 
         mItemModel = new ViewModelProvider(getActivity()).get(ChatListItemViewModel.class);
         mItemModel.getChatRooms(userinfo.getMemberID(), userinfo.getJwt());
@@ -50,7 +51,7 @@ public class ChatListFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         //mModel.mItemList observe
         mItemModel.addItemListObserver(getViewLifecycleOwner(), list -> {
-            mBinding.rootRecycler.setAdapter(new ChatListAdapter(mItemModel.mItemList.getValue()));
+            mBinding.rootRecycler.setAdapter(new ChatListAdapter(list));
             Log.v("ChatListFragment", "Observed ItemModel Response create new!");
 //            if (mBinding.rootRecycler.getAdapter() == null) { //
 //                mBinding.rootRecycler.setAdapter(new ChatListAdapter(mItemModel.mItemList.getValue()));
@@ -81,7 +82,6 @@ public class ChatListFragment extends Fragment {
         });
 
         //Add Floating Button
-        UserInfoViewModel userinfo = new ViewModelProvider(getActivity()).get(UserInfoViewModel.class);
         mBinding.floatingActionButton.setOnClickListener(button -> {
             //https://www.geeksforgeeks.org/how-to-create-a-custom-alertdialog-in-android/
             // Create an alert builder

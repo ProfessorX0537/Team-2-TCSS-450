@@ -162,6 +162,10 @@ public class ChatRoomFragment extends Fragment {
                 isSending = true;
             }
         });
+
+//        //////Add Fragment//////
+//        //getUserInfo
+//        mBinding.fragmentViewAddUser.
     }
 
     //Hides bottom menu bar

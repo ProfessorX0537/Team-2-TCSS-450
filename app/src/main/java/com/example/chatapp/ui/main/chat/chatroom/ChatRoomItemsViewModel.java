@@ -29,6 +29,7 @@ import java.util.Objects;
 
 public class ChatRoomItemsViewModel extends AndroidViewModel {
     private Map<Integer, MutableLiveData<List<ChatRoomItem>>> mMessages;
+    private int mChatId;
 
     public ChatRoomItemsViewModel(@NonNull Application application) {
         super(application);

@@ -121,7 +121,8 @@
                         android:id="@+id/recycler_view"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        tools:listitem="@layout/fragment_chat_room_add_user_item" />
+                        tools:listitem="@layout/fragment_chat_room_add_user_item"
+                        app:layoutManager="LinearLayoutManager" />
 
                 </LinearLayout>
             </ScrollView>
