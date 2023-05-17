@@ -7,10 +7,16 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -57,8 +63,21 @@ public class ChatRoomFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        ////////ActionBar/////////
+        mBinding.toolbar2.inflateMenu(R.menu.toolbar_chatroom);
         //Title
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(ChatRoomFragmentArgs.fromBundle(getArguments()).getChatName());
+//        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(ChatRoomFragmentArgs.fromBundle(getArguments()).getChatName());
+        mBinding.toolbar2.setTitle(ChatRoomFragmentArgs.fromBundle(getArguments()).getChatName());
+        //Contacts menu button
+        mBinding.toolbar2.getMenu().getItem(0).setOnMenuItemClickListener(button -> {
+            Log.d("ChatRoomFragment", "Add users Button Clicked"); //TODO
+            return true;
+        });
+        //Back Navigation
+        mBinding.toolbar2.setNavigationIcon(R.drawable.baseline_arrow_back_24);
+        mBinding.toolbar2.setNavigationOnClickListener(button -> {
+            getActivity().onBackPressed();
+        });
 
         //Swipe refresh Container
         mBinding.swipeContainer.setRefreshing(true); //SetRefreshing shows the internal Swiper view progress bar. Show this until messages load
@@ -144,13 +163,15 @@ public class ChatRoomFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setShowHideAnimationEnabled(false);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
         ((AppCompatActivity) getActivity()).findViewById(R.id.nav_view).setVisibility(View.GONE);
     }
 
     @Override
     public void onStop() {
         super.onStop();
+        ((AppCompatActivity) getActivity()).getSupportActionBar().show();
         ((AppCompatActivity) getActivity()).findViewById(R.id.nav_view).setVisibility(View.VISIBLE);
     }
-
 }

@@ -72,6 +72,9 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
 
+        //ActionBar
+        getSupportActionBar().setShowHideAnimationEnabled(false); //Hide goofy slide in/anim
+
         //NewMessageModel
         mNewMessageModel = new ViewModelProvider(this).get(NewMessageCountViewModel.class);
         //When the user navigates to the chats page, reset the new message count.
