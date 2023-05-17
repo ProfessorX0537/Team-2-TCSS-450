@@ -30,7 +30,7 @@ import java.util.Objects;
 public class ChatRoomItemsViewModel extends AndroidViewModel {
     private Map<Integer, MutableLiveData<List<ChatRoomItem>>> mMessages;
     public int mChatId; //REQUIRED TODO factory
-
+    public String mChatRoomName; //REQUIRED TODO factory
     public ChatRoomItemsViewModel(@NonNull Application application) {
         super(application);
         mMessages = new HashMap<>();
@@ -60,7 +60,6 @@ public class ChatRoomItemsViewModel extends AndroidViewModel {
      * @return a reference to the list of messages
      */
     public List<ChatRoomItem> getMessageListByChatId(final int chatId) {
-        mChatId = chatId;
         return getOrCreateMapEntry(chatId).getValue();
     }
 

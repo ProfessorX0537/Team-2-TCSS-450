@@ -55,7 +55,11 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatLi
 
         //navgiations
         holder.mBinding.actionOpenChatRoom.setOnClickListener(button -> {
-            new ViewModelProvider(mActivity).get(ChatRoomItemsViewModel.class).mChatId = mChatListItems.get(position).getmRoomID();
+            ChatRoomItemsViewModel vm = new ViewModelProvider(mActivity).get(ChatRoomItemsViewModel.class);
+            //ViewModel as args to inner FragmentViewContainer
+            vm.mChatId = mChatListItems.get(position).getmRoomID();
+            vm.mChatRoomName = mChatListItems.get(position).getmRoomName();
+
             Navigation.findNavController(holder.itemView).navigate(
                     com.example.chatapp.ui.main.chat.chatlist.ChatListFragmentDirections.actionNavigationChatToChatRoomFragment(
                             mChatListItems.get(position).getmRoomID(),

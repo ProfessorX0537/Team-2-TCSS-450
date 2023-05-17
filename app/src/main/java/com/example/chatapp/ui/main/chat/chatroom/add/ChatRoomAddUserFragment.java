@@ -24,6 +24,7 @@ public class ChatRoomAddUserFragment extends Fragment {
     private UserInfoViewModel userinfo;
 
     private ChatRoomAddUserItemViewModel mItemModel;
+    private ChatRoomItemsViewModel mChatRoomItemsViewModel;
 //    private int mChatId;
     //AddViewModel
     //RenameViewModel
@@ -34,11 +35,12 @@ public class ChatRoomAddUserFragment extends Fragment {
 
         //ViewModels
         userinfo = new ViewModelProvider(getActivity()).get(UserInfoViewModel.class);
+        mChatRoomItemsViewModel = new ViewModelProvider(getActivity()).get(ChatRoomItemsViewModel.class);
 
         mItemModel = new ViewModelProvider(getActivity()).get(ChatRoomAddUserItemViewModel.class);
         mItemModel.userinfo = userinfo; //required
 
-        mItemModel.getUsersInChat(new ViewModelProvider(getActivity()).get(ChatRoomItemsViewModel.class).mChatId, userinfo.getJwt()); //TODO change hard coded
+        mItemModel.getUsersInChat(mChatRoomItemsViewModel.mChatId, userinfo.getJwt()); //TODO change hard coded
     }
 
     @Override
@@ -81,5 +83,8 @@ public class ChatRoomAddUserFragment extends Fragment {
         binding.buttonLeave.setOnClickListener(button -> {
             Log.d("ChatRoomAddUserFragment", "buttonLeave clicked");
         });
+
+        //Rename
+        binding.editTextRename.setText(mChatRoomItemsViewModel.mChatRoomName);
     }
 }
