@@ -5,11 +5,11 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +18,7 @@ import com.example.chatapp.R;
 import com.example.chatapp.databinding.FragmentHomeBinding;
 import com.example.chatapp.model.WeatherInfoViewModel;
 import com.example.chatapp.ui.main.weather.WeatherCodes;
-import com.example.chatapp.ui.main.weather.WeatherTodayFragment;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.tabs.TabLayout;
 
 import org.json.JSONException;
@@ -88,7 +88,7 @@ public class HomeFragment extends Fragment {
                         requireActivity()
                                 .getSupportFragmentManager()
                                 .beginTransaction()
-                                .replace(R.id.HomeMessagesContainerView, fragment)
+                                .replace(R.id.home_containerView, fragment)
                                 .commit();
                         break;
                     case 1:
@@ -96,11 +96,11 @@ public class HomeFragment extends Fragment {
                         requireActivity()
                                 .getSupportFragmentManager()
                                 .beginTransaction()
-                                .replace(R.id.HomeMessagesContainerView, fragment2)
+                                .replace(R.id.home_containerView, fragment2)
                                 .commit();
                         break;
                 }
-                mBinding.HomeMessagesContainerView.removeAllViews();
+                mBinding.homeContainerView.removeAllViews();
             }
 
             @Override
@@ -153,12 +153,12 @@ public class HomeFragment extends Fragment {
 //                        HomeFragmentDirections
 //                                .actionNavigationHomeToNavigationWeather()));
 
-//        binding.homeWeatherCard.setOnClickListener(button -> {
-//            BottomNavigationView temp = ((AppCompatActivity) getActivity()).findViewById(R.id.nav_view);
-//            temp.setSelectedItemId(R.id.navigation_weather);
-//        });
+        mBinding.weatherTodayCard.setOnClickListener(button -> {
+            BottomNavigationView temp = ((AppCompatActivity) getActivity()).findViewById(R.id.nav_view);
+            temp.setSelectedItemId(R.id.navigation_weather);
+        });
 
-//        binding.homeMessageCard.setOnClickListener(button -> {
+//        mBinding.homeContainerView.setOnClickListener(button -> {
 //            BottomNavigationView temp = ((AppCompatActivity) getActivity()).findViewById(R.id.nav_view);
 //            temp.setSelectedItemId(R.id.navigation_chat);
 //        });
