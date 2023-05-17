@@ -29,7 +29,7 @@ import java.util.Objects;
 
 public class ChatRoomItemsViewModel extends AndroidViewModel {
     private Map<Integer, MutableLiveData<List<ChatRoomItem>>> mMessages;
-    private int mChatId;
+    public int mChatId;
 
     public ChatRoomItemsViewModel(@NonNull Application application) {
         super(application);
@@ -60,6 +60,7 @@ public class ChatRoomItemsViewModel extends AndroidViewModel {
      * @return a reference to the list of messages
      */
     public List<ChatRoomItem> getMessageListByChatId(final int chatId) {
+        mChatId = chatId;
         return getOrCreateMapEntry(chatId).getValue();
     }
 
@@ -224,9 +225,5 @@ public class ChatRoomItemsViewModel extends AndroidViewModel {
                             " " +
                             data);
         }
-    }
-
-    public Map<Integer, MutableLiveData<List<ChatRoomItem>>> getmMessages() {
-        return mMessages;
     }
 }

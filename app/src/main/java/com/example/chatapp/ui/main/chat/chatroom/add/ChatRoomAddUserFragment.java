@@ -37,7 +37,7 @@ public class ChatRoomAddUserFragment extends Fragment {
 
         mItemModel = new ViewModelProvider(getActivity()).get(ChatRoomAddUserItemViewModel.class);
 
-        mItemModel.getUsersInChat(1, userinfo.getJwt()); //TODO change hard coded
+        mItemModel.getUsersInChat(new ViewModelProvider(getActivity()).get(ChatRoomItemsViewModel.class).mChatId, userinfo.getJwt()); //TODO change hard coded
     }
 
     @Override
@@ -81,9 +81,4 @@ public class ChatRoomAddUserFragment extends Fragment {
             Log.d("ChatRoomAddUserFragment", "buttonLeave clicked");
         });
     }
-
-//    public void itemViewModelGetUsersInChat(int chatId) {
-//        mItemModel.getUsersInChat(chatId, userinfo.getJwt());
-//        mChatId = chatId;
-//    }
 }

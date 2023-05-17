@@ -55,7 +55,7 @@ public class ChatListFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         //mModel.mItemList observe
         mItemModel.addItemListObserver(getViewLifecycleOwner(), list -> {
-            mBinding.rootRecycler.setAdapter(new ChatListAdapter(list));
+            mBinding.rootRecycler.setAdapter(new ChatListAdapter(list, getActivity()));
             Log.v("ChatListFragment", "Observed ItemModel Response create new!");
 //            if (mBinding.rootRecycler.getAdapter() == null) { //
 //                mBinding.rootRecycler.setAdapter(new ChatListAdapter(mItemModel.mItemList.getValue()));
