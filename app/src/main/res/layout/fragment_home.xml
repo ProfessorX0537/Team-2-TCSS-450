@@ -65,7 +65,7 @@
                 android:layout_width="199dp"
                 android:layout_height="86dp"
                 android:gravity="right"
-                android:text="58.9°F"
+                android:text="58°F"
                 android:textColor="@color/text_primary"
                 android:textSize="60sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -157,7 +157,17 @@
         app:layout_constraintTop_toBottomOf="@+id/weather_today_card"
         app:layout_constraintVertical_bias="0.323" />
 
-<!--    TODO THIS WAS RECURSIVELY INFLATING ITSELF -->
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/home_containerView"
+        android:name="com.example.chatapp.ui.main.home.HomeMessagesFragment"
+        android:layout_width="361dp"
+        android:layout_height="281dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tabLayout4" />
+
+    <!--    TODO THIS WAS RECURSIVELY INFLATING ITSELF -->
 <!--    <androidx.fragment.app.FragmentContainerView-->
 <!--        android:id="@+id/fragmentContainerView3"-->
 <!--        android:name="com.example.chatapp.ui.main.home.HomeFragment"-->
