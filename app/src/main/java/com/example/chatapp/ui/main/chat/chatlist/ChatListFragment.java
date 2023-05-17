@@ -127,7 +127,7 @@ public class ChatListFragment extends Fragment {
             builder.setPositiveButton(R.string.button_chatlist_create_pos, (dialog, which) -> {
                 // send data from the AlertDialog to the Activity
                 EditText editText = customLayout.findViewById(R.id.edit_text_name);
-                mAddModel.requestNewChatRoom(editText.getText().toString(), userinfo.getMemberID(), userinfo.getJwt());
+                mAddModel.requestNewChatRoom(editText.getText().toString().trim(), userinfo.getMemberID(), userinfo.getJwt());
                 showSpinner(true);
             });
             builder.setNegativeButton(R.string.button_chatlist_create_neg, (dialog, which) -> {
