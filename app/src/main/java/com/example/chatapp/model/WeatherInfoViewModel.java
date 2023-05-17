@@ -41,6 +41,8 @@ public class WeatherInfoViewModel extends AndroidViewModel {
     public ArrayList<Weather24HourCardItem> mToday;
     public ArrayList<Weather10DayCardItem> mDays;
 
+    public String[] mMonthName;
+
     private MutableLiveData<JSONObject> mResponse;
 
     private String mTime;
@@ -55,6 +57,10 @@ public class WeatherInfoViewModel extends AndroidViewModel {
         mTime = ("");
         mToday = new ArrayList<>(24);
         mDays = new ArrayList<>(10);
+        mMonthName = new String[]{"Jan", "Feb", "Mar", "April",
+                                    "May", "June", "July", "Aug",
+                                    "Sept", "Oct", "Nov", "Dec"};
+        mLocation = "98402"; //Default location
 
 
     }
@@ -127,13 +133,15 @@ public class WeatherInfoViewModel extends AndroidViewModel {
 
         //Todo: Pull zipcode/coords from user input
 
+
+
 //        String latitude = "&latitude=" + -87.244843;
 //        String longitude = "?longitude=" + -122.42595;
 //
 //        url += longitude;
 //        url += latitude;
 
-        url += "?zipcode=98402";
+        url += "?zipcode=" + mLocation;
 
         Request request = new JsonObjectRequest(
                 Request.Method.GET,
@@ -157,6 +165,11 @@ public class WeatherInfoViewModel extends AndroidViewModel {
      * @author Xavier Hines
      */
     public void setupWeather24HourCards(JSONObject hourlyUnit, JSONObject hourly) throws JSONException {
+
+        //Clear mToday is previous data is inside it
+        if (!mToday.isEmpty()) {
+            mToday.clear();
+        }
 
         String tempUnit = hourlyUnit.getString("temperature_2m");
 
@@ -226,6 +239,11 @@ public class WeatherInfoViewModel extends AndroidViewModel {
      */
     public void setupWeather10DayCards(JSONObject dailyUnits, JSONObject daily) throws JSONException {
 
+        //Clear mDays is previous data is inside it
+        if (!mDays.isEmpty()) {
+            mDays.clear();
+        }
+
         String tempUnit = dailyUnits.getString("temperature_2m_max");
 
         //Get dates
@@ -269,6 +287,13 @@ public class WeatherInfoViewModel extends AndroidViewModel {
             );
             mDays.add(curr);
         }
+    }
+
+    public void setmLocation(String location) {
+        mLocation = location;
+        Log.d("Weather", "Updating location: " + location);
+        //Pull update
+        connectGet();
     }
 
 }

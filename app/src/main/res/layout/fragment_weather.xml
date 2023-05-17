@@ -16,9 +16,9 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
-        android:ems="10"
         android:background="@drawable/round_style"
         android:backgroundTint="@color/light_primary"
+        android:ems="10"
         android:hint="@string/hint_weather_location"
         android:inputType="text"
         android:paddingLeft="10dp"
@@ -28,6 +28,18 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/button_location"
+        android:layout_width="41dp"
+        android:layout_height="38dp"
+        android:layout_marginEnd="8dp"
+        android:backgroundTint="#80FFFFFF"
+        android:src="@drawable/baseline_send_24"
+        app:layout_constraintBottom_toBottomOf="@+id/text_location"
+        app:layout_constraintEnd_toEndOf="@+id/text_location"
+        app:layout_constraintTop_toTopOf="@+id/text_location"
+        app:layout_constraintVertical_bias="0.476" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/weather_fragment_container"
@@ -41,16 +53,16 @@
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="8dp"
         android:background="@drawable/round_style"
         android:backgroundTint="@color/light_primary"
-        app:tabTextColor="@color/text_primary"
-        app:tabSelectedTextColor="@color/text_icons"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_location">
+        app:layout_constraintTop_toBottomOf="@+id/text_location"
+        app:tabSelectedTextColor="@color/text_icons"
+        app:tabTextColor="@color/text_primary">
 
         <com.google.android.material.tabs.TabItem
 
