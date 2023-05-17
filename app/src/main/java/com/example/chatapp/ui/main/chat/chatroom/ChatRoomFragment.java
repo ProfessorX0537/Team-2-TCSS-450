@@ -163,7 +163,7 @@ public class ChatRoomFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setShowHideAnimationEnabled(false);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setShowHideAnimationEnabled(false); //TODO find better solution
         ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
         ((AppCompatActivity) getActivity()).findViewById(R.id.nav_view).setVisibility(View.GONE);
     }
