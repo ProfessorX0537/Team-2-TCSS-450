@@ -19,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import com.example.chatapp.R;
 import com.example.chatapp.databinding.FragmentContactsBinding;
@@ -30,6 +31,8 @@ public class ContactFragment extends Fragment {
     ContactsViewModel mModel;
 
     UserInfoViewModel mUserInfoModel;
+
+    FragmentContactsBinding mBinding;
 
 
 
@@ -47,7 +50,7 @@ public class ContactFragment extends Fragment {
         mModel = provider.get(ContactsViewModel.class);
         mUserInfoModel = provider.get(UserInfoViewModel.class);
 
-        mModel.connectGet(mUserInfoModel.getMemberID(), mUserInfoModel.getJwt());
+        updateList();
     }
 
     @Override
@@ -68,9 +71,12 @@ public class ContactFragment extends Fragment {
 
 
         //hides floating button on scroll
-        FragmentContactsBinding mBinding = FragmentContactsBinding.bind(getView());
+        mBinding = FragmentContactsBinding.bind(getView());
         mBinding.addContactFab.setOnClickListener(this::requestConnection);
         //scrolling
+
+
+
         mBinding.listRoot.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
@@ -85,6 +91,8 @@ public class ContactFragment extends Fragment {
             }
         });
 
+
+
         mBinding.listRoot.addOnItemTouchListener(
                 new ChatListFragment.RecyclerTouchListener(this.getContext(), mBinding.listRoot, new ChatListFragment.ClickListener() {
                     @Override
@@ -95,6 +103,10 @@ public class ContactFragment extends Fragment {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         //TODO delete connection
+                                        mModel.connectDelete(mUserInfoModel.getMemberID(), mModel.getContacts().get(position).getNick());
+                                        mModel.removeContact(position);
+
+                                        mBinding.listRoot.getAdapter().notifyItemRemoved(position);
                                         Log.v("Delete","connection should get deleted");
                                     }
                                 })
@@ -150,16 +162,36 @@ public class ContactFragment extends Fragment {
             }
         });
     }
+    public void updateList(){
+        mModel.connectGet(mUserInfoModel.getMemberID());
+    }
+
+
+
+
 
     private void requestConnection(View view) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
         alertDialogBuilder.setTitle(R.string.textview_connections_request);
         LayoutInflater inflater = requireActivity().getLayoutInflater();
-        alertDialogBuilder.setView(inflater.inflate(R.layout.dialog_addconnection, null))
+        View dialogView = inflater.inflate(R.layout.dialog_addconnection, null);
+        alertDialogBuilder.setView(dialogView)
                 .setPositiveButton(R.string.action_connections_Add, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         //TODO: add connection request stuff here.
+
+
+                        EditText edit = (EditText) dialogView.findViewById(R.id.edit_text_name);
+                        if(edit == null){
+                            Log.v("Add","edit text is null");
+                            return;
+                        }
+                        String text=edit.getText().toString();
+                        mModel.connectAdd(mUserInfoModel.getMemberID(), text);
+                        mBinding.listRoot.getAdapter().notifyDataSetChanged();
+                        Log.v("Add","connection should get added");
+
                     }
                 })
                 .setNegativeButton(R.string.action_connections_cancel, new DialogInterface.OnClickListener(){
@@ -218,6 +250,8 @@ public class ContactFragment extends Fragment {
 
         }
     }
+
+
 
     public static interface ClickListener{
         public void onLongClick(View view,int position);
