@@ -43,6 +43,9 @@
         <argument
             android:name="chatid"
             app:argType="integer" />
+        <argument
+            android:name="chatName"
+            app:argType="string" />
     </fragment>
 
 </navigation>

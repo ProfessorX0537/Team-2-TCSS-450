@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,11 +50,16 @@ public class ChatListFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         //mModel.mItemList observe
         mItemModel.addItemListObserver(getViewLifecycleOwner(), list -> {
-            if (mBinding.rootRecycler.getAdapter() == null) {
-                mBinding.rootRecycler.setAdapter(new ChatListAdapter(mItemModel.mItemList.getValue()));
-            } else {
-                mBinding.rootRecycler.getAdapter().notifyDataSetChanged();
-            }
+            mBinding.rootRecycler.setAdapter(new ChatListAdapter(mItemModel.mItemList.getValue()));
+            Log.v("ChatListFragment", "Observed ItemModel Response create new!");
+//            if (mBinding.rootRecycler.getAdapter() == null) { //
+//                mBinding.rootRecycler.setAdapter(new ChatListAdapter(mItemModel.mItemList.getValue()));
+//                Log.v("ChatListFragment", "Observed ItemModel Response create new!");
+//            } else {
+//                mBinding.rootRecycler.getAdapter().notifyDataSetChanged();
+//                Log.v("ChatListFragment", "Observed ItemModel Response notify!");
+//            }
+            showSpinner(false);
         });
 
 
@@ -91,7 +97,7 @@ public class ChatListFragment extends Fragment {
                 // send data from the AlertDialog to the Activity
                 EditText editText = customLayout.findViewById(R.id.edit_text_name);
                 mAddModel.requestNewChatRoom(editText.getText().toString(), userinfo.getMemberID(), userinfo.getJwt());
-                //TODO spinning wait
+                showSpinner(true);
             });
             builder.setNegativeButton(R.string.button_chatlist_create_neg, (dialog, which) -> {
                 dialog.cancel();
@@ -104,11 +110,18 @@ public class ChatListFragment extends Fragment {
         mAddModel.addResponseObserver(
                 getViewLifecycleOwner(),
                 json -> {
-                    mBinding.rootRecycler.getAdapter().notifyDataSetChanged();
-                    //TODO stop spinning wait
+//                    mBinding.rootRecycler.getAdapter().notifyDataSetChanged();
+//                    showSpinner(false);
+                    mItemModel.getChatRooms(userinfo.getMemberID(), userinfo.getJwt());
+                    Log.v("ChatListFragment", "Observed AddModel Response notify!");
                 }
         );
+        showSpinner(true); //init show progress spinner
+    }
 
-        //TODO helper to show spinning wait
+    private void showSpinner(boolean show) {
+        mBinding.progressBar3.setVisibility(show ? View.VISIBLE : View.GONE);
+        mBinding.floatingActionButton.setVisibility(!show ? View.VISIBLE : View.GONE);
+        mBinding.rootRecycler.setVisibility(!show ? View.VISIBLE : View.GONE);
     }
 }

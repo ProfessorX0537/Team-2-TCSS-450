@@ -5,9 +5,22 @@
     android:id="@+id/root_constraint"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:windowSoftInputMode="adjustResize"
     android:background="@drawable/background"
+    android:windowSoftInputMode="adjustResize"
     tools:context=".ui.main.chat.chatroom.ChatRoomFragment">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/materialToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintBottom_toBottomOf="@+id/cardView2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipe_container"
@@ -16,7 +29,7 @@
         app:layout_constraintBottom_toTopOf="@+id/cardView2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/materialToolbar">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_bubbles"
@@ -29,6 +42,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:listitem="@layout/fragment_chat_room_bubble_send" />
+
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <androidx.cardview.widget.CardView
@@ -69,11 +83,11 @@
                     android:layout_marginRight="5dp"
                     android:ems="10"
                     android:hint="@string/hint_chat_enter_text"
-                    android:textColorHint="@color/text_primary"
-                    android:textColor="@color/text_primary"
                     android:inputType="text|textAutoComplete|textAutoCorrect|textCapSentences|textEnableTextConversionSuggestions|textMultiLine"
                     android:scrollHorizontally="false"
-                    android:singleLine="false" />
+                    android:singleLine="false"
+                    android:textColor="@color/text_primary"
+                    android:textColorHint="@color/text_primary" />
             </androidx.cardview.widget.CardView>
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -105,5 +119,25 @@
         app:layout_constraintBottom_toTopOf="@+id/cardView2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar2"
+        android:layout_width="409dp"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        tools:layout_editor_absoluteX="1dp" />
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragment_view_add_user"
+        android:name="com.example.chatapp.ui.main.chat.chatroom.add.ChatRoomAddUserFragment"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:translationZ="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/materialToolbar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
