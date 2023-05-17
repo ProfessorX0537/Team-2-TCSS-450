@@ -33,8 +33,6 @@ public class ChatRoomAddUserFragment extends Fragment {
 
     private ChatRoomAddUserRequestsViewModel mRequestsModel;
 
-    private String tempRename; //TODO replace with Pushy
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -121,9 +119,9 @@ public class ChatRoomAddUserFragment extends Fragment {
                 builder.show();
             } else { //success
                 //show rename //TODO replace with Pushy
-                binding.textRename.setText(tempRename);
+                binding.textRename.setText(mRequestsModel.renameTemp);
                 androidx.appcompat.widget.Toolbar t = getActivity().findViewById(R.id.toolbar2);
-                t.setTitle(tempRename);
+                t.setTitle(mRequestsModel.renameTemp);
             }
             mRequestsModel.clearResponses();
         });
@@ -172,7 +170,6 @@ public class ChatRoomAddUserFragment extends Fragment {
             builder.setPositiveButton("Rename", (dialog, which) -> { //TODO string
                 String entry = editText.getText().toString().trim();
                 mRequestsModel.requestRenameChat(mChatRoomItemsViewModel.mChatId, entry, userinfo.getJwt());
-                tempRename = entry;
             });
             //No
             builder.setNegativeButton("Cancel", (dialog, which) -> { //TODO string

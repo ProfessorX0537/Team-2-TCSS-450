@@ -30,12 +30,15 @@ public class ChatRoomAddUserRequestsViewModel extends AndroidViewModel {
     private MutableLiveData<JSONObject> mAddToChatResponse;
     private MutableLiveData<JSONObject> mRenameChatResponse;
 
+    public String renameTemp; //TODO replace with pushy
+
     public ChatRoomAddUserRequestsViewModel(@NonNull Application application) {
         super(application);
         mRemoveFromChatResponse = new MutableLiveData<>();
         mRemoveSelfFromChatResponse = new MutableLiveData<>();
         mAddToChatResponse = new MutableLiveData<>();
         mRenameChatResponse = new MutableLiveData<>();
+        renameTemp = null;
     }
 
     ////////OBSERVERS////////
@@ -161,7 +164,9 @@ public class ChatRoomAddUserRequestsViewModel extends AndroidViewModel {
                 Request.Method.POST,
                 url,
                 body,
-                response -> mRenameChatResponse.setValue(response),
+                response -> {
+                    mRenameChatResponse.setValue(response);
+                },
                 this::handleError) {
 
             @Override
@@ -181,6 +186,9 @@ public class ChatRoomAddUserRequestsViewModel extends AndroidViewModel {
         //Instantiate the RequestQueue and add the request to the queue
         RequestQueueSingleton.getInstance(getApplication().getApplicationContext())
                 .addToRequestQueue(request);
+
+        //store name
+        renameTemp = name;
     }
 
     private void handleError(final VolleyError error) {

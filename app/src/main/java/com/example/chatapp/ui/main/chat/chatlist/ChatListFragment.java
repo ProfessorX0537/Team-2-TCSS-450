@@ -22,12 +22,15 @@ import android.widget.EditText;
 import com.example.chatapp.R;
 import com.example.chatapp.databinding.FragmentChatListBinding;
 import com.example.chatapp.model.UserInfoViewModel;
+import com.example.chatapp.ui.main.chat.chatroom.add.ChatRoomAddUserItemViewModel;
+import com.example.chatapp.ui.main.chat.chatroom.add.ChatRoomAddUserRequestsViewModel;
 
 public class ChatListFragment extends Fragment {
     private UserInfoViewModel userinfo;
     private ChatListItemViewModel mItemModel;
     private ChatListAddViewModel mAddModel;
     private FragmentChatListBinding mBinding;
+    private ChatRoomAddUserRequestsViewModel mDeleteModel;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -39,6 +42,8 @@ public class ChatListFragment extends Fragment {
         mItemModel = new ViewModelProvider(getActivity()).get(ChatListItemViewModel.class);
 
         mAddModel = new ViewModelProvider(getActivity()).get(ChatListAddViewModel.class);
+
+        mDeleteModel = new ViewModelProvider(getActivity()).get(ChatRoomAddUserRequestsViewModel.class);
     }
 
     @Override
@@ -66,6 +71,12 @@ public class ChatListFragment extends Fragment {
         });
         mItemModel.getChatRooms(userinfo.getMemberID(), userinfo.getJwt());
 
+        //Observe remove request
+        mDeleteModel.addRemoveSelfFromChatResponseObserver(getViewLifecycleOwner(), jsonObject -> {
+            if (jsonObject == null) return;
+            mItemModel.getChatRooms(userinfo.getMemberID(), userinfo.getJwt()); //refresh
+            mDeleteModel.clearResponses();
+        });
 
         //scrolling
         mBinding.rootRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -86,30 +97,22 @@ public class ChatListFragment extends Fragment {
 
         mBinding.rootRecycler.addOnItemTouchListener(
                 new RecyclerTouchListener(this.getContext(), mBinding.rootRecycler, new ClickListener() {
-            @Override
-            public void onLongClick(View view, int position) {
-                Log.v("long click","Long clicked a chat room");
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext())
-                        .setPositiveButton(R.string.alert_action_yes, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                //TODO delete chat room
-                                Log.v("Delete","chatroom should get deleted");
-                            }
-                        })
-                        .setNegativeButton(R.string.alert_action_no, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-                            }
-                        });
-                alertDialogBuilder.setTitle(R.string.alert_title_delete_chatroom);
-                AlertDialog alertDialog = alertDialogBuilder.create();
-                alertDialog.show();
-
-
-            }
-        }));
+                    @Override
+                    public void onLongClick(View view, int position) {
+                        Log.v("long click", "Long clicked a chat room");
+                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext())
+                                .setPositiveButton(R.string.alert_action_yes, (dialog, which) -> {
+                                    mDeleteModel.requestRemoveSelfFromChat(mItemModel.mItemList.getValue().get(position).getmRoomID(), userinfo);
+                                })
+                                .setNegativeButton(R.string.alert_action_no, (dialog, which) -> {
+                                    dialog.cancel();
+                                });
+                        alertDialogBuilder.setTitle("Leave this chat room?"); //TODO String
+                        alertDialogBuilder.setMessage("You will need to be added back by someone else."); //TODO String
+                        AlertDialog alertDialog = alertDialogBuilder.create();
+                        alertDialog.show();
+                    }
+                }));
 
         //Add Floating Button
         mBinding.floatingActionButton.setOnClickListener(button -> {
@@ -159,21 +162,21 @@ public class ChatListFragment extends Fragment {
      * This inner class allows us to detect long clicks on
      * Comes from <a href="https://medium.com/@harivigneshjayapalan/android-recyclerview-implementing-single-item-click-and-long-press-part-ii-b43ef8cb6ad8">...</a>
      */
-    public static class RecyclerTouchListener implements RecyclerView.OnItemTouchListener{
+    public static class RecyclerTouchListener implements RecyclerView.OnItemTouchListener {
 
         private ClickListener clicklistener;
         private GestureDetector gestureDetector;
 
-        public RecyclerTouchListener(Context context, final RecyclerView recycleView, final ClickListener clicklistener){
+        public RecyclerTouchListener(Context context, final RecyclerView recycleView, final ClickListener clicklistener) {
 
-            this.clicklistener=clicklistener;
-            gestureDetector=new GestureDetector(context,new GestureDetector.SimpleOnGestureListener(){
+            this.clicklistener = clicklistener;
+            gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
 
                 @Override
                 public void onLongPress(MotionEvent e) {
-                    View child=recycleView.findChildViewUnder(e.getX(),e.getY());
-                    if(child!=null && clicklistener!=null){
-                        clicklistener.onLongClick(child,recycleView.getChildAdapterPosition(child));
+                    View child = recycleView.findChildViewUnder(e.getX(), e.getY());
+                    if (child != null && clicklistener != null) {
+                        clicklistener.onLongClick(child, recycleView.getChildAdapterPosition(child));
                     }
                 }
             });
@@ -181,9 +184,9 @@ public class ChatListFragment extends Fragment {
 
         @Override
         public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
-            View child=rv.findChildViewUnder(e.getX(),e.getY());
-            if(child!=null && clicklistener!=null && gestureDetector.onTouchEvent(e)){
-                clicklistener.onLongClick(child,rv.getChildAdapterPosition(child));
+            View child = rv.findChildViewUnder(e.getX(), e.getY());
+            if (child != null && clicklistener != null && gestureDetector.onTouchEvent(e)) {
+                clicklistener.onLongClick(child, rv.getChildAdapterPosition(child));
             }
 
             return false;
@@ -200,7 +203,7 @@ public class ChatListFragment extends Fragment {
         }
     }
 
-    public static interface ClickListener{
-        public void onLongClick(View view,int position);
+    public static interface ClickListener {
+        public void onLongClick(View view, int position);
     }
 }
