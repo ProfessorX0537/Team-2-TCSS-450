@@ -1,4 +1,4 @@
-package com.example.chatapp.ui.main.chat.chatlist.add;
+package com.example.chatapp.ui.main.chat.chatlist;
 
 import android.app.Application;
 import android.util.Log;

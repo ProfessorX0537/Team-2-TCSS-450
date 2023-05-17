@@ -22,7 +22,6 @@ import android.widget.EditText;
 import com.example.chatapp.R;
 import com.example.chatapp.databinding.FragmentChatListBinding;
 import com.example.chatapp.model.UserInfoViewModel;
-import com.example.chatapp.ui.main.chat.chatlist.add.ChatListAddViewModel;
 
 public class ChatListFragment extends Fragment {
     private UserInfoViewModel userinfo;
