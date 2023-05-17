@@ -9,8 +9,8 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/weather_today_card"
-        android:layout_width="362dp"
-        android:layout_height="203dp"
+        android:layout_width="359dp"
+        android:layout_height="350dp"
         app:cardCornerRadius="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -22,7 +22,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_weather"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="351dp"
             android:background="@color/light_primary"
             tools:context=".ui.main.WeatherTodayFragment">
 
@@ -32,8 +32,8 @@
                 android:layout_height="43dp"
                 android:gravity="right"
                 android:text="May 4, 2023"
-                android:textSize="28dp"
                 android:textColor="@color/text_primary"
+                android:textSize="28dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.917"
@@ -90,25 +90,4 @@
 
     </androidx.cardview.widget.CardView>
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/card1"
-        android:layout_width="363dp"
-        android:layout_height="200dp"
-        android:layout_marginTop="32dp"
-        android:backgroundTint="@color/light_primary"
-        app:cardCornerRadius="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.51"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/weather_today_card">
-
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:text="@string/textview_weather_conditions"
-            android:textColor="@color/text_primary"
-            android:textSize="34sp" />
-    </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

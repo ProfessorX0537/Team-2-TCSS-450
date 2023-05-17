@@ -1,6 +1,7 @@
 package com.example.chatapp.ui.main.contacts;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
@@ -13,16 +14,22 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.chatapp.R;
 import com.example.chatapp.databinding.FragmentContactsBinding;
+import com.example.chatapp.model.UserInfoViewModel;
+import com.example.chatapp.ui.main.chat.chatlist.ChatListFragment;
 
 public class ContactFragment extends Fragment {
 
     ContactsViewModel mModel;
+
+    UserInfoViewModel mUserInfoModel;
 
 
 
@@ -35,7 +42,12 @@ public class ContactFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mModel = new ViewModelProvider(getActivity()).get(ContactsViewModel.class);
+        ViewModelProvider provider = new ViewModelProvider(getActivity());
+
+        mModel = provider.get(ContactsViewModel.class);
+        mUserInfoModel = provider.get(UserInfoViewModel.class);
+
+        mModel.connectGet(mUserInfoModel.getMemberID(), mUserInfoModel.getJwt());
     }
 
     @Override
@@ -73,6 +85,34 @@ public class ContactFragment extends Fragment {
             }
         });
 
+        mBinding.listRoot.addOnItemTouchListener(
+                new ChatListFragment.RecyclerTouchListener(this.getContext(), mBinding.listRoot, new ChatListFragment.ClickListener() {
+                    @Override
+                    public void onLongClick(View view, int position) {
+                        Log.v("long click","Long clicked a connection");
+                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext())
+                                .setPositiveButton(R.string.alert_action_yes, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        //TODO delete connection
+                                        Log.v("Delete","connection should get deleted");
+                                    }
+                                })
+                                .setNegativeButton(R.string.alert_action_no, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+
+                                    }
+                                });
+                        alertDialogBuilder.setTitle(R.string.alert_title_delete_connection);
+                        AlertDialog alertDialog = alertDialogBuilder.create();
+                        alertDialog.show();
+
+
+                    }
+                }));
+
+
         // checks if user is scrolling up or down and hides search bar accordingly
         mBinding.listRoot.addOnScrollListener(new RecyclerView.OnScrollListener() {
             private int lastFirstVisibleItem;
@@ -100,7 +140,7 @@ public class ContactFragment extends Fragment {
 
         });
 
-        mBinding.listRoot.setAdapter(new ContactRecycleViewAdapter(ContactGenerator.getCardList()));
+//        mBinding.listRoot.setAdapter(new ContactRecycleViewAdapter(ContactGenerator.getCardList()));
 
         mModel.addContactsObserver(getViewLifecycleOwner(), contactsList -> {
             if (!contactsList.isEmpty()) {
@@ -131,5 +171,55 @@ public class ContactFragment extends Fragment {
 
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
+    }
+
+
+    /**
+     * This inner class allows us to detect long clicks on Recycler view items
+     * Comes from <a href="https://medium.com/@harivigneshjayapalan/android-recyclerview-implementing-single-item-click-and-long-press-part-ii-b43ef8cb6ad8">...</a>
+     */
+    public static class RecyclerTouchListener implements RecyclerView.OnItemTouchListener{
+
+        private ChatListFragment.ClickListener clicklistener;
+        private GestureDetector gestureDetector;
+
+        public RecyclerTouchListener(Context context, final RecyclerView recycleView, final ChatListFragment.ClickListener clicklistener){
+
+            this.clicklistener=clicklistener;
+            gestureDetector=new GestureDetector(context,new GestureDetector.SimpleOnGestureListener(){
+
+                @Override
+                public void onLongPress(MotionEvent e) {
+                    View child=recycleView.findChildViewUnder(e.getX(),e.getY());
+                    if(child!=null && clicklistener!=null){
+                        clicklistener.onLongClick(child,recycleView.getChildAdapterPosition(child));
+                    }
+                }
+            });
+        }
+
+        @Override
+        public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+            View child=rv.findChildViewUnder(e.getX(),e.getY());
+            if(child!=null && clicklistener!=null && gestureDetector.onTouchEvent(e)){
+                clicklistener.onLongClick(child,rv.getChildAdapterPosition(child));
+            }
+
+            return false;
+        }
+
+        @Override
+        public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+
+        }
+
+        @Override
+        public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+        }
+    }
+
+    public static interface ClickListener{
+        public void onLongClick(View view,int position);
     }
 }
