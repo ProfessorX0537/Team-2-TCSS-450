@@ -22,11 +22,14 @@ import android.view.ViewGroup;
 
 import com.example.chatapp.R;
 import com.example.chatapp.databinding.FragmentContactsBinding;
+import com.example.chatapp.model.UserInfoViewModel;
 import com.example.chatapp.ui.main.chat.chatlist.ChatListFragment;
 
 public class ContactFragment extends Fragment {
 
     ContactsViewModel mModel;
+
+    UserInfoViewModel mUserInfoModel;
 
 
 
@@ -39,7 +42,12 @@ public class ContactFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mModel = new ViewModelProvider(getActivity()).get(ContactsViewModel.class);
+        ViewModelProvider provider = new ViewModelProvider(getActivity());
+
+        mModel = provider.get(ContactsViewModel.class);
+        mUserInfoModel = provider.get(UserInfoViewModel.class);
+
+        mModel.connectGet(mUserInfoModel.getMemberID(), mUserInfoModel.getJwt());
     }
 
     @Override
@@ -132,7 +140,7 @@ public class ContactFragment extends Fragment {
 
         });
 
-        mBinding.listRoot.setAdapter(new ContactRecycleViewAdapter(ContactGenerator.getCardList()));
+//        mBinding.listRoot.setAdapter(new ContactRecycleViewAdapter(ContactGenerator.getCardList()));
 
         mModel.addContactsObserver(getViewLifecycleOwner(), contactsList -> {
             if (!contactsList.isEmpty()) {

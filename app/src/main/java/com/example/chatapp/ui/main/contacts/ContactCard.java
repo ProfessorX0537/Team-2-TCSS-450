@@ -14,6 +14,8 @@ public class ContactCard implements Serializable {
 
     private final char mFirstChar;
 
+    private final boolean mAccepted;
+
     public static class Builder{
         private final String mName;
 
@@ -21,6 +23,8 @@ public class ContactCard implements Serializable {
         private String mNick;
 
         private String mEmail;
+
+        private boolean mAccepted;
 
 
 
@@ -39,6 +43,12 @@ public class ContactCard implements Serializable {
             mEmail = val;
             return this;
         }
+
+        public Builder addAccepted(final boolean val){
+            mAccepted = val;
+            return this;
+        }
+
         public ContactCard build(){return new ContactCard(this);}
     }
 
@@ -48,12 +58,14 @@ public class ContactCard implements Serializable {
         this.mNick = builder.mNick;
         this.mName = builder.mName;
         this.mFirstChar = builder.mFirstChar;
+        this.mAccepted = builder.mAccepted;
     }
 
     public String getName(){return mName;}
     public char getFirstChar(){return mFirstChar;}
     public String getNick(){return mNick;}
     public String getEmail(){return mEmail;}
+    public boolean getAccepted(){return mAccepted;}
 
 
 
