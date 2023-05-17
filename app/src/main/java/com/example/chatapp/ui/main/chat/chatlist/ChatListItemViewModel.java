@@ -81,8 +81,8 @@ public class ChatListItemViewModel extends AndroidViewModel {
                 JSONObject curr = rows.getJSONObject(i);
                 temp.add(new ChatListItem(
                         curr.getString("name"),
-                        "WIP",
-                        "WIP",
+                        "Lastest Message WIP",
+                        "Date WIP",
                         0,
                         curr.getInt("chatid")
                 ));
