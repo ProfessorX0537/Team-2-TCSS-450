@@ -1,6 +1,5 @@
 package com.example.chatapp.ui.main.home;
 
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
@@ -19,8 +18,9 @@ import com.example.chatapp.R;
 import com.example.chatapp.databinding.FragmentHomeBinding;
 import com.example.chatapp.model.WeatherInfoViewModel;
 import com.example.chatapp.ui.main.weather.WeatherCodes;
+import com.example.chatapp.ui.main.weather.WeatherTodayFragment;
+import com.google.android.material.tabs.TabLayout;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -33,6 +33,8 @@ public class HomeFragment extends Fragment {
     private WeatherInfoViewModel mViewModel;
 
     private FragmentHomeBinding mBinding;
+
+    private int currentTabPos;
 
 
     public HomeFragment() {
@@ -52,6 +54,12 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         mBinding = FragmentHomeBinding.inflate(inflater);
 //        return inflater.inflate(R.layout.fragment_home, container, false);
+//        HomeMessagesFragment fragment = new HomeMessagesFragment();
+//        requireActivity()
+//                .getSupportFragmentManager()
+//                .beginTransaction()
+//                .replace(R.id.HomeMessagesContainerView, fragment)
+//                .commit();
         return mBinding.getRoot();
     }
 
@@ -64,18 +72,47 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         //FragmentHomeBinding binding = FragmentHomeBinding.bind(requireView());
 
-        Date date = new Date();   // given date
-        Calendar calendar = GregorianCalendar.getInstance(); // creates a new calendar instance
-        calendar.setTime(date);   // assigns calendar to given date
-        int currentHour = calendar.get(Calendar.HOUR_OF_DAY); // gets hour in 24h format
-        int currentMonth = calendar.get(Calendar.MONTH);       // gets month number, NOTE this is zero based!
-        Log.d("time", currentHour + "");
-        //mBinding.textDate.setText(mViewModel.);
-
         mViewModel.addResponseObserver(
                 getViewLifecycleOwner(),
                 this::observeData
         );
+
+        TabLayout tabLayout = mBinding.tabLayout4;
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                int currentTab = tabLayout.getSelectedTabPosition();
+                switch (currentTab) {
+                    case 0:
+                        HomeMessagesFragment fragment = new HomeMessagesFragment();
+                        requireActivity()
+                                .getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.HomeMessagesContainerView, fragment)
+                                .commit();
+                        break;
+                    case 1:
+                        HomeRequestsFragment fragment2 = new HomeRequestsFragment();
+                        requireActivity()
+                                .getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.HomeMessagesContainerView, fragment2)
+                                .commit();
+                        break;
+                }
+                mBinding.HomeMessagesContainerView.removeAllViews();
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
 
 //        mViewModel.addResponseObserver(
 //                getViewLifecycleOwner(),
@@ -197,15 +234,15 @@ public class HomeFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        mBinding.tabLayout4.selectTab(mBinding.tabLayout4.getTabAt(currentTabPos));
+    }
+    @Override
+    public void onStop() {
+        super.onStop();
+        currentTabPos = mBinding.tabLayout4.getSelectedTabPosition();
+    }
 
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        ((AppCompatActivity)getActivity()).getSupportActionBar().;
-//    }
-//    @Override
-//    public void onStop() {
-//        super.onStop();
-//        ((AppCompatActivity)getActivity()).getSupportActionBar().show();
-//    }
 }

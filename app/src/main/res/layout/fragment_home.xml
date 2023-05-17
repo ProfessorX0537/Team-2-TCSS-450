@@ -157,7 +157,17 @@
         app:layout_constraintTop_toBottomOf="@+id/weather_today_card"
         app:layout_constraintVertical_bias="0.323" />
 
-<!--    TODO THIS WAS RECURSIVELY INFLATING ITSELF -->
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/HomeMessagesContainerView"
+        android:name="com.example.chatapp.ui.main.home.HomeMessagesFragment"
+        android:layout_width="152dp"
+        android:layout_height="188dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tabLayout4" />
+
+    <!--    TODO THIS WAS RECURSIVELY INFLATING ITSELF -->
 <!--    <androidx.fragment.app.FragmentContainerView-->
 <!--        android:id="@+id/fragmentContainerView3"-->
 <!--        android:name="com.example.chatapp.ui.main.home.HomeFragment"-->
