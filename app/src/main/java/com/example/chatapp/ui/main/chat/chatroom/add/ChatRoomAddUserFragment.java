@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -31,6 +32,8 @@ public class ChatRoomAddUserFragment extends Fragment {
 //    private int mChatId;
 
     private ChatRoomAddUserRequestsViewModel mRequestsModel;
+
+    private String tempRename; //TODO replace with Pushy
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -66,6 +69,7 @@ public class ChatRoomAddUserFragment extends Fragment {
         });
         //Observe mRemoveFromChatResponse (kicking user)
         mRequestsModel.addRemoveFromChatResponseObserver(getViewLifecycleOwner(), json -> {
+            if (json == null) return;
             mItemModel.getUsersInChat(mChatRoomItemsViewModel.mChatId, userinfo.getJwt()); //get users again after booting someone
             mRequestsModel.clearResponses();
         });
@@ -76,7 +80,7 @@ public class ChatRoomAddUserFragment extends Fragment {
                 //warn user
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 builder.setTitle("Failed leaving server."); //TODO string
-                builder.setMessage("Please contact support."); //TODO string
+                builder.setMessage("Please contact support. ¯\\_(ツ)_/¯"); //TODO string
                 builder.setPositiveButton("Dismiss", (dialog, which) -> { //TODO string
                     dialog.cancel();
                 });
@@ -88,6 +92,7 @@ public class ChatRoomAddUserFragment extends Fragment {
         });
         //Observe mAddToChatResponse (adding user)
         mRequestsModel.addAddToChatResponseObserver(getViewLifecycleOwner(), json -> {
+            if (json == null) return;
             if (json.has("message")) { //fail
                 //warn user
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -99,6 +104,26 @@ public class ChatRoomAddUserFragment extends Fragment {
                 builder.show();
             } else { //success
                 mItemModel.getUsersInChat(mChatRoomItemsViewModel.mChatId, userinfo.getJwt()); //get users again after adding someone
+            }
+            mRequestsModel.clearResponses();
+        });
+        //Observe mRenameChatResponse
+        mRequestsModel.addRenameChatResponseObserver(getViewLifecycleOwner(), json -> {
+            if (json == null) return;
+            if (json.has("message")) { //fail
+                //warn user
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle("Unable to rename chat."); //TODO string
+                builder.setMessage("Please contact support. ¯\\_(ツ)_/¯"); //TODO string
+                builder.setPositiveButton("Dismiss", (dialog, which) -> { //TODO string
+                    dialog.cancel();
+                });
+                builder.show();
+            } else { //success
+                //show rename //TODO replace with Pushy
+                binding.textRename.setText(tempRename);
+                androidx.appcompat.widget.Toolbar t = getActivity().findViewById(R.id.toolbar2);
+                t.setTitle(tempRename);
             }
             mRequestsModel.clearResponses();
         });
@@ -132,21 +157,43 @@ public class ChatRoomAddUserFragment extends Fragment {
             dialog.show();
         });
 
+        //Rename
+        binding.textRename.setText(mChatRoomItemsViewModel.mChatRoomName);
+        binding.buttonRename.setOnClickListener(button -> {
+            // Alert confirmation
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setTitle("Rename this chat room:"); //TODO string
+            //Edit Text
+            final View customLayout = getLayoutInflater().inflate(R.layout.dialog_generic_edit_text, null);
+            builder.setView(customLayout);
+            EditText editText = customLayout.findViewById(R.id.edit_text_generic);
+            editText.setHint("Chat Room Name"); //TODO string
+            //Yes
+            builder.setPositiveButton("Rename", (dialog, which) -> { //TODO string
+                String entry = editText.getText().toString().trim();
+                mRequestsModel.requestRenameChat(mChatRoomItemsViewModel.mChatId, entry, userinfo.getJwt());
+                tempRename = entry;
+            });
+            //No
+            builder.setNegativeButton("Cancel", (dialog, which) -> { //TODO string
+                dialog.cancel();
+            });
+            //Show
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        });
 
         //User Recycler View
 
-        //Nuke Chat Button
-        binding.buttonDelete.setOnClickListener(button -> {
-            Log.d("ChatRoomAddUserFragment", "buttonDelete / Nuke clicked");
-        });
+//        //Nuke Chat Button
+//        binding.buttonDelete.setOnClickListener(button -> {
+//            Log.d("ChatRoomAddUserFragment", "buttonDelete / Nuke clicked");
+//        });
 
         //Leave Chat Button
         binding.buttonLeave.setOnClickListener(button -> {
             showAlertLeaveChat();
         });
-
-        //Rename
-        binding.editTextRename.setText(mChatRoomItemsViewModel.mChatRoomName);
     }
 
     public void showAlertConfirmToKickUser(String username, String title, String message) {
