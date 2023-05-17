@@ -1,6 +1,5 @@
 package com.example.chatapp.ui.main.chat.chatroom.add;
 
-import android.app.AlertDialog;
 import android.app.Application;
 import android.util.Log;
 
@@ -16,6 +15,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.chatapp.R;
 import com.example.chatapp.io.RequestQueueSingleton;
+import com.example.chatapp.model.UserInfoViewModel;
 
 import org.json.JSONObject;
 
@@ -26,20 +26,34 @@ import java.util.Objects;
 
 public class ChatRoomAddUserRequestsViewModel extends AndroidViewModel {
     private MutableLiveData<JSONObject> mRemoveFromChatResponse;
+    private MutableLiveData<JSONObject> mRemoveSelfFromChatResponse;
     private MutableLiveData<JSONObject> mAddToChatResponse;
+    private MutableLiveData<JSONObject> mRenameChatResponse;
+
+    public String renameTemp; //TODO replace with pushy
 
     public ChatRoomAddUserRequestsViewModel(@NonNull Application application) {
         super(application);
         mRemoveFromChatResponse = new MutableLiveData<>();
+        mRemoveSelfFromChatResponse = new MutableLiveData<>();
         mAddToChatResponse = new MutableLiveData<>();
+        mRenameChatResponse = new MutableLiveData<>();
+        renameTemp = null;
     }
 
     ////////OBSERVERS////////
     public void addRemoveFromChatResponseObserver(@NonNull LifecycleOwner owner, @NonNull Observer<? super JSONObject> observer) {
         mRemoveFromChatResponse.observe(owner, observer);
     }
+    public void addRemoveSelfFromChatResponseObserver(@NonNull LifecycleOwner owner, @NonNull Observer<? super JSONObject> observer) {
+        mRemoveSelfFromChatResponse.observe(owner, observer);
+    }
     public void addAddToChatResponseObserver(@NonNull LifecycleOwner owner, @NonNull Observer<? super JSONObject> observer) {
         mAddToChatResponse.observe(owner, observer);
+    }
+
+    public void addRenameChatResponseObserver(@NonNull LifecycleOwner owner, @NonNull Observer<? super JSONObject> observer) {
+        mRenameChatResponse.observe(owner, observer);
     }
 
     ////////REQUESTS (async)/////////
@@ -72,6 +86,36 @@ public class ChatRoomAddUserRequestsViewModel extends AndroidViewModel {
         RequestQueueSingleton.getInstance(getApplication().getApplicationContext())
                 .addToRequestQueue(request);
     }
+    public void requestRemoveSelfFromChat(int chatId, UserInfoViewModel userinfo) {
+        String url = getApplication().getResources().getString(R.string.url_webservices) +
+                "chats/" + chatId + '/' + userinfo.getUsername();
+
+        Request request = new JsonObjectRequest(
+                Request.Method.DELETE,
+                url,
+                null,
+                response -> mRemoveSelfFromChatResponse.setValue(response),
+                this::handleError) {
+
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                // add headers <key,value>
+                headers.put("Authorization", userinfo.getJwt());
+                return headers;
+            }
+        };
+
+
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10_000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        //Instantiate the RequestQueue and add the request to the queue
+        RequestQueueSingleton.getInstance(getApplication().getApplicationContext())
+                .addToRequestQueue(request);
+    }
+
 
     public void requestAddToChat(int chatId, String username, String jwt) {
         String url = getApplication().getResources().getString(R.string.url_webservices) +
@@ -103,6 +147,50 @@ public class ChatRoomAddUserRequestsViewModel extends AndroidViewModel {
                 .addToRequestQueue(request);
     }
 
+    public void requestRenameChat(int chatId, String name, String jwt) {
+        String url = getApplication().getResources().getString(R.string.url_webservices) +
+                "chatsrename/";
+
+        JSONObject body = new JSONObject();
+        try {
+            body.put("chatId", chatId);
+            body.put("name", name);
+        } catch (Exception e) {
+            Log.e("ChatRoomAddUserRequestsViewModel", "requestRenameChat: Couldn't make body");
+            return;
+        }
+
+        Request request = new JsonObjectRequest(
+                Request.Method.POST,
+                url,
+                body,
+                response -> {
+                    mRenameChatResponse.setValue(response);
+                },
+                this::handleError) {
+
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                // add headers <key,value>
+                headers.put("Authorization", jwt);
+                return headers;
+            }
+        };
+
+
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10_000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        //Instantiate the RequestQueue and add the request to the queue
+        RequestQueueSingleton.getInstance(getApplication().getApplicationContext())
+                .addToRequestQueue(request);
+
+        //store name
+        renameTemp = name;
+    }
+
     private void handleError(final VolleyError error) {
         if (Objects.isNull(error.networkResponse)) {
             Log.e("NETWORK ERROR", error.getMessage());
@@ -119,6 +207,12 @@ public class ChatRoomAddUserRequestsViewModel extends AndroidViewModel {
             }
 
         }
+    }
 
+    public void clearResponses() {
+        mRemoveSelfFromChatResponse.setValue(null);
+        mAddToChatResponse.setValue(null);
+        mRemoveFromChatResponse.setValue(null);
+        mRenameChatResponse.setValue(null);
     }
 }
