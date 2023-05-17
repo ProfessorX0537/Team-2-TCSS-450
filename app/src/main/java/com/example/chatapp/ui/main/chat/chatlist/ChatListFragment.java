@@ -120,13 +120,13 @@ public class ChatListFragment extends Fragment {
             builder.setTitle(R.string.title_chatlist_create_new);
 
             // set the custom layout
-            final View customLayout = getLayoutInflater().inflate(R.layout.fragment_chat_list_add_alert, null);
+            final View customLayout = getLayoutInflater().inflate(R.layout.dialog_generic_edit_text, null);
             builder.setView(customLayout);
 
             // add a button
             builder.setPositiveButton(R.string.button_chatlist_create_pos, (dialog, which) -> {
                 // send data from the AlertDialog to the Activity
-                EditText editText = customLayout.findViewById(R.id.edit_text_name);
+                EditText editText = customLayout.findViewById(R.id.edit_text_generic);
                 mAddModel.requestNewChatRoom(editText.getText().toString().trim(), userinfo.getMemberID(), userinfo.getJwt());
                 showSpinner(true);
             });
