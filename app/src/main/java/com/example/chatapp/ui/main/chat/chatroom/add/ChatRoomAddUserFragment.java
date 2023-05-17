@@ -36,6 +36,7 @@ public class ChatRoomAddUserFragment extends Fragment {
         userinfo = new ViewModelProvider(getActivity()).get(UserInfoViewModel.class);
 
         mItemModel = new ViewModelProvider(getActivity()).get(ChatRoomAddUserItemViewModel.class);
+        mItemModel.userinfo = userinfo; //required
 
         mItemModel.getUsersInChat(new ViewModelProvider(getActivity()).get(ChatRoomItemsViewModel.class).mChatId, userinfo.getJwt()); //TODO change hard coded
     }

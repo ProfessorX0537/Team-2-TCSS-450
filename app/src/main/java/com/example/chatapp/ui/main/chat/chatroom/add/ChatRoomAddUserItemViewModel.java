@@ -8,6 +8,8 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -15,6 +17,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.chatapp.R;
 import com.example.chatapp.io.RequestQueueSingleton;
+import com.example.chatapp.model.UserInfoViewModel;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -28,6 +31,7 @@ import java.util.Objects;
 public class ChatRoomAddUserItemViewModel extends AndroidViewModel {
 
     MutableLiveData<ArrayList<ChatRoomAddUserItem>> mItemList;
+    public UserInfoViewModel userinfo; //REQUIRED TODO factory
 
     public ChatRoomAddUserItemViewModel(@NonNull Application application) {
         super(application);
@@ -77,6 +81,9 @@ public class ChatRoomAddUserItemViewModel extends AndroidViewModel {
             ArrayList temp = new ArrayList<>(rowCount);
             for (int i = 0; i < rowCount; i++) {
                 JSONObject curr = rows.getJSONObject(i);
+                //skip if same as user
+                if (userinfo.getUsername().equals(curr.getString("username"))) continue;
+                //otherwise add
                 temp.add(new ChatRoomAddUserItem(
                         curr.getString("username"),
                         curr.getString("email")
