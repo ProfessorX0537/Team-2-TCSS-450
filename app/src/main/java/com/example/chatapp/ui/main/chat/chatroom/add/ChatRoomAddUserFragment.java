@@ -3,6 +3,7 @@ package com.example.chatapp.ui.main.chat.chatroom.add;
 import android.app.AlertDialog;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import com.example.chatapp.R;
@@ -57,15 +59,34 @@ public class ChatRoomAddUserFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        //Observe Items
+        //Observe Items (new user added / user kicked)
         mItemModel.addItemListObserver(getViewLifecycleOwner(), list -> {
+            if (list == null) return;
             binding.recyclerView.setAdapter(new ChatRoomAddUserAdapter(list, this));
         });
-        //Observe mRemoveFromChatResponse
+        //Observe mRemoveFromChatResponse (kicking user)
         mRequestsModel.addRemoveFromChatResponseObserver(getViewLifecycleOwner(), json -> {
             mItemModel.getUsersInChat(mChatRoomItemsViewModel.mChatId, userinfo.getJwt()); //get users again after booting someone
+            mRequestsModel.clearResponses();
         });
-        //Observe mAddToChatResponse
+        //Observer mRemoveSelfFromChatResponse (leaving)
+        mRequestsModel.addRemoveSelfFromChatResponseObserver(getViewLifecycleOwner(), json -> {
+            if (json == null) return;
+            if (json.has("message")) { //fail
+                //warn user
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle("Failed leaving server."); //TODO string
+                builder.setMessage("Please contact support."); //TODO string
+                builder.setPositiveButton("Dismiss", (dialog, which) -> { //TODO string
+                    dialog.cancel();
+                });
+                builder.show();
+            } else { //success
+                getActivity().onBackPressed(); //TODO Major bug, this backs Chat Navigations after executed unitl logout / program restart
+            }
+            mRequestsModel.clearResponses();
+        });
+        //Observe mAddToChatResponse (adding user)
         mRequestsModel.addAddToChatResponseObserver(getViewLifecycleOwner(), json -> {
             if (json.has("message")) { //fail
                 //warn user
@@ -79,6 +100,7 @@ public class ChatRoomAddUserFragment extends Fragment {
             } else { //success
                 mItemModel.getUsersInChat(mChatRoomItemsViewModel.mChatId, userinfo.getJwt()); //get users again after adding someone
             }
+            mRequestsModel.clearResponses();
         });
 
         //Hide Fragment Button (the area outside window)
@@ -120,14 +142,14 @@ public class ChatRoomAddUserFragment extends Fragment {
 
         //Leave Chat Button
         binding.buttonLeave.setOnClickListener(button -> {
-            showAlertConfirmToKickUser(userinfo.getUsername(), "Leave this chat room?", "You will need someone to add you back.",true); //TODO string
+            showAlertLeaveChat();
         });
 
         //Rename
         binding.editTextRename.setText(mChatRoomItemsViewModel.mChatRoomName);
     }
 
-    public void showAlertConfirmToKickUser(String username, String title, String message, boolean isNavigateUp) {
+    public void showAlertConfirmToKickUser(String username, String title, String message) {
         // Alert confirmation
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(title);
@@ -135,7 +157,24 @@ public class ChatRoomAddUserFragment extends Fragment {
         //Yes
         builder.setPositiveButton(R.string.alert_action_yes, (dialog, which) -> {
             mRequestsModel.requestRemoveFromChat(mChatRoomItemsViewModel.mChatId, username, userinfo.getJwt());
-            if (isNavigateUp) Navigation.findNavController(getView()).navigateUp();
+        });
+        //No
+        builder.setNegativeButton(R.string.button_chatlist_create_neg, (dialog, which) -> {
+            dialog.cancel();
+        });
+        //Show
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    public void showAlertLeaveChat() {
+        // Alert confirmation
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Leave this chat room?"); //TODO string
+        builder.setMessage("You will need to be added back by someone else."); //TODO string
+        //Yes
+        builder.setPositiveButton("Leave", (dialog, which) -> { //TODO string
+            mRequestsModel.requestRemoveSelfFromChat(mChatRoomItemsViewModel.mChatId, userinfo);
         });
         //No
         builder.setNegativeButton(R.string.button_chatlist_create_neg, (dialog, which) -> {
