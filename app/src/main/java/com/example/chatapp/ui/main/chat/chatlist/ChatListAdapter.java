@@ -1,24 +1,31 @@
 package com.example.chatapp.ui.main.chat.chatlist;
 
+import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStore;
+import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.chatapp.R;
 import com.example.chatapp.databinding.FragmentChatListItemBinding;
 import com.example.chatapp.ui.auth.login.LoginFragmentDirections;
+import com.example.chatapp.ui.main.chat.chatroom.ChatRoomItemsViewModel;
 
 import java.util.ArrayList;
 
 public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatListViewHolder> {
     public final ArrayList<ChatListItem> mChatListItems;
+    private ViewModelStoreOwner mActivity;
 
-    public ChatListAdapter(ArrayList<ChatListItem> mChatListItems) {
+    public ChatListAdapter(ArrayList<ChatListItem> mChatListItems, ViewModelStoreOwner activity) {
         this.mChatListItems = mChatListItems;
+        mActivity = activity;
     }
 
     @NonNull
@@ -46,8 +53,13 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatLi
             holder.mBinding.textNotifnumber.setVisibility(View.INVISIBLE);
         }
 
-        //navgiations //TODO go to unique chat room
+        //navgiations
         holder.mBinding.actionOpenChatRoom.setOnClickListener(button -> {
+            ChatRoomItemsViewModel vm = new ViewModelProvider(mActivity).get(ChatRoomItemsViewModel.class);
+            //ViewModel as args to inner FragmentViewContainer
+            vm.mChatId = mChatListItems.get(position).getmRoomID();
+            vm.mChatRoomName = mChatListItems.get(position).getmRoomName();
+
             Navigation.findNavController(holder.itemView).navigate(
                     com.example.chatapp.ui.main.chat.chatlist.ChatListFragmentDirections.actionNavigationChatToChatRoomFragment(
                             mChatListItems.get(position).getmRoomID(),

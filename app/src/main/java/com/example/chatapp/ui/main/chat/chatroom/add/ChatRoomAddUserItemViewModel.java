@@ -1,4 +1,4 @@
-package com.example.chatapp.ui.main.chat.chatlist;
+package com.example.chatapp.ui.main.chat.chatroom.add;
 
 import android.app.Application;
 import android.util.Log;
@@ -9,6 +9,7 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -17,7 +18,6 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.chatapp.R;
 import com.example.chatapp.io.RequestQueueSingleton;
 import com.example.chatapp.model.UserInfoViewModel;
-import com.example.chatapp.ui.main.chat.chatroom.ChatRoomItem;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -25,27 +25,28 @@ import org.json.JSONObject;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-public class ChatListItemViewModel extends AndroidViewModel {
+public class ChatRoomAddUserItemViewModel extends AndroidViewModel {
 
-    MutableLiveData<ArrayList<ChatListItem>> mItemList;
+    MutableLiveData<ArrayList<ChatRoomAddUserItem>> mItemList;
+    public UserInfoViewModel userinfo; //REQUIRED TODO factory
 
-    public ChatListItemViewModel(@NonNull Application application) {
+    public ChatRoomAddUserItemViewModel(@NonNull Application application) {
         super(application);
         mItemList = new MutableLiveData<>();
     }
 
     public void addItemListObserver(@NonNull LifecycleOwner owner,
-                                 @NonNull Observer<? super ArrayList> observer) {
+                                    @NonNull Observer<? super ArrayList> observer) {
         mItemList.observe(owner, observer);
     }
 
-    public void getChatRooms(int memberID, String jwt) {
+    //async
+    public void getUsersInChat(int chatId, String jwt) {
         String url = getApplication().getResources().getString(R.string.url_webservices) +
-                "mychats/" + memberID;
+                "chats/" + chatId;
 
         Request request = new JsonObjectRequest(
                 Request.Method.GET,
@@ -63,6 +64,7 @@ public class ChatListItemViewModel extends AndroidViewModel {
             }
         };
 
+
         request.setRetryPolicy(new DefaultRetryPolicy(
                 10_000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
@@ -75,30 +77,29 @@ public class ChatListItemViewModel extends AndroidViewModel {
     private void handleSuccess(final JSONObject response) {
         try {
             int rowCount = response.getInt("rowCount");
-            JSONArray rows = response.getJSONArray("result");
+            JSONArray rows = response.getJSONArray("rows");
             ArrayList temp = new ArrayList<>(rowCount);
             for (int i = 0; i < rowCount; i++) {
                 JSONObject curr = rows.getJSONObject(i);
-                temp.add(new ChatListItem(
-                        curr.getString("name"),
-                        "Lastest Message WIP",
-                        "Date WIP",
-                        0,
-                        curr.getInt("chatid")
+                //skip if same as user
+                if (userinfo.getUsername().equals(curr.getString("username"))) continue;
+                //otherwise add
+                temp.add(new ChatRoomAddUserItem(
+                        curr.getString("username"),
+                        curr.getString("email")
                 ));
             }
             mItemList.setValue(temp);
-            Log.v("ChatListItemViewModel", "mItemList: " + mItemList.getValue().toString());
+            Log.v("ChatRoomAddUserViewModel", "mItemList: " + mItemList.getValue().toString());
         } catch (Exception e) {
-            Log.e("ChatListItemViewModel", "Couldn't handle success:\n" + e.getMessage());
+            Log.e("ChatRoomAddUserViewModel", "Couldn't handle success:\n" + e.getMessage());
         }
     }
 
     private void handleError(final VolleyError error) {
         if (Objects.isNull(error.networkResponse)) {
             Log.e("NETWORK ERROR", error.getMessage());
-        }
-        else {
+        } else {
             String data = new String(error.networkResponse.data, Charset.defaultCharset());
             Log.e("CLIENT ERROR",
                     error.networkResponse.statusCode +
@@ -106,16 +107,4 @@ public class ChatListItemViewModel extends AndroidViewModel {
                             data);
         }
     }
-
-//    public void setupItemsList() { //TODO remove for webservice
-//        for (int i = 0; i < 10; i++) {
-//            ChatListItem curr = new ChatListItem(
-//                    "Chat Title " + i,
-//                    "This is the lastest message sent in the chat room bruv.",
-//                    "Apr " + (10 + i),
-//                    i
-//            );
-//            mItemList.add(curr);
-//        }
-//    }
 }

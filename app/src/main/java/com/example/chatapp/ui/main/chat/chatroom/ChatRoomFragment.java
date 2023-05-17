@@ -29,16 +29,12 @@ public class ChatRoomFragment extends Fragment {
     private FragmentChatRoomBinding mBinding;
     private UserInfoViewModel mUserInfoModel;
     private ChatRoomSendViewModel mSendModel;
-//    private int HARD_CODED_CHAT_ID = 1; //TODO REMOVE
-    private int mChatID;
+//    private int mChatID; //Is now stored in ChatRoomItemsViewModel
     private boolean isSending = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        //ChatID
-        mChatID = ChatRoomFragmentArgs.fromBundle(getArguments()).getChatid();
 
         //ViewModels
         ViewModelProvider provider = new ViewModelProvider(getActivity());
@@ -46,7 +42,7 @@ public class ChatRoomFragment extends Fragment {
         mUserInfoModel = provider.get(UserInfoViewModel.class);
 
         mItemsModel = provider.get(ChatRoomItemsViewModel.class);
-        mItemsModel.getFirstMessages(mChatID, mUserInfoModel.getJwt()); //TODO CHANGE CHAT ID
+        mItemsModel.getFirstMessages(ChatRoomFragmentArgs.fromBundle(getArguments()).getChatid(), mUserInfoModel.getJwt()); //TODO CHANGE CHAT ID
 
         mSendModel = provider.get(ChatRoomSendViewModel.class);
     }
@@ -70,11 +66,16 @@ public class ChatRoomFragment extends Fragment {
         mBinding.toolbar2.setTitle(ChatRoomFragmentArgs.fromBundle(getArguments()).getChatName());
         //Contacts menu button
         mBinding.toolbar2.getMenu().getItem(0).setOnMenuItemClickListener(button -> {
-            Log.d("ChatRoomFragment", "Add users Button Clicked"); //TODO
+            Log.d("ChatRoomFragment", "Add users Button Clicked");
+            if (mBinding.fragmentViewAddUser.getVisibility() == View.GONE) { //toggle show it
+                mBinding.fragmentViewAddUser.setVisibility(View.VISIBLE);
+            } else {
+                mBinding.fragmentViewAddUser.setVisibility(View.GONE);
+            }
             return true;
         });
         //Back Navigation
-        mBinding.toolbar2.setNavigationIcon(R.drawable.baseline_arrow_back_24);
+//        mBinding.toolbar2.setNavigationIcon(R.drawable.baseline_arrow_back_24);
         mBinding.toolbar2.setNavigationOnClickListener(button -> {
             getActivity().onBackPressed();
         });
@@ -84,7 +85,7 @@ public class ChatRoomFragment extends Fragment {
         //When the user scrolls to the top of the RV, the swiper list will "refresh"
         //The user is out of messages, go out to the service and get more
         mBinding.swipeContainer.setOnRefreshListener(() -> {
-            if (!mItemsModel.getNextMessages(mChatID, mUserInfoModel.getJwt())) {
+            if (!mItemsModel.getNextMessages(mItemsModel.mChatId, mUserInfoModel.getJwt())) {
                 mBinding.swipeContainer.setRefreshing(false);
             }
         });
@@ -93,7 +94,7 @@ public class ChatRoomFragment extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setStackFromEnd(true);
         mBinding.recyclerBubbles.setLayoutManager(linearLayoutManager);
-        mBinding.recyclerBubbles.setAdapter(new ChatRoomAdapter(mItemsModel.getMessageListByChatId(mChatID), mUserInfoModel.getUsername()));
+        mBinding.recyclerBubbles.setAdapter(new ChatRoomAdapter(mItemsModel.getMessageListByChatId(mItemsModel.mChatId), mUserInfoModel.getUsername()));
 //        mBinding.recyclerBubbles.getAdapter().setStateRestorationPolicy(RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY);
 
         //Show scroll to bottom button when not at bottom
@@ -117,7 +118,7 @@ public class ChatRoomFragment extends Fragment {
         });
 
         //Change in items/message listener
-        mItemsModel.addMessageObserver(mChatID, getViewLifecycleOwner(),
+        mItemsModel.addMessageObserver(mItemsModel.mChatId, getViewLifecycleOwner(),
                 list -> {
                     //TODO Save scroll position
 //                    Parcelable recyclerViewState = mBinding.recyclerBubbles.getLayoutManager().onSaveInstanceState();
@@ -146,7 +147,7 @@ public class ChatRoomFragment extends Fragment {
         //Send Button
         //Send button was clicked. Send the message via the SendViewModel
         mBinding.actionSend.setOnClickListener(button -> {
-            mSendModel.sendMessage(mChatID,
+            mSendModel.sendMessage(mItemsModel.mChatId,
                     mUserInfoModel.getJwt(),
                     mBinding.textMessageInput.getText().toString());
         });
@@ -157,6 +158,10 @@ public class ChatRoomFragment extends Fragment {
                 isSending = true;
             }
         });
+
+//        //////Add Fragment//////
+//        //getUserInfo
+//        mBinding.fragmentViewAddUser.
     }
 
     //Hides bottom menu bar

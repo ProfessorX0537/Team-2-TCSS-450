@@ -22,12 +22,10 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:alpha="0"
-        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/cardView"
         app:layout_constraintStart_toStartOf="@+id/imageView2"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:visibility="invisible" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
@@ -42,6 +40,33 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
+            <EditText
+                android:id="@+id/edit_text_rename"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:ems="10"
+                android:inputType="text"
+                android:isScrollContainer="true"
+                android:text="Chat Rename"
+                app:layout_constraintBottom_toBottomOf="@+id/button_leave"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/baseline_edit_24"
+                app:layout_constraintBottom_toBottomOf="@+id/edit_text_rename"
+                app:layout_constraintEnd_toEndOf="@+id/edit_text_rename"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="@+id/edit_text_rename"
+                app:layout_constraintTop_toTopOf="@+id/edit_text_rename"
+                app:layout_constraintVertical_bias="0.39" />
 
             <View
                 android:id="@+id/divider"
@@ -58,13 +83,13 @@
 
             <ScrollView
                 android:id="@+id/scrollView2"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_margin="8dp"
                 app:layout_constraintBottom_toTopOf="@+id/button_delete"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toBottomOf="@+id/edit_text_rename">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -88,7 +113,7 @@
                                 android:text="Add New User"
                                 android:textSize="16sp"
                                 app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="@+id/button_create"
+                                app:layout_constraintEnd_toEndOf="@+id/button_add_user_to_chat"
                                 app:layout_constraintHorizontal_bias="0.0"
                                 app:layout_constraintStart_toEndOf="@+id/imageView4"
                                 app:layout_constraintTop_toTopOf="parent" />
@@ -105,17 +130,15 @@
                                 app:srcCompat="@drawable/baseline_add_circle_outline_24" />
 
                             <ImageButton
-                                android:id="@+id/button_create"
+                                android:id="@+id/button_add_user_to_chat"
                                 android:layout_width="0dp"
                                 android:layout_height="0dp"
                                 android:layout_margin="0dp"
                                 android:alpha="0"
-                                android:visibility="invisible"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                tools:visibility="invisible" />
+                                app:layout_constraintTop_toTopOf="parent" />
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -125,6 +148,7 @@
                         android:id="@+id/recycler_view"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        app:layoutManager="LinearLayoutManager"
                         tools:listitem="@layout/fragment_chat_room_add_user_item" />
 
                 </LinearLayout>

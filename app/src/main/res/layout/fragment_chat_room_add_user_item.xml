@@ -17,13 +17,13 @@
             android:text="Username"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/button_create"
+            app:layout_constraintEnd_toStartOf="@+id/button_kick"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/imageView4"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
-            android:id="@+id/button_create"
+            android:id="@+id/button_kick"
             android:layout_width="42dp"
             android:layout_height="0dp"
             android:layout_margin="8dp"
@@ -38,10 +38,10 @@
             android:id="@+id/imageView5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="@+id/button_create"
-            app:layout_constraintEnd_toEndOf="@+id/button_create"
-            app:layout_constraintStart_toStartOf="@+id/button_create"
-            app:layout_constraintTop_toTopOf="@+id/button_create"
+            app:layout_constraintBottom_toBottomOf="@+id/button_kick"
+            app:layout_constraintEnd_toEndOf="@+id/button_kick"
+            app:layout_constraintStart_toStartOf="@+id/button_kick"
+            app:layout_constraintTop_toTopOf="@+id/button_kick"
             app:srcCompat="@drawable/baseline_close_24" />
 
         <ImageView

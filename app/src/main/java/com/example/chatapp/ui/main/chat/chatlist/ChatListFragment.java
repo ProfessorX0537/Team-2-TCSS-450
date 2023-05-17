@@ -25,6 +25,7 @@ import com.example.chatapp.model.UserInfoViewModel;
 import com.example.chatapp.ui.main.chat.chatlist.add.ChatListAddViewModel;
 
 public class ChatListFragment extends Fragment {
+    private UserInfoViewModel userinfo;
     private ChatListItemViewModel mItemModel;
     private ChatListAddViewModel mAddModel;
     private FragmentChatListBinding mBinding;
@@ -34,7 +35,7 @@ public class ChatListFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         //ViewModels
-        UserInfoViewModel userinfo = new ViewModelProvider(getActivity()).get(UserInfoViewModel.class);
+        userinfo = new ViewModelProvider(getActivity()).get(UserInfoViewModel.class);
 
         mItemModel = new ViewModelProvider(getActivity()).get(ChatListItemViewModel.class);
         mItemModel.getChatRooms(userinfo.getMemberID(), userinfo.getJwt());
@@ -54,7 +55,7 @@ public class ChatListFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         //mModel.mItemList observe
         mItemModel.addItemListObserver(getViewLifecycleOwner(), list -> {
-            mBinding.rootRecycler.setAdapter(new ChatListAdapter(mItemModel.mItemList.getValue()));
+            mBinding.rootRecycler.setAdapter(new ChatListAdapter(list, getActivity()));
             Log.v("ChatListFragment", "Observed ItemModel Response create new!");
 //            if (mBinding.rootRecycler.getAdapter() == null) { //
 //                mBinding.rootRecycler.setAdapter(new ChatListAdapter(mItemModel.mItemList.getValue()));
@@ -112,7 +113,6 @@ public class ChatListFragment extends Fragment {
         }));
 
         //Add Floating Button
-        UserInfoViewModel userinfo = new ViewModelProvider(getActivity()).get(UserInfoViewModel.class);
         mBinding.floatingActionButton.setOnClickListener(button -> {
             //https://www.geeksforgeeks.org/how-to-create-a-custom-alertdialog-in-android/
             // Create an alert builder
@@ -120,14 +120,14 @@ public class ChatListFragment extends Fragment {
             builder.setTitle(R.string.title_chatlist_create_new);
 
             // set the custom layout
-            final View customLayout = getLayoutInflater().inflate(R.layout.fragment_chat_list_add_alert, null);
+            final View customLayout = getLayoutInflater().inflate(R.layout.dialog_generic_edit_text, null);
             builder.setView(customLayout);
 
             // add a button
             builder.setPositiveButton(R.string.button_chatlist_create_pos, (dialog, which) -> {
                 // send data from the AlertDialog to the Activity
-                EditText editText = customLayout.findViewById(R.id.edit_text_name);
-                mAddModel.requestNewChatRoom(editText.getText().toString(), userinfo.getMemberID(), userinfo.getJwt());
+                EditText editText = customLayout.findViewById(R.id.edit_text_generic);
+                mAddModel.requestNewChatRoom(editText.getText().toString().trim(), userinfo.getMemberID(), userinfo.getJwt());
                 showSpinner(true);
             });
             builder.setNegativeButton(R.string.button_chatlist_create_neg, (dialog, which) -> {
