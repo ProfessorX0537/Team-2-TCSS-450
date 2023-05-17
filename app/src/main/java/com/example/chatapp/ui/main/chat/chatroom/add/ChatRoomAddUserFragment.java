@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -64,6 +65,21 @@ public class ChatRoomAddUserFragment extends Fragment {
         mRequestsModel.addRemoveFromChatResponseObserver(getViewLifecycleOwner(), json -> {
             mItemModel.getUsersInChat(mChatRoomItemsViewModel.mChatId, userinfo.getJwt()); //get users again after booting someone
         });
+        //Observe mAddToChatResponse
+        mRequestsModel.addAddToChatResponseObserver(getViewLifecycleOwner(), json -> {
+            if (json.has("message")) { //fail
+                //warn user
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle("Failed adding user."); //TODO string
+                builder.setMessage("Make sure you spelt their username correctly."); //TODO string
+                builder.setPositiveButton("Dismiss", (dialog, which) -> { //TODO string
+                    dialog.cancel();
+                });
+                builder.show();
+            } else { //success
+                mItemModel.getUsersInChat(mChatRoomItemsViewModel.mChatId, userinfo.getJwt()); //get users again after adding someone
+            }
+        });
 
         //Hide Fragment Button (the area outside window)
         binding.buttonCloseWindow.setOnClickListener(button -> {
@@ -71,9 +87,27 @@ public class ChatRoomAddUserFragment extends Fragment {
             getActivity().findViewById(R.id.fragment_view_add_user).setVisibility(View.GONE);
         });
 
-        //Add Contact Button
-        binding.buttonDelete.setOnClickListener(button -> {
-            Log.d("ChatRoomAddUserFragment", "buttonCreate / Add clicked");
+        //Add User to Chat Button
+        binding.buttonAddUserToChat.setOnClickListener(button -> {
+            // Alert confirmation
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setTitle("(WIP UI) Enter user to add:"); //TODO string
+            //Edit Text
+            final View customLayout = getLayoutInflater().inflate(R.layout.dialog_generic_edit_text, null);
+            builder.setView(customLayout);
+            EditText editText = customLayout.findViewById(R.id.edit_text_generic);
+            editText.setHint("Username"); //TODO string
+            //Yes
+            builder.setPositiveButton("Add", (dialog, which) -> { //TODO string
+                mRequestsModel.requestAddToChat(mChatRoomItemsViewModel.mChatId, editText.getText().toString().trim(), userinfo.getJwt());
+            });
+            //No
+            builder.setNegativeButton("Cancel", (dialog, which) -> { //TODO string
+                dialog.cancel();
+            });
+            //Show
+            AlertDialog dialog = builder.create();
+            dialog.show();
         });
 
 
@@ -86,17 +120,18 @@ public class ChatRoomAddUserFragment extends Fragment {
 
         //Leave Chat Button
         binding.buttonLeave.setOnClickListener(button -> {
-            showAlertConfirmToKickUser(userinfo.getUsername(), "Leave this chat room?", true); //TODO string
+            showAlertConfirmToKickUser(userinfo.getUsername(), "Leave this chat room?", "You will need someone to add you back.",true); //TODO string
         });
 
         //Rename
         binding.editTextRename.setText(mChatRoomItemsViewModel.mChatRoomName);
     }
 
-    public void showAlertConfirmToKickUser(String username, String message, boolean isNavigateUp) {
+    public void showAlertConfirmToKickUser(String username, String title, String message, boolean isNavigateUp) {
         // Alert confirmation
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle(message);
+        builder.setTitle(title);
+        builder.setMessage(message);
         //Yes
         builder.setPositiveButton(R.string.alert_action_yes, (dialog, which) -> {
             mRequestsModel.requestRemoveFromChat(mChatRoomItemsViewModel.mChatId, username, userinfo.getJwt());
