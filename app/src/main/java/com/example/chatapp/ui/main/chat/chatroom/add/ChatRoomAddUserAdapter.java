@@ -1,12 +1,10 @@
 package com.example.chatapp.ui.main.chat.chatroom.add;
 
-import android.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.chatapp.R;
@@ -16,11 +14,11 @@ import java.util.ArrayList;
 
 public class ChatRoomAddUserAdapter extends RecyclerView.Adapter<ChatRoomAddUserAdapter.ChatRoomAddUserViewHolder> {
     public final ArrayList<ChatRoomAddUserItem> mUserList;
-    private final ChatRoomAddUserFragment mParentFrament;
+    private final ChatRoomAddUserFragment mParentFragment;
 
     public ChatRoomAddUserAdapter(ArrayList<ChatRoomAddUserItem> userList, ChatRoomAddUserFragment parentFragment) {
         mUserList = userList;
-        mParentFrament = parentFragment;
+        mParentFragment = parentFragment;
     }
 
     @NonNull
@@ -40,7 +38,7 @@ public class ChatRoomAddUserAdapter extends RecyclerView.Adapter<ChatRoomAddUser
 
         //remove button
         holder.mBinding.buttonKick.setOnClickListener(button -> {
-            mParentFrament.showAlertConfirmToKickUser(username, "Kick " + username + " from the chat room?", "The user must be ", false); //TODO String
+            mParentFragment.showAlertConfirmToKickUser(username, "Kick " + username + " from the chat room?", "The user must be "); //TODO String
         });
     }
 

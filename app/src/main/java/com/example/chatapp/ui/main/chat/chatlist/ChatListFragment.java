@@ -22,7 +22,6 @@ import android.widget.EditText;
 import com.example.chatapp.R;
 import com.example.chatapp.databinding.FragmentChatListBinding;
 import com.example.chatapp.model.UserInfoViewModel;
-import com.example.chatapp.ui.main.chat.chatlist.add.ChatListAddViewModel;
 
 public class ChatListFragment extends Fragment {
     private UserInfoViewModel userinfo;
@@ -38,7 +37,6 @@ public class ChatListFragment extends Fragment {
         userinfo = new ViewModelProvider(getActivity()).get(UserInfoViewModel.class);
 
         mItemModel = new ViewModelProvider(getActivity()).get(ChatListItemViewModel.class);
-        mItemModel.getChatRooms(userinfo.getMemberID(), userinfo.getJwt());
 
         mAddModel = new ViewModelProvider(getActivity()).get(ChatListAddViewModel.class);
     }
@@ -66,6 +64,7 @@ public class ChatListFragment extends Fragment {
 //            }
             showSpinner(false);
         });
+        mItemModel.getChatRooms(userinfo.getMemberID(), userinfo.getJwt());
 
 
         //scrolling
