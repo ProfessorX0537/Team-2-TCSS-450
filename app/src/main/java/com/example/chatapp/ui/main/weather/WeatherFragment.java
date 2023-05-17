@@ -56,6 +56,10 @@ public class WeatherFragment extends Fragment {
     public void onViewCreated (@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        mBinding.buttonLocation.setOnClickListener(button -> {
+            updateLocation();
+        });
+
         TabLayout tabLayout = mBinding.tabLayout;
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -72,7 +76,6 @@ public class WeatherFragment extends Fragment {
                             .replace(R.id.weather_fragment_container, fragment)
                             .commit();
 
-
                         break;
                     case 1:
                         Log.d("TEST", "24 Hour Tab Selected");
@@ -82,7 +85,6 @@ public class WeatherFragment extends Fragment {
                                 .beginTransaction()
                                 .replace(R.id.weather_fragment_container, fragment2)
                                 .commit();
-
                         break;
                     case 2:
                         Log.d("TEST", "10 Day Tab Selected");
@@ -92,13 +94,10 @@ public class WeatherFragment extends Fragment {
                                 .beginTransaction()
                                 .replace(R.id.weather_fragment_container, fragment3)
                                 .commit();
-                        updateLocation();
-
+                        break;
                 }
 
-                mBinding.buttonLocation.setOnClickListener(button -> {
-                    updateLocation();
-                });
+
             }
 
             @Override
