@@ -26,12 +26,16 @@ public class ContactRecycleViewAdapter extends RecyclerView.Adapter<ContactRecyc
 
     private final Map<ContactCard, Boolean> mExpandedFlags;
 
+    private ContactFragment mParentFragment;
 
 
 
 
-    public ContactRecycleViewAdapter(List<ContactCard> items) {
+
+    public ContactRecycleViewAdapter(List<ContactCard> items, ContactFragment parentfragment) {
+
         this.mContacts = items;
+        this.mParentFragment = parentfragment;
 
 
 
@@ -60,6 +64,7 @@ public class ContactRecycleViewAdapter extends RecyclerView.Adapter<ContactRecyc
 
 
         holder.setContacts(mContacts.get(position));
+
 
         // sets on click listener for each contact card
 /*        holder.binding.cardRoot.setOnClickListener(button -> {
@@ -93,32 +98,60 @@ public class ContactRecycleViewAdapter extends RecyclerView.Adapter<ContactRecyc
             mView = view;
             binding = FragmentContactCardBinding.bind(view);
             binding.cardRoot.setOnClickListener(this::handleClick);
-            binding.addButton.setOnClickListener(this::handleAdd);
-            binding.declineButton.setOnClickListener(this::handleDecline);
+            binding.addButton.setOnClickListener(button -> {
+                mContact.setAccepted(true);
+                mParentFragment.mModel.connectAccept(mParentFragment.mUserInfoModel.getMemberID(), mContact.getMemberID());
+                displayFullContact();
+            });
+
+
+            binding.declineButton.setOnClickListener(button -> {
+                Log.i("Button","Decline Pressed");
+
+                mParentFragment.mModel.connectReject(mParentFragment.mUserInfoModel.getMemberID(), mContact.getNick());
+                mContacts.remove(mContact);
+                notifyDataSetChanged();
+                displayFullContact();
+            });
+
+
 
         }
 
-        private void handleAdd(final View theView) {
+/*        private void handleAdd(final View theView) {
+
+            System.out.println("Add");
+
+
+            Log.i("Button","Add Pressed");
+            mParentFragment.mModel.connectAccept(mParentFragment.mUserInfoModel.getMemberID(), mContact.getMemberID());
             mContact.setAccepted(true);
+
             displayFullContact();
         }
 
         private void handleDecline(final View theView) {
+
+            System.out.println("Decline");
+            Log.i("Button","Decline Pressed");
+            mParentFragment.mModel.connectReject(mParentFragment.mUserInfoModel.getMemberID(), mContact.getNick());
             mContacts.remove(mContact);
+            notifyDataSetChanged();
             displayFullContact();
-        }
+        }*/
 
 
 
 
 
         private void handleClick(final View theView) {
+            Log.i("Button","Whole Card Pressed");
             mExpandedFlags.put(mContact,!mExpandedFlags.get(mContact));
             displayFullContact();
         }
 
         private void displayFullContact() {
-            if (mExpandedFlags.get(mContact)) {
+            if (mExpandedFlags.get(mContact) && mContact.getAccepted()) {
                 binding.nickName.setVisibility(View.VISIBLE);
                 binding.email.setVisibility(View.VISIBLE);
                 binding.chatButton.setVisibility(View.VISIBLE);
