@@ -55,6 +55,11 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         ChatRoomItem curr = mChatRoomItems.get(position);
         if (getItemViewType(position) == VIEWTYPE_RECIEVE) {
             ChatRoomViewHolderRec holder1 = (ChatRoomViewHolderRec) holder; //cast
+//            if (position > 0 && curr.getSender().equals(mChatRoomItems.get(position - 1).getSender())) {
+//                holder1.mBinding.textSender.setVisibility(View.GONE);
+//            } else {
+//                holder1.mBinding.textSender.setText(curr.getSender());
+//            }
             holder1.mBinding.textSender.setText(curr.getSender());
             holder1.mBinding.textMessage.setText(curr.getMessage());
             holder1.mBinding.textDate.setText(curr.getTimeStamp());
