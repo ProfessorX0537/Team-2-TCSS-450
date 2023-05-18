@@ -157,7 +157,7 @@ public class ContactFragment extends Fragment {
         mModel.addContactsObserver(getViewLifecycleOwner(), contactsList -> {
             if (!contactsList.isEmpty()) {
                 mBinding.listRoot.setAdapter(
-                        new ContactRecycleViewAdapter(contactsList)
+                        new ContactRecycleViewAdapter(contactsList, this)
                 );
             }
         });

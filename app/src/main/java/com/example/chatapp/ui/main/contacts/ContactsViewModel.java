@@ -45,7 +45,7 @@ public class ContactsViewModel extends AndroidViewModel {
 
     public void connectAccept(final int memberid_a, final int memberid_b){
         String url = getApplication().getResources().getString(R.string.url_webservices) +
-                "connections?MemberID_A=" + memberid_a+"&MemberID_B="+memberid_b;
+                "connections?MemberID_A=" + memberid_b+"&MemberID_B="+memberid_a;
 
         Request request = new JsonObjectRequest(Request.Method.PUT, url, null, null, this::handleError);
 
