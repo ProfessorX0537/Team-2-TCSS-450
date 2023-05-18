@@ -7,8 +7,7 @@
     android:paddingRight="20dp">
 
     <EditText
-        android:id="@+id/edit_text_name"
+        android:id="@+id/edit_text_generic"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/textview_chatlist_add_chatroom"/>
+        android:layout_height="wrap_content" />
 </LinearLayout>

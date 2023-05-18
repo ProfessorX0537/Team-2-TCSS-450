@@ -22,12 +22,10 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:alpha="0"
-        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/cardView"
         app:layout_constraintStart_toStartOf="@+id/imageView2"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:visibility="invisible" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
@@ -43,6 +41,59 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <Button
+                android:id="@+id/button_delete"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:text="Nuke the Chat"
+                android:visibility="gone"
+                app:icon="@drawable/baseline_delete_forever_24"
+                tools:visibility="gone" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout"
+                android:layout_width="match_parent"
+                android:layout_height="0dp">
+
+                <ImageView
+                    android:id="@+id/imageView3"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_margin="8dp"
+                    android:alpha="0.5"
+                    android:src="@drawable/baseline_edit_24"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/button_rename"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/text_rename"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:inputType="text"
+                    android:isScrollContainer="true"
+                    android:maxLines="1"
+                    android:text="Chat Rename"
+                    android:textSize="18dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/imageView3"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/button_rename"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:alpha="0"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
             <View
                 android:id="@+id/divider"
                 android:layout_width="match_parent"
@@ -51,20 +102,19 @@
                 android:layout_marginRight="8dp"
                 android:alpha="0.5"
                 android:background="@android:drawable/screen_background_dark"
-                app:layout_constraintBottom_toTopOf="@+id/button_delete"
+                app:layout_constraintBottom_toTopOf="@+id/button_leave"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/scrollView2" />
+                app:layout_constraintStart_toStartOf="parent" />
 
             <ScrollView
                 android:id="@+id/scrollView2"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_margin="8dp"
-                app:layout_constraintBottom_toTopOf="@+id/button_delete"
+                app:layout_constraintBottom_toTopOf="@+id/button_leave"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -88,7 +138,7 @@
                                 android:text="Add New User"
                                 android:textSize="16sp"
                                 app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="@+id/button_create"
+                                app:layout_constraintEnd_toEndOf="@+id/button_add_user_to_chat"
                                 app:layout_constraintHorizontal_bias="0.0"
                                 app:layout_constraintStart_toEndOf="@+id/imageView4"
                                 app:layout_constraintTop_toTopOf="parent" />
@@ -105,17 +155,15 @@
                                 app:srcCompat="@drawable/baseline_add_circle_outline_24" />
 
                             <ImageButton
-                                android:id="@+id/button_create"
+                                android:id="@+id/button_add_user_to_chat"
                                 android:layout_width="0dp"
                                 android:layout_height="0dp"
                                 android:layout_margin="0dp"
                                 android:alpha="0"
-                                android:visibility="invisible"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                tools:visibility="invisible" />
+                                app:layout_constraintTop_toTopOf="parent" />
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -125,6 +173,7 @@
                         android:id="@+id/recycler_view"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        app:layoutManager="LinearLayoutManager"
                         tools:listitem="@layout/fragment_chat_room_add_user_item" />
 
                 </LinearLayout>
@@ -139,20 +188,6 @@
                 app:icon="@drawable/baseline_exit_to_app_24"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="1.0" />
-
-            <Button
-                android:id="@+id/button_delete"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:text="Nuke the Chat"
-                app:icon="@drawable/baseline_delete_forever_24"
-                app:layout_constraintBottom_toTopOf="@+id/button_leave"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="1.0" />

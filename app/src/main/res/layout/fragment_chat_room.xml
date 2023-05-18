@@ -127,6 +127,7 @@
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
+        app:navigationIcon="@drawable/baseline_arrow_back_24"
         tools:layout_editor_absoluteX="1dp" />
 
     <androidx.fragment.app.FragmentContainerView
@@ -135,6 +136,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:translationZ="10dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
