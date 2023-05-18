@@ -97,14 +97,19 @@ public class ChatRoomAddUserItemViewModel extends AndroidViewModel {
     }
 
     private void handleError(final VolleyError error) {
-        if (Objects.isNull(error.networkResponse)) {
-            Log.e("NETWORK ERROR", error.getMessage());
-        } else {
-            String data = new String(error.networkResponse.data, Charset.defaultCharset());
-            Log.e("CLIENT ERROR",
-                    error.networkResponse.statusCode +
-                            " " +
-                            data);
+        try {
+            if (Objects.isNull(error.networkResponse)) {
+                Log.e("NETWORK ERROR", error.getMessage());
+            } else {
+                String data = new String(error.networkResponse.data, Charset.defaultCharset());
+                Log.e("CLIENT ERROR",
+                        error.networkResponse.statusCode +
+                                " " +
+                                data);
+            }
+        } catch (Exception e) {
+            //TODO wth
+            Log.e("ERROR ERROR", e.getMessage());
         }
     }
 }
