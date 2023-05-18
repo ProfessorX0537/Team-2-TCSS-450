@@ -31,11 +31,14 @@ import java.util.Objects;
 public class ContactsViewModel extends AndroidViewModel {
 
     private MutableLiveData<List<ContactCard>> mContacts;
+    public MutableLiveData<JSONObject> mAddedContactResponse;
 
     public ContactsViewModel(@NonNull Application application) {
         super(application);
         mContacts = new MutableLiveData<>();
         mContacts.setValue(new ArrayList<>());
+        mAddedContactResponse = new MutableLiveData<>();
+        mAddedContactResponse.setValue(null);
     }
 
     public void addContactsObserver(@NonNull LifecycleOwner owner,
@@ -146,7 +149,7 @@ public class ContactsViewModel extends AndroidViewModel {
         String url = getApplication().getResources().getString(R.string.url_webservices) +
                 "connections?input=" + input+"&MemberID_A="+memberid_a;
 
-        Request request = new JsonObjectRequest(Request.Method.POST, url, null, null, this::handleError);
+        Request request = new JsonObjectRequest(Request.Method.POST, url, null, response -> mAddedContactResponse.setValue(response), this::handleError);
 
         request.setRetryPolicy(new DefaultRetryPolicy(
                 10_000,
@@ -159,15 +162,7 @@ public class ContactsViewModel extends AndroidViewModel {
         //code here will run
     }
 
-    private void handleAddResult(final JSONObject response) {
-        try {
-            addContact(new ContactCard.Builder(response.getString("success")).build());
-            Log.i("JSON result", response.toString());
-        }catch (JSONException e) {
-            Log.e("JSON PARSE ERROR", "Found in handle Success ContactViewModel");
-            Log.e("JSON PARSE ERROR", "Error: " + e.getMessage());
-        }
-    }
+
 
 //    private void handleDeleteResult(final JSONObject response) {
 //        try {

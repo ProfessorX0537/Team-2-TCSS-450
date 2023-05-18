@@ -73,7 +73,15 @@ public class ContactFragment extends Fragment {
         //hides floating button on scroll
         mBinding = FragmentContactsBinding.bind(getView());
         mBinding.addContactFab.setOnClickListener(this::requestConnection);
+
+
         //scrolling
+        mModel.mAddedContactResponse.observe(getViewLifecycleOwner(), response -> {
+            if (response != null) {
+                mModel.connectGet(mUserInfoModel.getMemberID());
+ /*               mBinding.listRoot.getAdapter().notifyDataSetChanged();*/
+            }
+        });
 
 
 
@@ -189,7 +197,7 @@ public class ContactFragment extends Fragment {
                         }
                         String text=edit.getText().toString();
                         mModel.connectAdd(mUserInfoModel.getMemberID(), text);
-                        mBinding.listRoot.getAdapter().notifyDataSetChanged();
+
                         Log.v("Add","connection should get added");
 
                     }
