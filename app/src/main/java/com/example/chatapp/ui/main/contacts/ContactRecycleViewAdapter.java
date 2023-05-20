@@ -65,6 +65,8 @@ public class ContactRecycleViewAdapter extends RecyclerView.Adapter<ContactRecyc
 
 
 
+    // Filter for search bar
+
     @Override
     public Filter getFilter() {
         return new Filter() {
@@ -76,6 +78,7 @@ public class ContactRecycleViewAdapter extends RecyclerView.Adapter<ContactRecyc
                 }else{
                     String filterPattern = charSequence.toString().toLowerCase().trim();
                     for(ContactCard contact : mContactsFull){
+                        // search by name, email, or nickname
                         if(contact.getNick().toLowerCase().contains(filterPattern)
                                 || contact.getName().toLowerCase().contains(filterPattern)
                                 || contact.getEmail().toLowerCase().contains(filterPattern)){
@@ -83,6 +86,7 @@ public class ContactRecycleViewAdapter extends RecyclerView.Adapter<ContactRecyc
                         }
                     }
                 }
+                // return filtered list
                 FilterResults results = new FilterResults();
                 results.values = filteredList;
                 return results;
@@ -93,6 +97,7 @@ public class ContactRecycleViewAdapter extends RecyclerView.Adapter<ContactRecyc
 
 
 
+            // updates recycler view with filtered list
             @Override
             protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
                 mContacts.clear();
@@ -115,12 +120,7 @@ public class ContactRecycleViewAdapter extends RecyclerView.Adapter<ContactRecyc
 
 
         // sets on click listener for each contact card
-/*        holder.binding.cardRoot.setOnClickListener(button -> {
-            Navigation.findNavController(holder.mView).navigate(
-                    ContactFragmentDirections.actionNavigationConnectionsToContactPageFragment(mContacts.get(position))
-            );
-            Log.i("Button","Pressed");
-        });*/
+
 
     }
 
