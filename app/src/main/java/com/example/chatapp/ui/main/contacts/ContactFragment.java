@@ -20,6 +20,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.SearchView;
 
 import com.example.chatapp.R;
 import com.example.chatapp.databinding.FragmentContactsBinding;
@@ -75,6 +76,9 @@ public class ContactFragment extends Fragment {
         mBinding.addContactFab.setOnClickListener(this::requestConnection);
 
 
+
+
+
         //scrolling
         mModel.mAddedContactResponse.observe(getViewLifecycleOwner(), response -> {
             if (response != null) {
@@ -98,6 +102,23 @@ public class ContactFragment extends Fragment {
                 }
             }
         });
+
+        mBinding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                ContactRecycleViewAdapter adapter = (ContactRecycleViewAdapter) mBinding.listRoot.getAdapter();
+                if (adapter != null) {
+                    adapter.getFilter().filter(newText);
+                }
+                return false;
+            }
+        });
+
 
 
 
