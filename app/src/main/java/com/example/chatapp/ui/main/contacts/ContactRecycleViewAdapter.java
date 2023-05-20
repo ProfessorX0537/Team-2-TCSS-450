@@ -4,6 +4,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProvider;
@@ -14,14 +16,16 @@ import com.example.chatapp.R;
 import com.example.chatapp.databinding.FragmentContactCardBinding;
 import com.example.chatapp.model.UserInfoViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class ContactRecycleViewAdapter extends RecyclerView.Adapter<ContactRecycleViewAdapter.ContactViewHolder>{
+public class ContactRecycleViewAdapter extends RecyclerView.Adapter<ContactRecycleViewAdapter.ContactViewHolder> implements Filterable {
     //Store all of the blogs to present
     private final List<ContactCard> mContacts;
+    private final List<ContactCard> mContactsFull;
     //Store the expanded state for each List item, true -> expanded, false -> not
 
     private final Map<ContactCard, Boolean> mExpandedFlags;
@@ -35,6 +39,7 @@ public class ContactRecycleViewAdapter extends RecyclerView.Adapter<ContactRecyc
     public ContactRecycleViewAdapter(List<ContactCard> items, ContactFragment parentfragment) {
 
         this.mContacts = items;
+        this.mContactsFull = new ArrayList<>(items);
         this.mParentFragment = parentfragment;
 
 
@@ -57,6 +62,49 @@ public class ContactRecycleViewAdapter extends RecyclerView.Adapter<ContactRecyc
                 .inflate(R.layout.fragment_contact_card, parent, false));
 
     }
+
+
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                List<ContactCard> filteredList = new ArrayList<>();
+                if(charSequence == null || charSequence.length() == 0){
+                    filteredList.addAll(mContactsFull);
+                }else{
+                    String filterPattern = charSequence.toString().toLowerCase().trim();
+                    for(ContactCard contact : mContactsFull){
+                        if(contact.getNick().toLowerCase().contains(filterPattern)
+                                || contact.getName().toLowerCase().contains(filterPattern)
+                                || contact.getEmail().toLowerCase().contains(filterPattern)){
+                            filteredList.add(contact);
+                        }
+                    }
+                }
+                FilterResults results = new FilterResults();
+                results.values = filteredList;
+                return results;
+
+
+            }
+
+
+
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                mContacts.clear();
+                mContacts.addAll((List) filterResults.values);
+                notifyDataSetChanged();
+
+            }
+        };
+
+    }
+
+
 
 
     @Override
