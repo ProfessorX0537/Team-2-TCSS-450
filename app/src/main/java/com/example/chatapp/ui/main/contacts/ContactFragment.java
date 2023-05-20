@@ -86,9 +86,17 @@ public class ContactFragment extends Fragment {
  /*               mBinding.listRoot.getAdapter().notifyDataSetChanged();*/
             }
         });
+        mModel.addContactsObserver(getViewLifecycleOwner(), contactsList -> {
+            if (!contactsList.isEmpty()) {
+                mBinding.listRoot.setAdapter(
+                        new ContactRecycleViewAdapter(contactsList, this)
+                );
+            }
+        });
 
 
 
+        // scroll listener to make floating button disappear
         mBinding.listRoot.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
@@ -103,6 +111,7 @@ public class ContactFragment extends Fragment {
             }
         });
 
+        // search bar listener with filter
         mBinding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -121,6 +130,7 @@ public class ContactFragment extends Fragment {
 
 
 
+        // long click listerner to delete connection
 
         mBinding.listRoot.addOnItemTouchListener(
                 new ChatListFragment.RecyclerTouchListener(this.getContext(), mBinding.listRoot, new ChatListFragment.ClickListener() {
@@ -183,13 +193,7 @@ public class ContactFragment extends Fragment {
 
 //        mBinding.listRoot.setAdapter(new ContactRecycleViewAdapter(ContactGenerator.getCardList()));
 
-        mModel.addContactsObserver(getViewLifecycleOwner(), contactsList -> {
-            if (!contactsList.isEmpty()) {
-                mBinding.listRoot.setAdapter(
-                        new ContactRecycleViewAdapter(contactsList, this)
-                );
-            }
-        });
+
     }
     public void updateList(){
         mModel.connectGet(mUserInfoModel.getMemberID());
