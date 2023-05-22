@@ -8,11 +8,15 @@ import static com.example.chatapp.utils.PasswordValidator.checkPwdLowerCase;
 import static com.example.chatapp.utils.PasswordValidator.checkPwdSpecialChar;
 import static com.example.chatapp.utils.PasswordValidator.checkPwdUpperCase;
 
-import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,13 +24,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import com.example.chatapp.AuthActivity;
-import com.example.chatapp.MainActivity;
 import com.example.chatapp.R;
 import com.example.chatapp.databinding.FragmentLoginBinding;
 import com.example.chatapp.model.PushyTokenViewModel;
@@ -46,6 +44,7 @@ import org.json.JSONObject;
  * - "register" button <br>
  * Much of the code comes form Charles Bryan lab modified by Xavier Hines
  * to fit the needs of our app.
+ *
  * @author Charles Byran
  * @author Xavier Hines
  */
@@ -101,8 +100,9 @@ public class LoginFragment extends Fragment {
 
     /**
      * Called on fragments creation. Connects ViewModel to this fragment
+     *
      * @param savedInstanceState If the fragment is being re-created from
-     * a previous saved state, this is the state.
+     *                           a previous saved state, this is the state.
      */
     public void onCreate(@NonNull Bundle savedInstanceState) {
 
@@ -117,14 +117,14 @@ public class LoginFragment extends Fragment {
 
     /**
      * Called on view creation. Binds and inflates the fragment.
-     * @param inflater The LayoutInflater object that can be used to inflate
-     * any views in the fragment,
-     * @param container If non-null, this is the parent view that the fragment's
-     * UI should be attached to.  The fragment should not add the view itself,
-     * but this can be used to generate the LayoutParams of the view.
-     * @param savedInstanceState If non-null, this fragment is being re-constructed
-     * from a previous saved state as given here.
      *
+     * @param inflater           The LayoutInflater object that can be used to inflate
+     *                           any views in the fragment,
+     * @param container          If non-null, this is the parent view that the fragment's
+     *                           UI should be attached to.  The fragment should not add the view itself,
+     *                           but this can be used to generate the LayoutParams of the view.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed
+     *                           from a previous saved state as given here.
      * @return
      */
     @Override
@@ -139,9 +139,10 @@ public class LoginFragment extends Fragment {
     /**
      * Called after view has been created. Sets on click listener for button and attaches
      * an observer to the fragment.
-     * @param view The View returned by {@link #onCreateView(LayoutInflater, ViewGroup, Bundle)}.
+     *
+     * @param view               The View returned by {@link #onCreateView(LayoutInflater, ViewGroup, Bundle)}.
      * @param savedInstanceState If non-null, this fragment is being re-constructed
-     * from a previous saved state as given here.
+     *                           from a previous saved state as given here.
      */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -156,7 +157,7 @@ public class LoginFragment extends Fragment {
         mConnectionViewModel.addResponseObserver(
                 getViewLifecycleOwner(),
                 (result) -> {
-                    ((AuthActivity)getActivity()).setConnectedWS(result);
+                    ((AuthActivity) getActivity()).setConnectedWS(result);
                     observeConnectionResponse();
                 }
         );
@@ -165,7 +166,7 @@ public class LoginFragment extends Fragment {
                 getViewLifecycleOwner(),
                 (token) -> {
                     Log.i("Pushy Token", "token: " + token);
-                    ((AuthActivity)getActivity()).setConnectedPushy(!token.isEmpty());
+                    ((AuthActivity) getActivity()).setConnectedPushy(!token.isEmpty());
                     observeConnectionResponse();
                 }
         );
@@ -198,6 +199,7 @@ public class LoginFragment extends Fragment {
 
     /**
      * Attempts to log the user into the application
+     *
      * @param button
      */
     private void attemptLogin(final View button) {
@@ -245,12 +247,24 @@ public class LoginFragment extends Fragment {
      * If successfully verified with the server the user will be navigated
      * to the landing page and their email and JWT will be passed to
      * userinfo view-model for access inside of the application.
-     * @param email User's email
-     * @param jwt User's JWT
+     *
+     * @param email    User's email
+     * @param jwt      User's JWT
      * @param memberID User's memberID
-     * @param username  User's username
+     * @param username User's username
      */
     private void navigateToHome(final String email, final String jwt, final int memberID, final String username) {
+        //Save autologin shared prefs
+        SharedPreferences prefs =
+                getActivity().getSharedPreferences(
+                        getString(R.string.keys_shared_prefs),
+                        Context.MODE_PRIVATE);
+        prefs.edit().putString(getString(R.string.keys_prefs_email), email).apply();
+        prefs.edit().putString(getString(R.string.keys_prefs_jwt), jwt).apply();
+        prefs.edit().putString(getString(R.string.keys_prefs_memberid), ""+memberID).apply();
+        prefs.edit().putString(getString(R.string.keys_prefs_username), username).apply();
+
+        //Ok, now navigate
         Navigation.findNavController(getView())
                 .navigate(LoginFragmentDirections
                         .actionLoginToMainActivity(email, jwt, memberID, username));
@@ -289,7 +303,7 @@ public class LoginFragment extends Fragment {
                     binding.textEmail.setError(
                             "Error Authenticating: " +
                                     response.getJSONObject("data").getString("message"));
-                    if(response.getJSONObject("data").getString("message").equals("Account needs verification.")) {
+                    if (response.getJSONObject("data").getString("message").equals("Account needs verification.")) {
                         resendVerificationLogin(this.getView());
                     }
                 } catch (JSONException e) {
@@ -328,7 +342,7 @@ public class LoginFragment extends Fragment {
 
     private void observeConnectionResponse() {
         //check if WS and Pushy is online
-        if (((AuthActivity)getActivity()).isConnectedWS() && ((AuthActivity) getActivity()).isConnectedPushy()) {
+        if (((AuthActivity) getActivity()).isConnectedWS() && ((AuthActivity) getActivity()).isConnectedPushy()) {
             showLoginRegisterButtons(true, R.string.establishing_connection); //Reshow buttons. String is unused btw
         } else {
             showLoginRegisterButtons(false, R.string.establishing_connection);
@@ -378,6 +392,31 @@ public class LoginFragment extends Fragment {
                 //close AuthActivity
                 getActivity().finish();
             }
+        }
+    }
+
+    /**
+     * OnStart() <br>
+     * - Finds shared prefs and autologin if credentials exists.
+     */
+    @Override
+    public void onStart() {
+        super.onStart();
+        SharedPreferences prefs =
+                getActivity().getSharedPreferences(
+                        getString(R.string.keys_shared_prefs),
+                        Context.MODE_PRIVATE);
+        if (prefs.contains(getString(R.string.keys_prefs_email))
+                && prefs.contains(getString(R.string.keys_prefs_jwt))
+                && prefs.contains(getString(R.string.keys_prefs_memberid))
+                && prefs.contains(getString(R.string.keys_prefs_username))
+        ) {
+            String email = prefs.getString(getString(R.string.keys_prefs_email), "");
+            String token = prefs.getString(getString(R.string.keys_prefs_jwt), "");
+            String memberid = prefs.getString(getString(R.string.keys_prefs_memberid), "");
+            String username = prefs.getString(getString(R.string.keys_prefs_username), "");
+
+            navigateToHome(email, token, Integer.parseInt(memberid), username);
         }
     }
 }

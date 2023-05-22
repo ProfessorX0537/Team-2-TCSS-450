@@ -22,6 +22,7 @@
 
     <string name="action_login">Login</string>
     <string name="action_register">Register</string>
+    <string name="switch_sign_in">Autologin</string>
     <string name="action_scroll_to_bottom">Scroll to Bottom</string>
     <string name="action_scroll_to_bottom_new">(New) Scroll to Bottom</string>
     <string name="action_connections_Add">Add</string>
@@ -102,7 +103,12 @@
     <string name="weathercode_storm_hail">Slight Hailstorm</string>
     <string name="weathercode_storm_hail_heavy">Heavy Hailstorm</string>
 
-
+    <!-- Shared Prefs -->
+    <string name="keys_shared_prefs">My Auth App Shared Prefs</string>
+    <string name="keys_prefs_email">SharedPrefs: Email</string>
+    <string name="keys_prefs_jwt">SharedPrefs: JWT</string>
+    <string name="keys_prefs_memberid">SharedPrefs: MemberID</string>
+    <string name="keys_prefs_username">SharedPrefs: Username</string>
 
     <!-- URL -->
        <string name="url_webservices">https://daveed-tcss450-labs.herokuapp.com/</string> <!-- Heroku -->
