@@ -1,5 +1,6 @@
 package com.example.chatapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -14,6 +15,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -24,6 +26,7 @@ import android.view.MenuItem;
 
 import com.example.chatapp.databinding.ActivityMainBinding;
 import com.example.chatapp.model.NewMessageCountViewModel;
+import com.example.chatapp.model.PushyTokenViewModel;
 import com.example.chatapp.model.UserInfoViewModel;
 import com.example.chatapp.services.PushReceiver;
 import com.example.chatapp.ui.main.chat.chatroom.ChatRoomItem;
@@ -37,7 +40,6 @@ import java.util.Objects;
 public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
     private NewMessageCountViewModel mNewMessageModel;
-    private ContactsViewModel mContactViewModel;
 
     private ActivityMainBinding binding;
 
@@ -132,13 +134,49 @@ public class MainActivity extends AppCompatActivity {
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_logout) {
-            //TODO remove user data/token from webservice from logging out
+        int id = item.getItemId();
+
+        if (id == R.id.action_logout) {
+            signOut();
+        } else if (id == R.id.action_settings) {
+            Log.d("MainActivity", "Settings menu item clicked!"); //TODO
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * Delete shared prefs and tell WS to delete pushy, then quit and return to login fragment.
+     */
+    private void signOut() {
+        SharedPreferences prefs =
+                getSharedPreferences(
+                        getString(R.string.keys_shared_prefs),
+                        Context.MODE_PRIVATE);
+        prefs.edit().remove(getString(R.string.keys_prefs_email)).apply();
+        prefs.edit().remove(getString(R.string.keys_prefs_jwt)).apply();
+        prefs.edit().remove(getString(R.string.keys_prefs_memberid)).apply();
+        prefs.edit().remove(getString(R.string.keys_prefs_username)).apply();
+
+
+        //Delete token from web server
+        PushyTokenViewModel model = new ViewModelProvider(this)
+                .get(PushyTokenViewModel.class);
+
+        //when we hear back from the web service quit //TODO this spam switch activity the user twice, once on add, once when request returns.
+        model.addResponseObserver(this, result -> {
+//            finishAndRemoveTask(); //quits app completely Lab6
             Intent intent = new Intent(getApplicationContext(), AuthActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
-        }
-        return super.onOptionsItemSelected(item);
+        });
+
+        //send request to WS
+        model.deleteTokenFromWebservice(
+                new ViewModelProvider(this)
+                        .get(UserInfoViewModel.class)
+                        .getJwt()
+        );
     }
 
     //Action bar nav back/up
@@ -196,5 +234,4 @@ public class MainActivity extends AppCompatActivity {
             unregisterReceiver(mPushMessageReceiver);
         }
     }
-
 }
