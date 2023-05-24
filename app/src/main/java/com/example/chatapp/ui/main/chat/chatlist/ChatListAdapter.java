@@ -41,6 +41,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatLi
         holder.mBinding.textRoomName.setText(mChatListItems.get(position).getmRoomName());
         holder.mBinding.textLatestmessage.setText(mChatListItems.get(position).getmLatestMessage());
         holder.mBinding.textDatetime.setText(mChatListItems.get(position).getmLatestDate());
+        holder.mBinding.textUserCount.setText(mChatListItems.get(position).getmUserCount()+"");
 
         //notif
         int notifCount = mChatListItems.get(position).getmNotifCount();
