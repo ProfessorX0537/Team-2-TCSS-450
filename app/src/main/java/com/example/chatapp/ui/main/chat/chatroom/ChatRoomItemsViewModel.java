@@ -15,6 +15,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.chatapp.R;
 import com.example.chatapp.io.RequestQueueSingleton;
+import com.example.chatapp.utils.SimpleDate;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -192,7 +193,7 @@ public class ChatRoomItemsViewModel extends AndroidViewModel {
                         message.getInt("messageid"),
                         message.getString("message"),
                         message.getString("username"),
-                        message.getString("timestamp")
+                        SimpleDate.stringDateFromEpochString(message.getString("timestampraw"))
                 );
                 if (!list.contains(cMessage)) {
                     // don't add a duplicate
