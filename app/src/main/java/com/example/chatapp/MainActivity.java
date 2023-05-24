@@ -11,6 +11,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -23,17 +24,20 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.chatapp.databinding.ActivityMainBinding;
 import com.example.chatapp.model.NewMessageCountViewModel;
 import com.example.chatapp.model.PushyTokenViewModel;
 import com.example.chatapp.model.UserInfoViewModel;
 import com.example.chatapp.services.PushReceiver;
+import com.example.chatapp.ui.main.chat.chatlist.ChatListItemViewModel;
 import com.example.chatapp.ui.main.chat.chatroom.ChatRoomItem;
 import com.example.chatapp.ui.main.chat.chatroom.ChatRoomItemsViewModel;
 import com.example.chatapp.ui.main.contacts.ContactsViewModel;
 import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Objects;
 
@@ -177,7 +181,7 @@ public class MainActivity extends AppCompatActivity {
                         .get(UserInfoViewModel.class)
                         .getJwt()
         );
-    }
+   }
 
     //Action bar nav back/up
     @Override
@@ -190,9 +194,15 @@ public class MainActivity extends AppCompatActivity {
      * A BroadcastReceiver that listens for messages sent from PushReceiver
      */
     private class MainPushMessageReceiver extends BroadcastReceiver {
-        private ChatRoomItemsViewModel mModel =
+        private UserInfoViewModel mUserInfo =
+                new ViewModelProvider(MainActivity.this)
+                        .get(UserInfoViewModel.class);
+        private ChatRoomItemsViewModel mChatRoomItemsViewModel =
                 new ViewModelProvider(MainActivity.this)
                         .get(ChatRoomItemsViewModel.class);
+        private ChatListItemViewModel mChatListItemViewModel =
+                new ViewModelProvider(MainActivity.this)
+                        .get(ChatListItemViewModel.class);
 
         //On receive new message
         @Override
@@ -201,16 +211,45 @@ public class MainActivity extends AppCompatActivity {
                     Navigation.findNavController(
                             MainActivity.this, R.id.nav_host_fragment);
             NavDestination nd = nc.getCurrentDestination(); //Get the current fragment
-            if (intent.hasExtra("chatMessage")) {
-                ChatRoomItem cm = (ChatRoomItem) intent.getSerializableExtra("chatMessage");
-                //If the user is not on the chat screen, update the
-                // NewMessageCountView Model
-                if (nd.getId() != R.id.navigation_chat) {
-                    mNewMessageModel.increment();
+
+            if (intent.getAction().equals(PushReceiver.RECEIVED_NEW_MESSAGE)) {
+                if (intent.hasExtra("chatMessage")) {
+                    ChatRoomItem cm = (ChatRoomItem) intent.getSerializableExtra("chatMessage");
+                    //If the user is not on the chat screen, update the
+                    // NewMessageCountView Model //TODO dont remove badge on switch
+                    if (nd.getId() != R.id.navigation_chat) {
+                        mNewMessageModel.increment();
+                    }
+                    //Inform the view model holding chatroom messages of the new
+                    //message.
+                    mChatRoomItemsViewModel.addMessage(intent.getIntExtra("chatid", -1), cm);
                 }
-                //Inform the view model holding chatroom messages of the new
-                //message.
-                mModel.addMessage(intent.getIntExtra("chatid", -1), cm);
+            } else if (intent.getAction().equals(PushReceiver.CHATLIST_INVITE)) {
+                if (nd.getId() == R.id.navigation_chat) { //if in ChatList fragment
+                    //refresh list
+                    mChatListItemViewModel.getChatRooms(mUserInfo.getMemberID(), mUserInfo.getJwt());
+                }
+                //toast
+                Toast toast = Toast.makeText(getApplicationContext(), "TODO added you to chat room: TODO.", Toast.LENGTH_SHORT);//TODO
+                toast.show();
+            } else if (intent.getAction().equals(PushReceiver.CHATLIST_KICK)) {
+                if (nd.getId() == R.id.chatRoomFragment) { //if in ChatRoom fragment
+                    //warn user
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setTitle(R.string.alert_chatroom_you_got_kicked);
+                    builder.setPositiveButton(R.string.alert_chatroom_you_got_kicked_pos, (dialog, which) -> {
+                        onBackPressed();
+                    });
+                    builder.show();
+                } else {
+                    if (nd.getId() == R.id.navigation_chat) {
+                        //refresh list
+                        mChatListItemViewModel.getChatRooms(mUserInfo.getMemberID(), mUserInfo.getJwt());
+                    }
+                    //toast
+                    Toast toast = Toast.makeText(getApplicationContext(), "You were kicked you from chat room: TODO.", Toast.LENGTH_SHORT);//TODO
+                    toast.show();
+                }
             }
         }
     }
@@ -222,8 +261,9 @@ public class MainActivity extends AppCompatActivity {
         if (mPushMessageReceiver == null) {
             mPushMessageReceiver = new MainPushMessageReceiver();
         }
-        IntentFilter iFilter = new IntentFilter(PushReceiver.RECEIVED_NEW_MESSAGE);
-        registerReceiver(mPushMessageReceiver, iFilter);
+        registerReceiver(mPushMessageReceiver, new IntentFilter(PushReceiver.RECEIVED_NEW_MESSAGE));
+        registerReceiver(mPushMessageReceiver, new IntentFilter(PushReceiver.CHATLIST_INVITE));
+        registerReceiver(mPushMessageReceiver, new IntentFilter(PushReceiver.CHATLIST_KICK));
     }
 
     @Override
