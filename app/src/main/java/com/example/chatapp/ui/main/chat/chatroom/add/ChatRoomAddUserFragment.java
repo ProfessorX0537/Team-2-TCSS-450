@@ -84,7 +84,7 @@ public class ChatRoomAddUserFragment extends Fragment {
                 });
                 builder.show();
             } else { //success
-                getActivity().onBackPressed(); //TODO Major bug, this backs Chat Navigations after executed unitl logout / program restart
+                getActivity().onBackPressed();
             }
             mRequestsModel.clearResponses();
         });
