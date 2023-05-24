@@ -20,6 +20,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.SearchView;
 
 import com.example.chatapp.R;
 import com.example.chatapp.databinding.FragmentContactsBinding;
@@ -75,6 +76,9 @@ public class ContactFragment extends Fragment {
         mBinding.addContactFab.setOnClickListener(this::requestConnection);
 
 
+
+
+
         //scrolling
         mModel.mAddedContactResponse.observe(getViewLifecycleOwner(), response -> {
             if (response != null) {
@@ -82,9 +86,17 @@ public class ContactFragment extends Fragment {
  /*               mBinding.listRoot.getAdapter().notifyDataSetChanged();*/
             }
         });
+        mModel.addContactsObserver(getViewLifecycleOwner(), contactsList -> {
+            if (!contactsList.isEmpty()) {
+                mBinding.listRoot.setAdapter(
+                        new ContactRecycleViewAdapter(contactsList, this)
+                );
+            }
+        });
 
 
 
+        // scroll listener to make floating button disappear
         mBinding.listRoot.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
@@ -99,7 +111,26 @@ public class ContactFragment extends Fragment {
             }
         });
 
+        // search bar listener with filter
+        mBinding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
 
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                ContactRecycleViewAdapter adapter = (ContactRecycleViewAdapter) mBinding.listRoot.getAdapter();
+                if (adapter != null) {
+                    adapter.getFilter().filter(newText);
+                }
+                return false;
+            }
+        });
+
+
+
+        // long click listerner to delete connection
 
         mBinding.listRoot.addOnItemTouchListener(
                 new ChatListFragment.RecyclerTouchListener(this.getContext(), mBinding.listRoot, new ChatListFragment.ClickListener() {
@@ -162,13 +193,7 @@ public class ContactFragment extends Fragment {
 
 //        mBinding.listRoot.setAdapter(new ContactRecycleViewAdapter(ContactGenerator.getCardList()));
 
-        mModel.addContactsObserver(getViewLifecycleOwner(), contactsList -> {
-            if (!contactsList.isEmpty()) {
-                mBinding.listRoot.setAdapter(
-                        new ContactRecycleViewAdapter(contactsList, this)
-                );
-            }
-        });
+
     }
     public void updateList(){
         mModel.connectGet(mUserInfoModel.getMemberID());
