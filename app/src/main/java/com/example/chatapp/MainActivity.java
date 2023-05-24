@@ -277,6 +277,13 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 }
+            } else if (intent.getAction().equals(PushReceiver.CHATLIST_RENAME)) {
+                if (nd.getId() == R.id.chatRoomFragment  && intent.getIntExtra("chatId", -1) == mChatRoomItemsViewModel.mChatId) { //if in chat room
+                    mChatRoomItemsViewModel.mChatRoomName.setValue(intent.getStringExtra("chatRoomName"));
+                } else if (nd.getId() == R.id.navigation_chat) {
+                    //refresh list //TODO find in list and add instead
+                    mChatListItemViewModel.getChatRooms(mUserInfo.getMemberID(), mUserInfo.getJwt());
+                }
             }
         }
     }
@@ -291,6 +298,7 @@ public class MainActivity extends AppCompatActivity {
         registerReceiver(mPushMessageReceiver, new IntentFilter(PushReceiver.RECEIVED_NEW_MESSAGE));
         registerReceiver(mPushMessageReceiver, new IntentFilter(PushReceiver.CHATLIST_INVITE));
         registerReceiver(mPushMessageReceiver, new IntentFilter(PushReceiver.CHATLIST_KICK));
+        registerReceiver(mPushMessageReceiver, new IntentFilter(PushReceiver.CHATLIST_RENAME));
     }
 
     @Override

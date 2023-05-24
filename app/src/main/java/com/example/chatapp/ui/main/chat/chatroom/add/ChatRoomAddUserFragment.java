@@ -156,7 +156,9 @@ public class ChatRoomAddUserFragment extends Fragment {
         });
 
         //Rename
-        binding.textRename.setText(mChatRoomItemsViewModel.mChatRoomName);
+        mChatRoomItemsViewModel.mChatRoomName.observe(getViewLifecycleOwner(), name -> {
+            binding.textRename.setText(name);
+        });
         binding.buttonRename.setOnClickListener(button -> {
             // Alert confirmation
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());

@@ -26,6 +26,7 @@ public class PushReceiver extends BroadcastReceiver {
     public static final String RECEIVED_NEW_MESSAGE = "new message from pushy";
     public static final String CHATLIST_INVITE = "new ChatListInvite from pushy";
     public static final String CHATLIST_KICK = "new ChatListKick from pushy";
+    public static final String CHATLIST_RENAME = "new ChatListRename from pushy";
 
     private static final String CHANNEL_ID = "1";
 
@@ -136,6 +137,28 @@ public class PushReceiver extends BroadcastReceiver {
                 Intent i = new Intent(CHATLIST_KICK);
                 i.putExtra("chatId", chatId);
                 i.putExtra("username", username);
+                i.putExtra("chatRoomName", chatRoomName);
+                //send
+                context.sendBroadcast(i);
+            } else {
+                //else if off app, send notif
+                //TODO if not EC
+            }
+        } else if (typeOfMessage.equals("ChatListRename")) {
+            //parse
+            int chatId = intent.getIntExtra("chatId", -1);
+            String chatRoomName = intent.getStringExtra("chatRoomName");
+
+            ActivityManager.RunningAppProcessInfo appProcessInfo = new ActivityManager.RunningAppProcessInfo();
+            ActivityManager.getMyMemoryState(appProcessInfo);
+            //if in foreground
+            if (appProcessInfo.importance == IMPORTANCE_FOREGROUND || appProcessInfo.importance == IMPORTANCE_VISIBLE) {
+                //app is in the foreground so send to MainActivity PushyService
+                Log.d("PUSHY", "ChatListRename received in foreground, chatId: " + chatId + " to: " + chatRoomName);
+
+                //create an Intent to broadcast a message to other parts of the app.
+                Intent i = new Intent(CHATLIST_RENAME);
+                i.putExtra("chatId", chatId);
                 i.putExtra("chatRoomName", chatRoomName);
                 //send
                 context.sendBroadcast(i);

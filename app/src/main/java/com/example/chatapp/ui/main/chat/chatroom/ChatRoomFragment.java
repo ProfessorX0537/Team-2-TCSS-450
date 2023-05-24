@@ -30,6 +30,8 @@ public class ChatRoomFragment extends Fragment {
     private UserInfoViewModel mUserInfoModel;
     private ChatRoomSendViewModel mSendModel;
 //    private int mChatID; //Is now stored in ChatRoomItemsViewModel
+
+    private ChatRoomItemsViewModel mChatRoomItemsViewModel; //For chat room name
     private boolean isSending = false;
 
     @Override
@@ -45,6 +47,8 @@ public class ChatRoomFragment extends Fragment {
         mItemsModel.getFirstMessages(ChatRoomFragmentArgs.fromBundle(getArguments()).getChatid(), mUserInfoModel.getJwt()); //TODO CHANGE CHAT ID
 
         mSendModel = provider.get(ChatRoomSendViewModel.class);
+
+        mChatRoomItemsViewModel = provider.get(ChatRoomItemsViewModel.class);
     }
 
     @Override
@@ -63,7 +67,10 @@ public class ChatRoomFragment extends Fragment {
         mBinding.toolbar2.inflateMenu(R.menu.toolbar_chatroom);
         //Title
 //        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(ChatRoomFragmentArgs.fromBundle(getArguments()).getChatName());
-        mBinding.toolbar2.setTitle(ChatRoomFragmentArgs.fromBundle(getArguments()).getChatName());
+//        mBinding.toolbar2.setTitle(ChatRoomFragmentArgs.fromBundle(getArguments()).getChatName());
+        mChatRoomItemsViewModel.mChatRoomName.observe(getViewLifecycleOwner(), name -> {
+            mBinding.toolbar2.setTitle(name);
+        });
         //Contacts menu button
         mBinding.toolbar2.getMenu().getItem(0).setOnMenuItemClickListener(button -> {
             Log.d("ChatRoomFragment", "Add users Button Clicked");
