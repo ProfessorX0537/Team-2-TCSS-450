@@ -100,16 +100,20 @@ public class PushReceiver extends BroadcastReceiver {
         } else if (typeOfMessage.equals("ChatListInvite")) {
             //parse
             int chatId = intent.getIntExtra("chatId", -1);
+            String username = intent.getStringExtra("username");
+            String chatRoomName = intent.getStringExtra("chatRoomName");
 
             ActivityManager.RunningAppProcessInfo appProcessInfo = new ActivityManager.RunningAppProcessInfo();
             ActivityManager.getMyMemoryState(appProcessInfo);
-            //if in app Snackbar tell user they got invited
+            //if in foreground
             if (appProcessInfo.importance == IMPORTANCE_FOREGROUND || appProcessInfo.importance == IMPORTANCE_VISIBLE) {
-                //app is in the foreground so send the message to the active Activities
-                Log.d("PUSHY", "ChatListInvite received in foreground, chatId: " + chatId);
+                //app is in the foreground so send to MainActivity PushyService
+                Log.d("PUSHY", "ChatListInvite received in foreground, chatId: " + chatId + " for username: " + username);
                 //create an Intent to broadcast a message to other parts of the app.
                 Intent i = new Intent(CHATLIST_INVITE);
                 i.putExtra("chatId", chatId);
+                i.putExtra("username", username);
+                i.putExtra("chatRoomName", chatRoomName);
                 //send
                 context.sendBroadcast(i);
             } else {
@@ -119,16 +123,20 @@ public class PushReceiver extends BroadcastReceiver {
         } else if (typeOfMessage.equals("ChatListKick")) {
             //parse
             int chatId = intent.getIntExtra("chatId", -1);
+            String username = intent.getStringExtra("username");
+            String chatRoomName = intent.getStringExtra("chatRoomName");
 
             ActivityManager.RunningAppProcessInfo appProcessInfo = new ActivityManager.RunningAppProcessInfo();
             ActivityManager.getMyMemoryState(appProcessInfo);
-            //if in app Snackbar tell user they got invited
+            //if in foreground
             if (appProcessInfo.importance == IMPORTANCE_FOREGROUND || appProcessInfo.importance == IMPORTANCE_VISIBLE) {
-                //app is in the foreground so send the message to the active Activities
-                Log.d("PUSHY", "ChatListKick received in foreground, chatId: " + chatId);
+                //app is in the foreground so send to MainActivity PushyService
+                Log.d("PUSHY", "ChatListKick received in foreground, chatId: " + chatId + " for username: " + username);
                 //create an Intent to broadcast a message to other parts of the app.
                 Intent i = new Intent(CHATLIST_KICK);
                 i.putExtra("chatId", chatId);
+                i.putExtra("username", username);
+                i.putExtra("chatRoomName", chatRoomName);
                 //send
                 context.sendBroadcast(i);
             } else {
