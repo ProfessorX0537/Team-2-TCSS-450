@@ -103,6 +103,9 @@
     <string name="weathercode_storm_hail">Slight Hailstorm</string>
     <string name="weathercode_storm_hail_heavy">Heavy Hailstorm</string>
 
+    <string name="alert_chatroom_you_got_kicked">You have been kicked from this chat.</string>
+    <string name="alert_chatroom_you_got_kicked_pos">Leave</string>
+
     <!-- Shared Prefs -->
     <string name="keys_shared_prefs">My Auth App Shared Prefs</string>
     <string name="keys_prefs_email">SharedPrefs: Email</string>

@@ -18,12 +18,14 @@ import com.example.chatapp.R;
 import com.example.chatapp.io.RequestQueueSingleton;
 import com.example.chatapp.model.UserInfoViewModel;
 import com.example.chatapp.ui.main.chat.chatroom.ChatRoomItem;
+import com.example.chatapp.utils.SimpleDate;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -79,18 +81,35 @@ public class ChatListItemViewModel extends AndroidViewModel {
             ArrayList temp = new ArrayList<>(rowCount);
             for (int i = 0; i < rowCount; i++) {
                 JSONObject curr = rows.getJSONObject(i);
-                temp.add(new ChatListItem(
-                        curr.getString("name"),
-                        "Lastest Message WIP",
-                        "Date WIP",
-                        0,
-                        curr.getInt("chatid")
-                ));
+                Log.d("ChatListItemViewModel", "curr: " + curr.toString());
+                if (!curr.isNull("message")) { //where latest message exists
+                    Log.d("ChatListItemViewModel", "curr's latest is not empty ");
+                    temp.add(new ChatListItem(
+                            curr.getString("name"),
+                            curr.getString("username") + ": " + curr.getString("message"),
+                            SimpleDate.stringDateFromEpochString(curr.getString("timestampraw")),
+                            69,
+                            curr.getInt("countmembers"),
+                            curr.getInt("chatid")
+                    ));
+                } else { //empty chatroom
+                    Log.d("ChatListItemViewModel", "curr's latest is empty ");
+                    temp.add(new ChatListItem(
+                            curr.getString("name"),
+                            "(Empty Chat)", //TODO String
+                            "N/A", //TODO String
+                            69,
+                            curr.getInt("countmembers"),
+                            curr.getInt("chatid")
+                    ));
+                }
+
             }
             mItemList.setValue(temp);
             Log.v("ChatListItemViewModel", "mItemList: " + mItemList.getValue().toString());
         } catch (Exception e) {
-            Log.e("ChatListItemViewModel", "Couldn't handle success:\n" + e.getMessage());
+            Log.e("ChatListItemViewModel", "Couldn't handle success");
+            e.printStackTrace();
         }
     }
 

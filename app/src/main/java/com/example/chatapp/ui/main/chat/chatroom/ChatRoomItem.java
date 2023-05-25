@@ -2,6 +2,8 @@ package com.example.chatapp.ui.main.chat.chatroom;
 
 import androidx.annotation.Nullable;
 
+import com.example.chatapp.utils.SimpleDate;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -15,7 +17,7 @@ public class ChatRoomItem  implements Serializable {
     private final int mMessageId;
     private final String mMessage;
     private final String mSender;
-    private final String mTimeStamp; //TODO parse to mTimeDisplay or some
+    private final String mTimeStamp;
 
     public ChatRoomItem(int messageId, String message, String sender, String timeStamp) {
         mMessageId = messageId;
@@ -36,7 +38,7 @@ public class ChatRoomItem  implements Serializable {
         return new ChatRoomItem(msg.getInt("messageid"),
                 msg.getString("message"),
                 msg.getString("username"),
-                msg.getString("timestamp"));
+                SimpleDate.stringDateFromEpochString(msg.getString("timestampraw")));
     }
 
     public String getMessage() {

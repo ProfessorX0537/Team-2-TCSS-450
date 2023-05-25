@@ -15,6 +15,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.chatapp.R;
 import com.example.chatapp.io.RequestQueueSingleton;
+import com.example.chatapp.utils.SimpleDate;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -30,10 +31,11 @@ import java.util.Objects;
 public class ChatRoomItemsViewModel extends AndroidViewModel {
     private Map<Integer, MutableLiveData<List<ChatRoomItem>>> mMessages;
     public int mChatId; //REQUIRED TODO factory
-    public String mChatRoomName; //REQUIRED TODO factory
+    public MutableLiveData<String> mChatRoomName; //REQUIRED TODO factory
     public ChatRoomItemsViewModel(@NonNull Application application) {
         super(application);
         mMessages = new HashMap<>();
+        mChatRoomName = new MutableLiveData<>();
     }
 
     /**
@@ -192,7 +194,7 @@ public class ChatRoomItemsViewModel extends AndroidViewModel {
                         message.getInt("messageid"),
                         message.getString("message"),
                         message.getString("username"),
-                        message.getString("timestamp")
+                        SimpleDate.stringDateFromEpochString(message.getString("timestampraw"))
                 );
                 if (!list.contains(cMessage)) {
                     // don't add a duplicate

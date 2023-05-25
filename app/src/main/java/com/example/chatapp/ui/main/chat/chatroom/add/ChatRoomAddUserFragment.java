@@ -84,7 +84,7 @@ public class ChatRoomAddUserFragment extends Fragment {
                 });
                 builder.show();
             } else { //success
-                getActivity().onBackPressed(); //TODO Major bug, this backs Chat Navigations after executed unitl logout / program restart
+                getActivity().onBackPressed();
             }
             mRequestsModel.clearResponses();
         });
@@ -156,7 +156,9 @@ public class ChatRoomAddUserFragment extends Fragment {
         });
 
         //Rename
-        binding.textRename.setText(mChatRoomItemsViewModel.mChatRoomName);
+        mChatRoomItemsViewModel.mChatRoomName.observe(getViewLifecycleOwner(), name -> {
+            binding.textRename.setText(name);
+        });
         binding.buttonRename.setOnClickListener(button -> {
             // Alert confirmation
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());

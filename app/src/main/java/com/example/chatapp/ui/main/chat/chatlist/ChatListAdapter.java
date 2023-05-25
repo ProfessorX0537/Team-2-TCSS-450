@@ -41,6 +41,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatLi
         holder.mBinding.textRoomName.setText(mChatListItems.get(position).getmRoomName());
         holder.mBinding.textLatestmessage.setText(mChatListItems.get(position).getmLatestMessage());
         holder.mBinding.textDatetime.setText(mChatListItems.get(position).getmLatestDate());
+        holder.mBinding.textUserCount.setText(mChatListItems.get(position).getmUserCount()+"");
 
         //notif
         int notifCount = mChatListItems.get(position).getmNotifCount();
@@ -58,7 +59,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatLi
             ChatRoomItemsViewModel vm = new ViewModelProvider(mActivity).get(ChatRoomItemsViewModel.class);
             //ViewModel as args to inner FragmentViewContainer
             vm.mChatId = mChatListItems.get(position).getmRoomID();
-            vm.mChatRoomName = mChatListItems.get(position).getmRoomName();
+            vm.mChatRoomName.setValue(mChatListItems.get(position).getmRoomName());
 
             Navigation.findNavController(holder.itemView).navigate(
                     com.example.chatapp.ui.main.chat.chatlist.ChatListFragmentDirections.actionNavigationChatToChatRoomFragment(
