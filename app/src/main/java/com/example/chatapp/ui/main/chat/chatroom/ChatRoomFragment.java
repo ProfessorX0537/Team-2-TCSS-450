@@ -76,8 +76,10 @@ public class ChatRoomFragment extends Fragment {
             Log.d("ChatRoomFragment", "Add users Button Clicked");
             if (mBinding.fragmentViewAddUser.getVisibility() == View.GONE) { //toggle show it
                 mBinding.fragmentViewAddUser.setVisibility(View.VISIBLE);
+                getActivity().findViewById(R.id.fragment_container_add_user_via_contacts).setVisibility(View.GONE);
             } else {
                 mBinding.fragmentViewAddUser.setVisibility(View.GONE);
+                getActivity().findViewById(R.id.fragment_container_add_user_via_contacts).setVisibility(View.GONE);
             }
             return true;
         });
