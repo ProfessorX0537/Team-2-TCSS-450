@@ -36,6 +36,8 @@ public class ChatRoomFragment extends Fragment {
     private boolean isSending = false;
     private boolean isRefreshing = false;
 
+    private int oldScrollPosition = 0;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,12 +99,13 @@ public class ChatRoomFragment extends Fragment {
         //The user is out of messages, go out to the service and get more
         mBinding.swipeContainer.setOnRefreshListener(() -> {
             isRefreshing = true;
+            oldScrollPosition = mBinding.recyclerBubbles.getAdapter().getItemCount();
             if (!mItemsModel.getNextMessages(mItemsModel.mChatId, mUserInfoModel.getJwt())) {
                 mBinding.swipeContainer.setRefreshing(false);
             }
         });
 
-        //recycler //TODO listen for ArrayList change
+        //recycler
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setStackFromEnd(true);
         linearLayoutManager.setSmoothScrollbarEnabled(true);
@@ -132,20 +135,16 @@ public class ChatRoomFragment extends Fragment {
         //Change in items/message listener
         mItemsModel.addMessageObserver(mItemsModel.mChatId, getViewLifecycleOwner(),
                 list -> {
-                    //TODO Save scroll position
-//                    Parcelable recyclerViewState = mBinding.recyclerBubbles.getLayoutManager().onSaveInstanceState();
-//                    ((LinearLayoutManager)mBinding.recyclerBubbles.getLayoutManager())
                     mBinding.recyclerBubbles.getAdapter().notifyDataSetChanged(); //tell recycler to update
+                    mBinding.recyclerBubbles.scrollToPosition(mBinding.recyclerBubbles.getAdapter().getItemCount() - oldScrollPosition);
+                    Log.d("ChatRoomFragment", "oldScrollPosition: " + oldScrollPosition);
                     mBinding.swipeContainer.setRefreshing(false);
-//                    mBinding.recyclerBubbles.getLayoutManager().onRestoreInstanceState(recyclerViewState);
 
                     //Scroll to bottom if change was from self sending
                     if (isSending) {
                         mBinding.recyclerBubbles.smoothScrollToPosition(mBinding.recyclerBubbles.getAdapter().getItemCount() - 1); //scroll to end
                         isSending = false;
                     }
-
-                    //Todo isRefreshing
 
                     //If at the bottom already, scroll to bottom on new received messages
                     if (mBinding.recyclerBubbles.getAdapter().getItemCount() != 0) {
