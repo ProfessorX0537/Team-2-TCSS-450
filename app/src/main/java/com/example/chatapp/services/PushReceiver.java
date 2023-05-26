@@ -42,7 +42,7 @@ public class PushReceiver extends BroadcastReceiver {
         //So perform logic/routing based on the "type"
         //feel free to change the key or type of values.
         String typeOfMessage = intent.getStringExtra("type");
-        if (typeOfMessage.equals("msg")) { //sendMessageToIndividual ///////////////////////////////
+        if (typeOfMessage.equals("msg")) { //////////////////////////////////////////////////////////////////////////////////
             ChatRoomItem message = null;
             int chatId = -1;
             try{
@@ -63,7 +63,7 @@ public class PushReceiver extends BroadcastReceiver {
                 //create an Intent to broadcast a message to other parts of the app.
                 Intent i = new Intent(RECEIVED_NEW_MESSAGE);
                 i.putExtra("chatMessage", message);
-                i.putExtra("chatid", chatId);
+                i.putExtra("chatId", chatId);
                 i.putExtras(intent.getExtras());
 
                 context.sendBroadcast(i);
@@ -74,6 +74,7 @@ public class PushReceiver extends BroadcastReceiver {
 
                 Intent i = new Intent(context, AuthActivity.class);
                 i.putExtras(intent.getExtras());
+                i.putExtra("chatId", chatId);
 
                 PendingIntent pendingIntent = PendingIntent.getActivity(context, 0,
                         i, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -98,7 +99,7 @@ public class PushReceiver extends BroadcastReceiver {
                 // Build the notification and display it
                 notificationManager.notify(1, builder.build());
             }
-        } else if (typeOfMessage.equals("ChatListInvite")) {
+        } else if (typeOfMessage.equals("ChatListInvite")) {  //////////////////////////////////////////////////////////////////////////////////
             //parse
             int chatId = intent.getIntExtra("chatId", -1);
             String username = intent.getStringExtra("username");
@@ -121,7 +122,7 @@ public class PushReceiver extends BroadcastReceiver {
                 //else if off app, send notif
                 //TODO if not EC
             }
-        } else if (typeOfMessage.equals("ChatListKick")) {
+        } else if (typeOfMessage.equals("ChatListKick")) {  //////////////////////////////////////////////////////////////////////////////////
             //parse
             int chatId = intent.getIntExtra("chatId", -1);
             String username = intent.getStringExtra("username");
@@ -144,7 +145,7 @@ public class PushReceiver extends BroadcastReceiver {
                 //else if off app, send notif
                 //TODO if not EC
             }
-        } else if (typeOfMessage.equals("ChatListRename")) {
+        } else if (typeOfMessage.equals("ChatListRename")) {  //////////////////////////////////////////////////////////////////////////////////
             //parse
             int chatId = intent.getIntExtra("chatId", -1);
             String chatRoomName = intent.getStringExtra("chatRoomName");

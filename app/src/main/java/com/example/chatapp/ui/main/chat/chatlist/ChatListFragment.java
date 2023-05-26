@@ -2,7 +2,6 @@ package com.example.chatapp.ui.main.chat.chatlist;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -21,9 +20,12 @@ import android.widget.EditText;
 
 import com.example.chatapp.R;
 import com.example.chatapp.databinding.FragmentChatListBinding;
+import com.example.chatapp.model.NewMessageCountViewModel;
 import com.example.chatapp.model.UserInfoViewModel;
-import com.example.chatapp.ui.main.chat.chatroom.add.ChatRoomAddUserItemViewModel;
+import com.example.chatapp.ui.main.chat.chatroom.ChatRoomItemsViewModel;
 import com.example.chatapp.ui.main.chat.chatroom.add.ChatRoomAddUserRequestsViewModel;
+
+import java.util.ArrayList;
 
 public class ChatListFragment extends Fragment {
     private UserInfoViewModel userinfo;
@@ -31,6 +33,7 @@ public class ChatListFragment extends Fragment {
     private ChatListAddViewModel mAddModel;
     private FragmentChatListBinding mBinding;
     private ChatRoomAddUserRequestsViewModel mDeleteModel;
+    private NewMessageCountViewModel mNewMessageCountModel;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -44,6 +47,8 @@ public class ChatListFragment extends Fragment {
         mAddModel = new ViewModelProvider(getActivity()).get(ChatListAddViewModel.class);
 
         mDeleteModel = new ViewModelProvider(getActivity()).get(ChatRoomAddUserRequestsViewModel.class);
+
+        mNewMessageCountModel = new ViewModelProvider(getActivity()).get(NewMessageCountViewModel.class);
     }
 
     @Override
@@ -58,7 +63,19 @@ public class ChatListFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         //mModel.mItemList observe
         mItemModel.addItemListObserver(getViewLifecycleOwner(), list -> {
-            mBinding.rootRecycler.setAdapter(new ChatListAdapter(list, getActivity()));
+            if (mBinding.rootRecycler.getAdapter() == null) {
+                mBinding.rootRecycler.setAdapter(new ChatListAdapter(list, getActivity()));
+            } else {
+//                ((ChatListAdapter)mBinding.rootRecycler.getAdapter()).
+                ((ChatListAdapter)mBinding.rootRecycler.getAdapter()).mChatListItems = list;
+                mBinding.rootRecycler.getAdapter().notifyDataSetChanged();
+
+//                for (int i = 0; i < list.size(); i++) {
+//                    mBinding.rootRecycler.getAdapter().notifyItemChanged(i);
+//                    mBinding.rootRecycler.getAdapter().notifyItemInserted(i);
+//                }
+            }
+
             Log.v("ChatListFragment", "Observed ItemModel Response create new!");
 //            if (mBinding.rootRecycler.getAdapter() == null) { //
 //                mBinding.rootRecycler.setAdapter(new ChatListAdapter(mItemModel.mItemList.getValue()));
@@ -68,6 +85,14 @@ public class ChatListFragment extends Fragment {
 //                Log.v("ChatListFragment", "Observed ItemModel Response notify!");
 //            }
             showSpinner(false);
+            ArrayList<ChatListItem> list1 = ((ChatListAdapter) mBinding.rootRecycler.getAdapter()).mChatListItems;
+            for (int i = 0; i < list1.size(); i++) {
+                ChatListItem curr = list1.get(i);
+
+                if(!mNewMessageCountModel.mNewHashMapMessageCount.getValue().containsKey(curr.mRoomID)) continue;
+                curr.mNotifCount = mNewMessageCountModel.mNewHashMapMessageCount.getValue().get(curr.mRoomID);
+                mBinding.rootRecycler.getAdapter().notifyItemChanged(i);
+            }
         });
         mItemModel.getChatRooms(userinfo.getMemberID(), userinfo.getJwt());
 
@@ -149,7 +174,12 @@ public class ChatListFragment extends Fragment {
                     Log.v("ChatListFragment", "Observed AddModel Response notify!");
                 }
         );
-        showSpinner(true); //init show progress spinner
+//        showSpinner(true); //init show progress spinner
+
+        //observe mMessageCountModel
+        mNewMessageCountModel.addNewHashMapMessageCountObserver(getViewLifecycleOwner(), hashmap -> {
+            mItemModel.getChatRooms(userinfo.getMemberID(), userinfo.getJwt());
+        });
     }
 
     private void showSpinner(boolean show) {
@@ -205,5 +235,17 @@ public class ChatListFragment extends Fragment {
 
     public static interface ClickListener {
         public void onLongClick(View view, int position);
+    }
+
+//    public void updateChatMessage() {
+//
+//    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        //reset chatId
+        ChatRoomItemsViewModel tempVM = new ViewModelProvider(getActivity()).get(ChatRoomItemsViewModel.class);
+        tempVM.mChatId = -1;
     }
 }

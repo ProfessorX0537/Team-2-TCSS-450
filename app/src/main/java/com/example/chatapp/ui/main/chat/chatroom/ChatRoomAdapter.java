@@ -26,6 +26,8 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public ChatRoomAdapter(List<ChatRoomItem> mChatRoomItems, String username) {
         this.mChatRoomItems = mChatRoomItems;
         mUsername = username;
+        setHasStableIds(true);
+        setStateRestorationPolicy(StateRestorationPolicy.PREVENT);
     }
 
     @Override
@@ -91,5 +93,10 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             super(itemView);
             this.mBinding = FragmentChatRoomBubbleSendBinding.bind(itemView);
         }
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return mChatRoomItems.get(position).getMessageId();
     }
 }

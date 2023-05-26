@@ -1,7 +1,5 @@
 package com.example.chatapp;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.lifecycle.ViewModelProvider;
@@ -17,7 +15,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -35,10 +32,8 @@ import com.example.chatapp.ui.main.chat.chatlist.ChatListItemViewModel;
 import com.example.chatapp.ui.main.chat.chatroom.ChatRoomItem;
 import com.example.chatapp.ui.main.chat.chatroom.ChatRoomItemsViewModel;
 import com.example.chatapp.ui.main.chat.chatroom.add.ChatRoomAddUserItemViewModel;
-import com.example.chatapp.ui.main.contacts.ContactsViewModel;
 import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Objects;
 
@@ -84,16 +79,17 @@ public class MainActivity extends AppCompatActivity {
 
         //NewMessageModel
         mNewMessageModel = new ViewModelProvider(this).get(NewMessageCountViewModel.class);
-        //When the user navigates to the chats page, reset the new message count.
-        navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
-            if (destination.getId() == R.id.navigation_chat) {
-                //This will need some extra logic for your project as it should have
-                //multiple chat rooms.
-                mNewMessageModel.reset();
-            }
-        });
+//        //When the user navigates to the chats page, reset the new message count.
+//        navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
+//            if (destination.getId() == R.id.navigation_chat) {
+//                //This will need some extra logic for your project as it should have
+//                //multiple chat rooms.
+//                //TODO dont remove badge on switch
+//                mNewMessageModel.reset();
+//            }
+//        });
         //Observe MessageCount and create Badge
-        mNewMessageModel.addMessageCountObserver(this, count -> { //TODO TEST THIS!!!
+        mNewMessageModel.addNewTotalMessageCountObserver(this, count -> { //TODO TEST THIS!!!
             BadgeDrawable badge = binding.navView.getOrCreateBadge(R.id.navigation_chat);
             badge.setMaxCharacterCount(2);
             if (count > 0) {
@@ -220,14 +216,12 @@ public class MainActivity extends AppCompatActivity {
             if (intent.getAction().equals(PushReceiver.RECEIVED_NEW_MESSAGE)) {
                 if (intent.hasExtra("chatMessage")) {
                     ChatRoomItem cm = (ChatRoomItem) intent.getSerializableExtra("chatMessage");
-                    //If the user is not on the chat screen, update the
-                    // NewMessageCountView Model //TODO dont remove badge on switch
-                    if (nd.getId() != R.id.navigation_chat) {
-                        mNewMessageModel.increment();
+                    //If the user is not on the chat room (aka not the sender) screen, update NewMessageCountView Model
+                    if (nd.getId() != R.id.chatRoomFragment && mChatRoomItemsViewModel.mChatId != intent.getIntExtra("chatId", -1)) {
+                        mNewMessageModel.incrementFromChatId(intent.getIntExtra("chatId", -1));
                     }
-                    //Inform the view model holding chatroom messages of the new
-                    //message.
-                    mChatRoomItemsViewModel.addMessage(intent.getIntExtra("chatid", -1), cm);
+                    //Inform the view model holding chatroom messages of the new message.
+                    mChatRoomItemsViewModel.addMessage(intent.getIntExtra("chatId", -1), cm);
                 }
             } else if (intent.getAction().equals(PushReceiver.CHATLIST_INVITE)) {
                 if (intent.getStringExtra("username").equals(mUserInfo.getUsername())) { //if I got added

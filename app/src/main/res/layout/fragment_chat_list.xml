@@ -34,6 +34,7 @@
         android:layout_height="match_parent"
         android:layout_margin="5dp"
         android:orientation="vertical"
+        android:scrollbars="vertical"
         app:layoutManager="LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
