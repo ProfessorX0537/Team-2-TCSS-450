@@ -15,15 +15,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Parcelable;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import com.example.chatapp.R;
 import com.example.chatapp.databinding.FragmentChatRoomBinding;
 import com.example.chatapp.model.UserInfoViewModel;
+import com.google.android.material.snackbar.Snackbar;
 
 public class ChatRoomFragment extends Fragment {
     private ChatRoomItemsViewModel mItemsModel;
@@ -36,7 +39,7 @@ public class ChatRoomFragment extends Fragment {
     private boolean isSending = false;
     private boolean isRefreshing = false;
 
-    private int oldScrollPosition = 0;
+    private int oldScrollPosition = -1;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -159,6 +162,16 @@ public class ChatRoomFragment extends Fragment {
                                 isRefreshing = false;
                             }
                         }
+                    }
+
+                    //reached top, tell user
+                    if (oldScrollPosition == mBinding.recyclerBubbles.getAdapter().getItemCount()) {
+                        Snackbar snackbar = Snackbar.make(getView(), R.string.snackbar_chatroom_reached_top, Snackbar.LENGTH_SHORT);
+                        View view1 = snackbar.getView();
+                        FrameLayout.LayoutParams params = (FrameLayout.LayoutParams)view1.getLayoutParams();
+                        params.gravity = Gravity.TOP;
+                        view1.setLayoutParams(params);
+                        snackbar.show();
                     }
                 });
 
