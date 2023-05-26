@@ -3,13 +3,13 @@ package com.example.chatapp.ui.main.chat.chatlist;
 import java.io.Serializable;
 
 public class ChatListItem implements Serializable  {
-    private final String mRoomName;
-    private final String mLatestMessage;
-    private final String mLatestDate;
-    private final int mNotifCount;
-    private final int mRoomID;
+    public String mRoomName;
+    public String mLatestMessage;
+    public String mLatestDate;
+    public int mNotifCount;
+    public int mRoomID;
 
-    private final int mUserCount;
+    public int mUserCount;
 
     public ChatListItem(String mRoomName, String mLatestMessage, String mLatestDate, int mNotifCount, int mUserCount, int mRoomID) {
         this.mRoomName = mRoomName;

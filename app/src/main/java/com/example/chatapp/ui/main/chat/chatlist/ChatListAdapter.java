@@ -14,18 +14,20 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.chatapp.R;
 import com.example.chatapp.databinding.FragmentChatListItemBinding;
+import com.example.chatapp.model.NewMessageCountViewModel;
 import com.example.chatapp.ui.auth.login.LoginFragmentDirections;
 import com.example.chatapp.ui.main.chat.chatroom.ChatRoomItemsViewModel;
 
 import java.util.ArrayList;
 
 public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatListViewHolder> {
-    public final ArrayList<ChatListItem> mChatListItems;
+    public ArrayList<ChatListItem> mChatListItems;
     private ViewModelStoreOwner mActivity;
 
     public ChatListAdapter(ArrayList<ChatListItem> mChatListItems, ViewModelStoreOwner activity) {
         this.mChatListItems = mChatListItems;
         mActivity = activity;
+        setHasStableIds(true);
     }
 
     @NonNull
@@ -56,10 +58,14 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatLi
 
         //navgiations
         holder.mBinding.actionOpenChatRoom.setOnClickListener(button -> {
-            ChatRoomItemsViewModel vm = new ViewModelProvider(mActivity).get(ChatRoomItemsViewModel.class);
+            ChatRoomItemsViewModel tempChatRoomItemsViewModel = new ViewModelProvider(mActivity).get(ChatRoomItemsViewModel.class);
             //ViewModel as args to inner FragmentViewContainer
-            vm.mChatId = mChatListItems.get(position).getmRoomID();
-            vm.mChatRoomName.setValue(mChatListItems.get(position).getmRoomName());
+            tempChatRoomItemsViewModel.mChatId = mChatListItems.get(position).getmRoomID();
+            tempChatRoomItemsViewModel.mChatRoomName.setValue(mChatListItems.get(position).getmRoomName());
+
+            //NewMessage update
+            NewMessageCountViewModel tempNewMessageCountViewModel = new ViewModelProvider(mActivity).get(NewMessageCountViewModel.class);
+            tempNewMessageCountViewModel.decrementFromChatId(tempChatRoomItemsViewModel.mChatId);
 
             Navigation.findNavController(holder.itemView).navigate(
                     com.example.chatapp.ui.main.chat.chatlist.ChatListFragmentDirections.actionNavigationChatToChatRoomFragment(
@@ -85,5 +91,10 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatLi
 //            mView = itemView;
             mBinding = FragmentChatListItemBinding.bind(itemView);
         }
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return mChatListItems.get(position).mRoomID;
     }
 }
