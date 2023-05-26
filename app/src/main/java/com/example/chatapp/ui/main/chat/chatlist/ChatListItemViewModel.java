@@ -88,7 +88,7 @@ public class ChatListItemViewModel extends AndroidViewModel {
                             curr.getString("name"),
                             curr.getString("username") + ": " + curr.getString("message"),
                             SimpleDate.stringDateFromEpochString(curr.getString("timestampraw")),
-                            69,
+                            0,
                             curr.getInt("countmembers"),
                             curr.getInt("chatid")
                     ));
@@ -98,7 +98,7 @@ public class ChatListItemViewModel extends AndroidViewModel {
                             curr.getString("name"),
                             "(Empty Chat)", //TODO String
                             "N/A", //TODO String
-                            69,
+                            0,
                             curr.getInt("countmembers"),
                             curr.getInt("chatid")
                     ));

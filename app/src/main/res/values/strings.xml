@@ -106,6 +106,26 @@
     <string name="alert_chatroom_you_got_kicked">You have been kicked from this chat.</string>
     <string name="alert_chatroom_you_got_kicked_pos">Leave</string>
 
+    <string name="title_chatroom_add_user_via_contacts">User From Contacts</string>
+    <string name="alert_title_chatroom_failed_leaving">Failed leaving server.</string>
+    <string name="alert_msg_chatroom_failed_leaving">Please contact support. ¯\_(ツ)_/¯</string>
+    <string name="alert_pos_chatroom_failed_leaving">Dismiss</string>
+    <string name="alert_title_chatroom_failed_adding_user">Failed adding user.</string>
+    <string name="alert_msg_chatroom_failed_adding_user">Please check if the user is already added.</string>
+    <string name="alert_pos_chatroom_failed_adding_user">Dismiss</string>
+    <string name="alert_title_chatroom_failed_renaming">Unable to rename chat.</string>
+    <string name="alert_msg_chatroom_failed_renaming">Please contact support. ¯\_(ツ)_/¯</string>
+    <string name="alert_pos_chatroom_failed_renaming">Dismiss</string>
+
+    <string name="alert_title_chatroom_do_renaming">Rename this chat room:</string>
+    <string name="alert_et_hint_chatroom_do_renaming">Chat Room Name</string>
+    <string name="alert_pos_chatroom_do_renaming">Rename</string>
+    <string name="alert_neg_chatroom_do_renaming">Cancel</string>
+    <string name="alert_title_chatroom_do_leave">Leave this chat room?</string>
+    <string name="alert_msg_chatroom_do_leave">You will need to be added back by someone else.</string>
+    <string name="alert_pos_chatroom_do_leave">Leave</string>
+    <string name="alert_neg_chatroom_do_leave">Cancel</string>
+
     <!-- Shared Prefs -->
     <string name="keys_shared_prefs">My Auth App Shared Prefs</string>
     <string name="keys_prefs_email">SharedPrefs: Email</string>

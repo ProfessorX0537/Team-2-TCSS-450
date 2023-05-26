@@ -13,6 +13,7 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -33,6 +34,7 @@ public class ChatRoomFragment extends Fragment {
 
     private ChatRoomItemsViewModel mChatRoomItemsViewModel; //For chat room name
     private boolean isSending = false;
+    private boolean isRefreshing = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -76,8 +78,10 @@ public class ChatRoomFragment extends Fragment {
             Log.d("ChatRoomFragment", "Add users Button Clicked");
             if (mBinding.fragmentViewAddUser.getVisibility() == View.GONE) { //toggle show it
                 mBinding.fragmentViewAddUser.setVisibility(View.VISIBLE);
+                getActivity().findViewById(R.id.fragment_container_add_user_via_contacts).setVisibility(View.GONE);
             } else {
                 mBinding.fragmentViewAddUser.setVisibility(View.GONE);
+                getActivity().findViewById(R.id.fragment_container_add_user_via_contacts).setVisibility(View.GONE);
             }
             return true;
         });
@@ -92,6 +96,7 @@ public class ChatRoomFragment extends Fragment {
         //When the user scrolls to the top of the RV, the swiper list will "refresh"
         //The user is out of messages, go out to the service and get more
         mBinding.swipeContainer.setOnRefreshListener(() -> {
+            isRefreshing = true;
             if (!mItemsModel.getNextMessages(mItemsModel.mChatId, mUserInfoModel.getJwt())) {
                 mBinding.swipeContainer.setRefreshing(false);
             }
@@ -100,9 +105,9 @@ public class ChatRoomFragment extends Fragment {
         //recycler //TODO listen for ArrayList change
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setStackFromEnd(true);
+        linearLayoutManager.setSmoothScrollbarEnabled(true);
         mBinding.recyclerBubbles.setLayoutManager(linearLayoutManager);
         mBinding.recyclerBubbles.setAdapter(new ChatRoomAdapter(mItemsModel.getMessageListByChatId(mItemsModel.mChatId), mUserInfoModel.getUsername()));
-//        mBinding.recyclerBubbles.getAdapter().setStateRestorationPolicy(RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY);
 
         //Show scroll to bottom button when not at bottom
         mBinding.actionScrollToBottom.setVisibility(View.GONE); //hide initially
@@ -129,6 +134,7 @@ public class ChatRoomFragment extends Fragment {
                 list -> {
                     //TODO Save scroll position
 //                    Parcelable recyclerViewState = mBinding.recyclerBubbles.getLayoutManager().onSaveInstanceState();
+//                    ((LinearLayoutManager)mBinding.recyclerBubbles.getLayoutManager())
                     mBinding.recyclerBubbles.getAdapter().notifyDataSetChanged(); //tell recycler to update
                     mBinding.swipeContainer.setRefreshing(false);
 //                    mBinding.recyclerBubbles.getLayoutManager().onRestoreInstanceState(recyclerViewState);
@@ -139,6 +145,8 @@ public class ChatRoomFragment extends Fragment {
                         isSending = false;
                     }
 
+                    //Todo isRefreshing
+
                     //If at the bottom already, scroll to bottom on new received messages
                     if (mBinding.recyclerBubbles.getAdapter().getItemCount() != 0) {
                         if (!mBinding.recyclerBubbles.canScrollVertically(1)) {
@@ -146,7 +154,11 @@ public class ChatRoomFragment extends Fragment {
                         } else {
                             //else show scroll to bottom button
                             mBinding.actionScrollToBottom.setVisibility(View.VISIBLE);
-                            mBinding.actionScrollToBottom.setText(R.string.action_scroll_to_bottom_new); //alert of new message
+                            if (!isRefreshing) {
+                                mBinding.actionScrollToBottom.setText(R.string.action_scroll_to_bottom_new); //alert of new message
+                            } else {
+                                isRefreshing = false;
+                            }
                         }
                     }
                 });
