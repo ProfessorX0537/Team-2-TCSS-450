@@ -139,7 +139,9 @@ public class ChatRoomFragment extends Fragment {
         mItemsModel.addMessageObserver(mItemsModel.mChatId, getViewLifecycleOwner(),
                 list -> {
                     mBinding.recyclerBubbles.getAdapter().notifyDataSetChanged(); //tell recycler to update
-                    mBinding.recyclerBubbles.scrollToPosition(mBinding.recyclerBubbles.getAdapter().getItemCount() - oldScrollPosition);
+                    if (oldScrollPosition != -1) {
+                        mBinding.recyclerBubbles.scrollToPosition(mBinding.recyclerBubbles.getAdapter().getItemCount() - oldScrollPosition);
+                    }
                     Log.d("ChatRoomFragment", "oldScrollPosition: " + oldScrollPosition);
                     mBinding.swipeContainer.setRefreshing(false);
 
@@ -187,6 +189,7 @@ public class ChatRoomFragment extends Fragment {
             if (response != null) {
                 mBinding.textMessageInput.setText("");
                 isSending = true;
+                mSendModel.mResponse.setValue(null);
             }
         });
 

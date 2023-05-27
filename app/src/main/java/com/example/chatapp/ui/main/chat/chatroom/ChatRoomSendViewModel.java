@@ -26,7 +26,7 @@ import java.util.Objects;
 
 public class ChatRoomSendViewModel extends AndroidViewModel {
 
-    private final MutableLiveData<JSONObject> mResponse;
+    public final MutableLiveData<JSONObject> mResponse;
 
     public ChatRoomSendViewModel(@NonNull Application application) {
         super(application);
