@@ -15,6 +15,7 @@ import com.example.chatapp.R;
 import com.example.chatapp.databinding.FragmentChatListItemBinding;
 import com.example.chatapp.model.NewMessageCountViewModel;
 import com.example.chatapp.ui.main.chat.chatroom.ChatRoomItemsViewModel;
+import com.example.chatapp.ui.main.home.HomeMessagesItemViewModel;
 
 import java.util.ArrayList;
 
@@ -46,11 +47,11 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatLi
     public void onBindViewHolder(@NonNull ChatListViewHolder holder, int position) {
         //autonav
         if (mHomeChatIdAutoDirect == mChatListItems.get(position).mRoomID) {
-            navigateToRoom(holder, position);
+            navigateToRoom(position);
         }
         //navigation
         holder.mBinding.actionOpenChatRoom.setOnClickListener(button -> {
-            navigateToRoom(holder, position);
+            navigateToRoom(position);
         });
 
         holder.mBinding.textRoomName.setText(mChatListItems.get(position).getmRoomName());
@@ -70,7 +71,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatLi
         }
     }
 
-    private void navigateToRoom(ChatListViewHolder holder, int position) {
+    private void navigateToRoom(int position) {
         ChatRoomItemsViewModel tempChatRoomItemsViewModel = new ViewModelProvider(mActivity).get(ChatRoomItemsViewModel.class);
         //ViewModel as args to inner FragmentViewContainer
         tempChatRoomItemsViewModel.mChatId = mChatListItems.get(position).getmRoomID();
@@ -79,6 +80,10 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatLi
         //NewMessage update
         NewMessageCountViewModel tempNewMessageCountViewModel = new ViewModelProvider(mActivity).get(NewMessageCountViewModel.class);
         tempNewMessageCountViewModel.decrementFromChatId(tempChatRoomItemsViewModel.mChatId);
+
+        //Update HomeMessages
+        HomeMessagesItemViewModel tempHomeMessagesItemViewModel = new ViewModelProvider(mActivity).get(HomeMessagesItemViewModel.class);
+        tempHomeMessagesItemViewModel.deleteAllMessagesFromChatRooms(mChatListItems.get(position).getmRoomID());
 
         Navigation.findNavController(mParentView).navigate(
                 com.example.chatapp.ui.main.chat.chatlist.ChatListFragmentDirections.actionNavigationChatToChatRoomFragment(
