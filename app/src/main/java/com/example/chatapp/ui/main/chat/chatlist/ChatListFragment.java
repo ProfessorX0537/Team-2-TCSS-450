@@ -85,6 +85,8 @@ public class ChatListFragment extends Fragment {
 //                Log.v("ChatListFragment", "Observed ItemModel Response notify!");
 //            }
             showSpinner(false);
+
+            //get notifications hashmap and set according
             ArrayList<ChatListItem> list1 = ((ChatListAdapter) mBinding.rootRecycler.getAdapter()).mChatListItems;
             for (int i = 0; i < list1.size(); i++) {
                 ChatListItem curr = list1.get(i);
