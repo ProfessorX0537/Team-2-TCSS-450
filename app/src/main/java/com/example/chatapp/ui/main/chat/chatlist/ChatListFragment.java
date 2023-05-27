@@ -24,6 +24,7 @@ import com.example.chatapp.model.NewMessageCountViewModel;
 import com.example.chatapp.model.UserInfoViewModel;
 import com.example.chatapp.ui.main.chat.chatroom.ChatRoomItemsViewModel;
 import com.example.chatapp.ui.main.chat.chatroom.add.ChatRoomAddUserRequestsViewModel;
+import com.example.chatapp.ui.main.home.HomeMessagesItemViewModel;
 
 import java.util.ArrayList;
 
@@ -34,6 +35,8 @@ public class ChatListFragment extends Fragment {
     private FragmentChatListBinding mBinding;
     private ChatRoomAddUserRequestsViewModel mDeleteModel;
     private NewMessageCountViewModel mNewMessageCountModel;
+
+    private HomeMessagesItemViewModel mHomeMessagesItemViewModel;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,6 +52,8 @@ public class ChatListFragment extends Fragment {
         mDeleteModel = new ViewModelProvider(getActivity()).get(ChatRoomAddUserRequestsViewModel.class);
 
         mNewMessageCountModel = new ViewModelProvider(getActivity()).get(NewMessageCountViewModel.class);
+
+        mHomeMessagesItemViewModel = new ViewModelProvider(getActivity()).get(HomeMessagesItemViewModel.class);
     }
 
     @Override
@@ -64,7 +69,9 @@ public class ChatListFragment extends Fragment {
         //mModel.mItemList observe
         mItemModel.addItemListObserver(getViewLifecycleOwner(), list -> {
             if (mBinding.rootRecycler.getAdapter() == null) {
-                mBinding.rootRecycler.setAdapter(new ChatListAdapter(list, getActivity()));
+                mBinding.rootRecycler.setAdapter(new ChatListAdapter(list, getActivity(), mHomeMessagesItemViewModel.mChatRoomIdNavigate, getView()));
+                mHomeMessagesItemViewModel.deleteAllMessagesFromChatRooms(mHomeMessagesItemViewModel.mChatRoomIdNavigate);
+                mHomeMessagesItemViewModel.mChatRoomIdNavigate = -1;
             } else {
 //                ((ChatListAdapter)mBinding.rootRecycler.getAdapter()).
                 ((ChatListAdapter)mBinding.rootRecycler.getAdapter()).mChatListItems = list;
