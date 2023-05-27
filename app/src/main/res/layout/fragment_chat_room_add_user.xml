@@ -84,9 +84,10 @@
 
                 <Button
                     android:id="@+id/button_rename"
+                    style="?android:attr/borderlessButtonStyle"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:alpha="0"
+                    app:cornerRadius="0dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -154,12 +155,13 @@
                                 app:layout_constraintTop_toTopOf="parent"
                                 app:srcCompat="@drawable/baseline_add_circle_outline_24" />
 
-                            <ImageButton
+                            <Button
                                 android:id="@+id/button_add_user_to_chat"
+                                style="?android:attr/borderlessButtonStyle"
                                 android:layout_width="0dp"
                                 android:layout_height="0dp"
                                 android:layout_margin="0dp"
-                                android:alpha="0"
+                                app:cornerRadius="0dp"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
