@@ -14,13 +14,14 @@
         android:id="@+id/weather_today_card"
         android:layout_width="362dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         app:cardCornerRadius="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.109">
+        app:layout_constraintTop_toBottomOf="@+id/home_text_location"
+        app:layout_constraintVertical_bias="0.0">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_weather_today"
@@ -97,11 +98,11 @@
         android:id="@+id/home_text_location"
         android:layout_width="215dp"
         android:layout_height="26dp"
+        android:layout_marginTop="8dp"
         android:gravity="right"
         android:textColor="@color/text_primary"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/weather_today_card"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.826"
         app:layout_constraintStart_toStartOf="parent"
@@ -119,8 +120,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/weather_today_card"
-        app:layout_constraintVertical_bias="0.196"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintVertical_bias="0.01999998"
         app:tabSelectedTextColor="@color/text_icons"
         app:tabTextColor="@color/text_primary">
 
@@ -144,24 +145,26 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
         android:fontFamily="sans-serif-condensed-medium"
         android:text="@string/textview_home_whatsnew"
         android:textAllCaps="true"
         android:textColor="@color/text_primary"
         android:textSize="28sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/tabLayout4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.093"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/weather_today_card"
-        app:layout_constraintVertical_bias="0.767" />
+        app:layout_constraintTop_toBottomOf="@+id/weather_today_card" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/home_containerView"
         android:name="com.example.chatapp.ui.main.home.HomeMessagesFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

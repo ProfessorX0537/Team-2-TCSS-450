@@ -27,7 +27,7 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/text_cfb3"
+                android:id="@+id/text_sender_home"
                 android:layout_width="200dp"
                 android:layout_height="15dp"
                 android:layout_margin="5dp"
