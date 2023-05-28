@@ -68,9 +68,9 @@ public class ContactsViewModel extends AndroidViewModel {
     }
 
     // This is the method that is called when the user clicks the "X" button on a contact card
-    public void connectReject(final int memberid_a, final String username){
+    public void connectReject(final int memberid_a, final int memberid_b){
         String url = getApplication().getResources().getString(R.string.url_webservices) +
-                "connections?MemberID_A=" + memberid_a+"&username="+username;
+                "connections?MemberID_A=" + memberid_a+"&MemberID_B="+memberid_b;
 
         Request request = new JsonObjectRequest(Request.Method.DELETE, url, null, null, this::handleError);
 
@@ -120,7 +120,8 @@ public class ContactsViewModel extends AndroidViewModel {
                         .addEmail(message.getString("email"))
                         .addAccepted(message.getBoolean("accepted"))
                         .addMemberID(message.getInt("memberid"))
-                        .addSender(message.getBoolean("sender"))
+                        .addIncoming(message.getBoolean("incoming"))
+                        .addOutgoing(message.getBoolean("outgoing"))
                         .build();
 
                 list.add(contact);
@@ -136,9 +137,9 @@ public class ContactsViewModel extends AndroidViewModel {
     }
 
     // This is the method that is called when the user long clicks and deletes a contact card
-    public void connectDelete(final int memberid_a, final String username) {
+    public void connectDelete(final int memberid_a, final int memberid_b){
         String url = getApplication().getResources().getString(R.string.url_webservices) +
-                "connections?MemberID_A=" + memberid_a+"&username="+username;
+                "connections?MemberID_A=" + memberid_a+"&MemberID_B="+memberid_b;
 
         Request request = new JsonObjectRequest(Request.Method.DELETE, url, null, null, this::handleError);
 
@@ -150,7 +151,6 @@ public class ContactsViewModel extends AndroidViewModel {
         RequestQueueSingleton.getInstance(getApplication().getApplicationContext())
                 .addToRequestQueue(request);
 
-        //code here will run
     }
 
 
@@ -159,24 +159,11 @@ public class ContactsViewModel extends AndroidViewModel {
         String url = getApplication().getResources().getString(R.string.url_webservices) +
                 "connections?input=" + input+"&MemberID_A="+memberid_a;
 
-        ContactCard contact;
 
 
-        if(input.contains("@")){
-            contact = new ContactCard.Builder(input)
-                    .addEmail(input)
-                    .addAccepted(false)
-                    .addSender(true)
-                    .build();
-        } else {
-            contact = new ContactCard.Builder(input)
-                    .addNick(input)
-                    .addAccepted(false)
-                    .addSender(true)
-                    .build();
-        }
 
-        Request request = new JsonObjectRequest(Request.Method.POST, url, null, response -> addContact(contact), this::handleError);
+
+        Request request = new JsonObjectRequest(Request.Method.POST, url, null, this::addContact, this::handleError);
 
         request.setRetryPolicy(new DefaultRetryPolicy(
                 10_000,
@@ -188,7 +175,29 @@ public class ContactsViewModel extends AndroidViewModel {
 
     }
 
+    // This method adds a contact to the contacts array at the end
+    private void addContact(final JSONObject response){
+        try {
+            JSONObject contactJson = response.getJSONObject("contact");
 
+            ContactCard contact = new ContactCard.Builder(contactJson.getString("firstname")+" "+contactJson.getString("lastname"))
+                    .addNick(contactJson.getString("username"))
+                    .addEmail(contactJson.getString("email"))
+                    .addAccepted(false)
+                    .addMemberID(contactJson.getInt("memberid"))
+                    .addIncoming(false)
+                    .addOutgoing(true)
+                    .build();
+
+            List<ContactCard> contacts = mContacts.getValue();
+            contacts.add(0,contact);
+            mContacts.setValue(contacts);
+        }
+        catch (JSONException e) {
+            Log.e("JSON PARSE ERROR", "Found in handle Success ContactViewModel");
+            Log.e("JSON PARSE ERROR", "Error: " + e.getMessage());
+        }
+    }
 
 //    private void handleDeleteResult(final JSONObject response) {
 //        try {
@@ -229,12 +238,7 @@ public class ContactsViewModel extends AndroidViewModel {
     }
 
 
-    // This method adds a contact to the contacts array at the end
-    public void addContact(ContactCard contact){
-        List<ContactCard> contacts = mContacts.getValue();
-        contacts.add(contact);
-        mContacts.setValue(contacts);
-    }
+
 
     // This method returns the contacts array
     public List<ContactCard> getContacts(){return mContacts.getValue();}

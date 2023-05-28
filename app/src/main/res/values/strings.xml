@@ -59,7 +59,7 @@
     <string name="textview_weather_conditions">Conditions</string>
     <string name="textview_24hour_card_time">Time</string>
     <string name="textview_10day_card_day">Day</string>
-    <string name="textview_connections_email">Email/Username</string>
+    <string name="textview_connections_email">Email/Username/First or Last Name</string>
     <string name="textview_connections_request">Request Connection</string>
     <string name="textview_chatlist_add_chatroom">Name</string>
 
@@ -138,7 +138,7 @@
 
     <!-- URL -->
        <string name="url_webservices">https://daveed-tcss450-labs.herokuapp.com/</string> <!-- Heroku -->
-<!--     <string name="url_webservices">http://192.168.86.56:5000/</string> -->
+     <!--<string name="url_webservices">http://192.168.86.56:5000/</string>-->
 <!--        <string name="url_webservices">http://192.168.1.2:5000/</string> &lt;!&ndash; David &ndash;&gt;-->
 
 </resources>
