@@ -16,7 +16,8 @@ public class ContactCard implements Serializable {
 
     private boolean mAccepted;
     private final int mMemberID;
-    private final boolean mSender;
+    private final boolean mOutgoing;
+    private final boolean mIncoming;
 
     public static class Builder{
         private final String mName;
@@ -27,7 +28,9 @@ public class ContactCard implements Serializable {
         private String mEmail;
 
         private boolean mAccepted;
-        private boolean mSender;
+        private boolean mOutgoing;
+        private boolean mIncoming;
+
 
         private int mMemberID;
 
@@ -58,8 +61,15 @@ public class ContactCard implements Serializable {
             mMemberID = val;
             return this;
         }
-        public Builder addSender(final boolean val){
-            mSender = val;
+
+
+        public Builder addOutgoing(final boolean val){
+            mOutgoing = val;
+            return this;
+        }
+
+        public Builder addIncoming(final boolean val){
+            mIncoming = val;
             return this;
         }
 
@@ -76,7 +86,8 @@ public class ContactCard implements Serializable {
         this.mFirstChar = builder.mFirstChar;
         this.mAccepted = builder.mAccepted;
         this.mMemberID = builder.mMemberID;
-        this.mSender = builder.mSender;
+        this.mOutgoing = builder.mOutgoing;
+        this.mIncoming = builder.mIncoming;
     }
 
     public String getName(){return mName;}
@@ -85,11 +96,14 @@ public class ContactCard implements Serializable {
     public String getEmail(){return mEmail;}
     public boolean getAccepted(){return mAccepted;}
 
+    public boolean getOutgoing(){return mOutgoing;}
+    public boolean getIncoming(){return mIncoming;}
+
     public void setAccepted(boolean val){mAccepted = val;}
 
     public int getMemberID(){return mMemberID;}
 
-    public boolean getSender(){return mSender;}
+
 
 
 

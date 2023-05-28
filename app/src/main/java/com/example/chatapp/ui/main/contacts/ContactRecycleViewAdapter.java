@@ -157,7 +157,7 @@ public class ContactRecycleViewAdapter extends RecyclerView.Adapter<ContactRecyc
             binding.declineButton.setOnClickListener(button -> {
                 Log.i("Button","Decline Pressed");
 
-                mParentFragment.mModel.connectReject(mParentFragment.mUserInfoModel.getMemberID(), mContact.getNick());
+                mParentFragment.mModel.connectReject(mParentFragment.mUserInfoModel.getMemberID(), mContact.getMemberID());
 
 
                 mContacts.remove(mContact);
@@ -210,14 +210,14 @@ public class ContactRecycleViewAdapter extends RecyclerView.Adapter<ContactRecyc
                 binding.chatButton.setVisibility(View.VISIBLE);
                 binding.declineButton.setVisibility(View.GONE);
                 binding.addButton.setVisibility(View.GONE);
-            } else if(!mContact.getAccepted() && !mContact.getSender()){
+            } else if(!mContact.getAccepted() && mContact.getIncoming()){
                 binding.fullName.setVisibility(View.VISIBLE);
                 binding.addButton.setVisibility(View.VISIBLE);
                 binding.declineButton.setVisibility(View.VISIBLE);
                 binding.email.setVisibility(View.GONE);
                 binding.nickName.setVisibility(View.GONE);
                 binding.chatButton.setVisibility(View.GONE);
-            } else if(mContact.getSender()){
+            } else if(!mContact.getAccepted() && mContact.getOutgoing()){
                 binding.fullName.setVisibility(View.VISIBLE);
                 binding.addButton.setVisibility(View.GONE);
                 binding.declineButton.setVisibility(View.VISIBLE);
