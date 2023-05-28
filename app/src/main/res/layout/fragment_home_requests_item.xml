@@ -2,13 +2,13 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/home_message_card"
+    android:id="@+id/home_request_card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
     app:cardCornerRadius="10dp"
     android:backgroundTint="@color/light_primary"
-    tools:context=".ui.main.home.HomeMessagesItem">
+    tools:context=".ui.main.home.HomeRequestsItem">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -20,7 +20,7 @@
             android:layout_height="15dp"
             android:layout_margin="5dp"
             android:clickable="true"
-            android:text="cfb3"
+            android:text="John Doe"
             android:textColor="#673AB7"
             android:textSize="13sp"
             android:textStyle="bold"
@@ -32,11 +32,11 @@
             app:layout_constraintVertical_bias="0.0" />
 
         <TextView
-            android:id="@+id/text_message"
+            android:id="@+id/text_request"
             android:layout_width="340dp"
             android:layout_height="24dp"
             android:layout_margin="5dp"
-            android:text="Sent a new message"
+            android:text="Requested to connect"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -55,7 +55,7 @@
             android:gravity="right"
             android:text="May 18"
             android:textSize="10sp"
-            app:layout_constraintBottom_toTopOf="@+id/text_message"
+            app:layout_constraintBottom_toTopOf="@+id/text_request"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.956"
             app:layout_constraintStart_toStartOf="parent"

@@ -43,9 +43,9 @@ public class HomeRequestsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mBinding.homeRequestCard.setOnClickListener(button -> {
-            BottomNavigationView temp = ((AppCompatActivity) getActivity()).findViewById(R.id.nav_view);
-            temp.setSelectedItemId(R.id.navigation_connections);
-        });
+//        mBinding.homeRequestCard.setOnClickListener(button -> {
+//            BottomNavigationView temp = ((AppCompatActivity) getActivity()).findViewById(R.id.nav_view);
+//            temp.setSelectedItemId(R.id.navigation_connections);
+//        });
     }
 }

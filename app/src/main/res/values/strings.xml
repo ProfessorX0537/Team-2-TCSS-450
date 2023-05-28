@@ -49,7 +49,7 @@
     <string name="title_chat_room">Chat Room</string>
 
     <string name="tab_home_messages">Messages</string>
-    <string name="home_no_messages">No Messages</string>
+    <string name="home_no_notification">None</string>
     <string name="tab_home_requests">Requests</string>
     <string name="tab_weather_today">Today</string>
     <string name="tab_weather_24hr">24 Hour</string>
