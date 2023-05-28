@@ -50,6 +50,7 @@
 
     <string name="tab_home_messages">Messages</string>
     <string name="home_no_notification">None</string>
+    <string name="textview_home_requested">Requested to connect</string>
     <string name="tab_home_requests">Requests</string>
     <string name="tab_weather_today">Today</string>
     <string name="tab_weather_24hr">24 Hour</string>

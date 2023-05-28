@@ -17,10 +17,10 @@
         <TextView
             android:id="@+id/text_sender_home"
             android:layout_width="200dp"
-            android:layout_height="15dp"
+            android:layout_height="20dp"
             android:layout_margin="5dp"
             android:clickable="true"
-            android:text="cfb3"
+            android:text="philip"
             android:textColor="#673AB7"
             android:textSize="13sp"
             android:textStyle="bold"
@@ -33,7 +33,7 @@
 
         <TextView
             android:id="@+id/text_message"
-            android:layout_width="340dp"
+            android:layout_width="310dp"
             android:layout_height="24dp"
             android:layout_margin="5dp"
             android:text="Sent a new message"

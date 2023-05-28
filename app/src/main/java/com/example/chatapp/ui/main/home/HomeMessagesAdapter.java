@@ -25,7 +25,7 @@ public class HomeMessagesAdapter extends RecyclerView.Adapter<HomeMessagesAdapte
 
     private final AppCompatActivity mActivity;
 
-    public HomeMessagesAdapter(List<HomeMessagesItem> mMessagesItems, AppCompatActivity mActivity, HomeMessagesItemViewModel homeMessagesItemViewModel) {
+    public HomeMessagesAdapter(List<HomeMessagesItem> mMessagesItems, HomeMessagesItemViewModel homeMessagesItemViewModel, AppCompatActivity mActivity) {
         this.mMessagesItems = mMessagesItems;
         this.mActivity = mActivity;
         this.mHomeMessagesItemViewModel = homeMessagesItemViewModel;
