@@ -70,6 +70,7 @@ public class ChatListFragment extends Fragment {
         mItemModel.addItemListObserver(getViewLifecycleOwner(), list -> {
             if (mBinding.rootRecycler.getAdapter() == null) {
                 mBinding.rootRecycler.setAdapter(new ChatListAdapter(list, getActivity(), mHomeMessagesItemViewModel.mChatRoomIdNavigate, getView()));
+                mHomeMessagesItemViewModel.mChatRoomIdNavigate = -1;
             } else {
 //                ((ChatListAdapter)mBinding.rootRecycler.getAdapter()).
                 ((ChatListAdapter)mBinding.rootRecycler.getAdapter()).mChatListItems = list;
