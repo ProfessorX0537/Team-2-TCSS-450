@@ -48,4 +48,15 @@
             app:argType="string" />
     </fragment>
 
+    <fragment
+        android:id="@+id/navigation_changepass"
+        android:name="com.example.chatapp.ui.main.changepass.ChangePassFragment"
+        android:label="Change Pass"
+        tools:layout="@layout/fragment_changepass">
+
+        <action
+            android:id="@+id/action_navigation_changepass_to_navigation_home"
+            app:destination="@id/navigation_home" />
+    </fragment>
+
 </navigation>

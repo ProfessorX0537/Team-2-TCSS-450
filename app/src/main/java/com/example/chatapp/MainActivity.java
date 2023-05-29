@@ -28,6 +28,7 @@ import com.example.chatapp.model.NewMessageCountViewModel;
 import com.example.chatapp.model.PushyTokenViewModel;
 import com.example.chatapp.model.UserInfoViewModel;
 import com.example.chatapp.services.PushReceiver;
+import com.example.chatapp.ui.main.changepass.ChangePassFragment;
 import com.example.chatapp.ui.main.chat.chatlist.ChatListItemViewModel;
 import com.example.chatapp.ui.main.chat.chatroom.ChatRoomItem;
 import com.example.chatapp.ui.main.chat.chatroom.ChatRoomItemsViewModel;
@@ -156,7 +157,8 @@ public class MainActivity extends AppCompatActivity {
      * @author Xavier Hines
      */
     private void changePass() {
-        //TODO navigate to another fragment?
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        navController.navigate(R.id.navigation_changepass);
     }
 
     /**

@@ -7,6 +7,8 @@
     <string name="hint_fullname">Fullname</string>
     <string name="hint_nickname">Nickname</string>
     <string name="hint_email">Email</string>
+    <string name="hint_old_password">Old Password</string>
+    <string name="hint_new_password">New Password</string>
     <string name="hint_password">Password</string>
     <string name="hint_password_again">Retype Password</string>
     <string name="hint_username">Username</string>
@@ -18,6 +20,7 @@
 
     <string name="button_register">Register</string>
     <string name="button_verify_email">Done</string>
+    <string name="button_changepass_submit">Submit</string>
 
 
     <string name="action_login">Login</string>
