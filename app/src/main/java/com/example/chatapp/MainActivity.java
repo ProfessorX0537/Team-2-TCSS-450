@@ -141,9 +141,19 @@ public class MainActivity extends AppCompatActivity {
             signOut();
         } else if (id == R.id.action_settings) {
             Log.d("MainActivity", "Settings menu item clicked!"); //TODO
+        } else if (id == R.id.action_change_password) {
+            changePass();
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * Let user change their password.
+     * @author Xavier Hines
+     */
+    private void changePass() {
+        //TODO navigate to another fragment?
     }
 
     /**
