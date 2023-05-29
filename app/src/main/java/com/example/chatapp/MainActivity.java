@@ -38,7 +38,6 @@ import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
@@ -237,7 +236,7 @@ public class MainActivity extends AppCompatActivity {
 
                     ArrayList<HomeMessagesItem> temp = mHomeMessagesItemViewModel.mHomeMessageList.getValue();
                     temp.add(new HomeMessagesItem(cm.getMessageId(), cm.getMessage(), cm.getSender(), cm.getTimeStamp(), intent.getIntExtra("chatId", -1)));
-                    mHomeMessagesItemViewModel.getmHomeMessageList().setValue(temp);
+                    mHomeMessagesItemViewModel.getHomeMessageList().setValue(temp);
 
 
                 }

@@ -7,12 +7,8 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModel;
-
-import com.example.chatapp.ui.main.chat.chatroom.ChatRoomItem;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class HomeMessagesItemViewModel extends AndroidViewModel {
@@ -32,11 +28,11 @@ public class HomeMessagesItemViewModel extends AndroidViewModel {
         mHomeMessageList.observe(owner, observer);
     }
 
-    public void setmHomeMessageList(MutableLiveData<ArrayList<HomeMessagesItem>> mHomeMessageList) {
+    public void setHomeMessageList(MutableLiveData<ArrayList<HomeMessagesItem>> mHomeMessageList) {
         this.mHomeMessageList = mHomeMessageList;
     }
 
-    public MutableLiveData<ArrayList<HomeMessagesItem>> getmHomeMessageList() {
+    public MutableLiveData<ArrayList<HomeMessagesItem>> getHomeMessageList() {
         return mHomeMessageList;
     }
 

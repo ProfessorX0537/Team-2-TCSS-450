@@ -8,14 +8,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.chatapp.R;
 import com.example.chatapp.databinding.FragmentHomeMessagesBinding;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,10 +53,27 @@ public class HomeMessagesFragment extends Fragment {
             mBinding.rootRecycler.getAdapter().notifyDataSetChanged();
         });
 
+
+
+        //test to see notif
+
+//        List<HomeMessagesItem> items = new ArrayList<>();
+//        items.add(new HomeMessagesItem(0, "hi", "philip", "11", 0));
+//        items.add(new HomeMessagesItem(0, "hi", "philip", "11", 0));
+//        items.add(new HomeMessagesItem(0, "hi", "philip", "11", 0));
+//        items.add(new HomeMessagesItem(0, "hi", "philip", "11", 0));
+//        items.add(new HomeMessagesItem(0, "hi", "philip", "11", 0));
+//
+//        mBinding.rootRecycler.setAdapter(new HomeMessagesAdapter(
+//                items,
+//                mHomeMessagesItemViewModel,
+//                (AppCompatActivity) getActivity()));
+////////////////////////////////////////////////////////////////
+        //uncomment
         mBinding.rootRecycler.setAdapter(new HomeMessagesAdapter(
-                mHomeMessagesItemViewModel.getmHomeMessageList().getValue(),
-                (AppCompatActivity) getActivity(),
-                mHomeMessagesItemViewModel));
+                mHomeMessagesItemViewModel.getHomeMessageList().getValue(),
+                mHomeMessagesItemViewModel,
+                (AppCompatActivity) getActivity()));
 
     }
 }
