@@ -79,13 +79,14 @@ public class ContactFragment extends Fragment {
 
 
 
-        //scrolling
+        //When user adds a contact, the list is updated
         mModel.mAddedContactResponse.observe(getViewLifecycleOwner(), response -> {
             if (response != null) {
                 mModel.connectGet(mUserInfoModel.getMemberID());
- /*               mBinding.listRoot.getAdapter().notifyDataSetChanged();*/
             }
         });
+
+        //Adds recycle view adapter to the list
         mModel.addContactsObserver(getViewLifecycleOwner(), contactsList -> {
             if (!contactsList.isEmpty()) {
                 mBinding.listRoot.setAdapter(
@@ -93,6 +94,7 @@ public class ContactFragment extends Fragment {
                 );
             }
         });
+
 
 
 
@@ -136,17 +138,23 @@ public class ContactFragment extends Fragment {
                 new ChatListFragment.RecyclerTouchListener(this.getContext(), mBinding.listRoot, new ChatListFragment.ClickListener() {
                     @Override
                     public void onLongClick(View view, int position) {
+                        if(!mModel.getContacts().get(position).getAccepted()){
+                            return;
+                        }
                         Log.v("long click","Long clicked a connection");
                         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext())
                                 .setPositiveButton(R.string.alert_action_yes, new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        //TODO delete connection
-                                        mModel.connectDelete(mUserInfoModel.getMemberID(), mModel.getContacts().get(position).getNick());
+                                        //delete request and remove from contact view model
+
+                                        mModel.connectDelete(mUserInfoModel.getMemberID(), mModel.getContacts().get(position).getMemberID());
                                         mModel.removeContact(position);
 
                                         mBinding.listRoot.getAdapter().notifyItemRemoved(position);
                                         Log.v("Delete","connection should get deleted");
+
+
                                     }
                                 })
                                 .setNegativeButton(R.string.alert_action_no, new DialogInterface.OnClickListener() {
@@ -203,6 +211,7 @@ public class ContactFragment extends Fragment {
 
 
 
+    //TODO: change to recycler view type .
     private void requestConnection(View view) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
         alertDialogBuilder.setTitle(R.string.textview_connections_request);
@@ -222,6 +231,7 @@ public class ContactFragment extends Fragment {
                         }
                         String text=edit.getText().toString();
                         mModel.connectAdd(mUserInfoModel.getMemberID(), text);
+                        mBinding.listRoot.getAdapter().notifyDataSetChanged();
 
                         Log.v("Add","connection should get added");
 

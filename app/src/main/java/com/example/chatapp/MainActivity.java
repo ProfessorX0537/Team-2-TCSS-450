@@ -32,9 +32,12 @@ import com.example.chatapp.ui.main.chat.chatlist.ChatListItemViewModel;
 import com.example.chatapp.ui.main.chat.chatroom.ChatRoomItem;
 import com.example.chatapp.ui.main.chat.chatroom.ChatRoomItemsViewModel;
 import com.example.chatapp.ui.main.chat.chatroom.add.ChatRoomAddUserItemViewModel;
+import com.example.chatapp.ui.main.home.HomeMessagesItem;
+import com.example.chatapp.ui.main.home.HomeMessagesItemViewModel;
 import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
@@ -215,6 +218,12 @@ public class MainActivity extends AppCompatActivity {
                 new ViewModelProvider(MainActivity.this)
                         .get(ChatRoomAddUserItemViewModel.class);
 
+
+        private final HomeMessagesItemViewModel mHomeMessagesItemViewModel =
+                new ViewModelProvider(MainActivity.this)
+                        .get(HomeMessagesItemViewModel.class);
+
+
         //On receive new message
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -232,19 +241,27 @@ public class MainActivity extends AppCompatActivity {
                     }
                     //Inform the view model holding chatroom messages of the new message.
                     mChatRoomItemsViewModel.addMessage(intent.getIntExtra("chatId", -1), cm);
+
+                    ////////////////////////////////////FOR HOMEPAGE///////////////////////////////
+
+                    ArrayList<HomeMessagesItem> temp = mHomeMessagesItemViewModel.mHomeMessageList.getValue();
+                    temp.add(new HomeMessagesItem(cm.getMessageId(), cm.getMessage(), cm.getSender(), cm.getTimeStamp(), intent.getIntExtra("chatId", -1)));
+                    mHomeMessagesItemViewModel.getHomeMessageList().setValue(temp);
+
+
                 }
             } else if (intent.getAction().equals(PushReceiver.CHATLIST_INVITE)) {
                 if (intent.getStringExtra("username").equals(mUserInfo.getUsername())) { //if I got added
                     if (nd.getId() == R.id.navigation_chat) { //if in ChatList fragment
-                        //refresh list //TODO add to list instead
+                        //refresh list
                         mChatListItemViewModel.getChatRooms(mUserInfo.getMemberID(), mUserInfo.getJwt());
                     }
                     //toast
-                    Toast toast = Toast.makeText(getApplicationContext(), "You got added chat room: " + intent.getStringExtra("chatRoomName"), Toast.LENGTH_SHORT);//TODO
+                    Toast toast = Toast.makeText(getApplicationContext(), "You got added chat room: " + intent.getStringExtra("chatRoomName"), Toast.LENGTH_LONG);//TODO
                     toast.show();
                 } else { //someone else was added
                     if (nd.getId() == R.id.navigation_chat) { //in ChatList
-                        //refresh list //TODO find chat room via id and increment instead
+                        //refresh list
                         mChatListItemViewModel.getChatRooms(mUserInfo.getMemberID(), mUserInfo.getJwt());
                     } else { //in the specific chat room
                         if (nd.getId() == R.id.chatRoomFragment && intent.getIntExtra("chatId", -1) == mChatRoomItemsViewModel.mChatId) {
@@ -252,6 +269,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 }
+
             } else if (intent.getAction().equals(PushReceiver.CHATLIST_KICK)) {
                 if (intent.getStringExtra("username").equals(mUserInfo.getUsername())) { //if I was kicked
                     if (nd.getId() == R.id.chatRoomFragment && intent.getIntExtra("chatId", -1) == mChatRoomItemsViewModel.mChatId) { //if in ChatRoom fragment
@@ -264,11 +282,11 @@ public class MainActivity extends AppCompatActivity {
                         builder.show();
                     } else {
                         if (nd.getId() == R.id.navigation_chat) {
-                            //refresh list //TODO add to list instead
+                            //refresh list
                             mChatListItemViewModel.getChatRooms(mUserInfo.getMemberID(), mUserInfo.getJwt());
                         }
                         //toast
-                        Toast toast = Toast.makeText(getApplicationContext(), "You were kicked you from chat room: " + intent.getStringExtra("chatRoomName"), Toast.LENGTH_SHORT);//TODO
+                        Toast toast = Toast.makeText(getApplicationContext(), "You were kicked you from chat room: " + intent.getStringExtra("chatRoomName"), Toast.LENGTH_LONG);//TODO
                         toast.show();
                     }
                 } else { //someone else was kicked

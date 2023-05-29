@@ -9,13 +9,6 @@
     app:cardBackgroundColor="@color/light_primary"
     app:cardCornerRadius="5dp">
 
-    <Button
-        android:id="@+id/action_open_chat_room"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#00FFFFFF"
-        app:cornerRadius="0dp" />
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -51,10 +44,8 @@
             android:layout_margin="8dp"
             android:text="Apr 20"
             android:textSize="12sp"
-            app:layout_constraintBottom_toTopOf="@+id/text_latestmessage"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <FrameLayout
             android:id="@+id/frameLayout4"
@@ -72,7 +63,8 @@
                 android:id="@+id/img_notifdot"
                 android:layout_width="match_parent"
                 android:layout_height="18dp"
-                android:src="@drawable/ic_circle_black_24dp" />
+                android:src="@drawable/ic_circle_black_24dp"
+                app:tint="#B2261E" /> <!-- TODO put into color.xml -->
 
             <TextView
                 android:id="@+id/text_notifnumber"
@@ -135,5 +127,18 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <Button
+        android:id="@+id/action_open_chat_room"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="0dp"
+        android:alpha="1"
+        android:insetLeft="0dp"
+        android:insetTop="0dp"
+        android:insetRight="0dp"
+        android:insetBottom="0dp"
+        app:cornerRadius="0dp" />
 
 </androidx.cardview.widget.CardView>

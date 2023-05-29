@@ -153,10 +153,13 @@ public class ContactRecycleViewAdapter extends RecyclerView.Adapter<ContactRecyc
             });
 
 
+            // decline button that rejects contact request and removes contact from contact view model
             binding.declineButton.setOnClickListener(button -> {
                 Log.i("Button","Decline Pressed");
 
-                mParentFragment.mModel.connectReject(mParentFragment.mUserInfoModel.getMemberID(), mContact.getNick());
+                mParentFragment.mModel.connectReject(mParentFragment.mUserInfoModel.getMemberID(), mContact.getMemberID());
+
+
                 mContacts.remove(mContact);
                 notifyDataSetChanged();
                 displayFullContact();
@@ -192,12 +195,14 @@ public class ContactRecycleViewAdapter extends RecyclerView.Adapter<ContactRecyc
 
 
 
+        // expands contact card when clicked
         private void handleClick(final View theView) {
             Log.i("Button","Whole Card Pressed");
             mExpandedFlags.put(mContact,!mExpandedFlags.get(mContact));
             displayFullContact();
         }
 
+        // functions that sets visibility of certain elements in contact card based off what type of contact card it is
         private void displayFullContact() {
             if (mExpandedFlags.get(mContact) && mContact.getAccepted()) {
                 binding.nickName.setVisibility(View.VISIBLE);
@@ -205,14 +210,22 @@ public class ContactRecycleViewAdapter extends RecyclerView.Adapter<ContactRecyc
                 binding.chatButton.setVisibility(View.VISIBLE);
                 binding.declineButton.setVisibility(View.GONE);
                 binding.addButton.setVisibility(View.GONE);
-            } else if(!mContact.getAccepted()) {
+            } else if(!mContact.getAccepted() && mContact.getIncoming()){
                 binding.fullName.setVisibility(View.VISIBLE);
                 binding.addButton.setVisibility(View.VISIBLE);
                 binding.declineButton.setVisibility(View.VISIBLE);
                 binding.email.setVisibility(View.GONE);
                 binding.nickName.setVisibility(View.GONE);
                 binding.chatButton.setVisibility(View.GONE);
-            } else {
+            } else if(!mContact.getAccepted() && mContact.getOutgoing()){
+                binding.fullName.setVisibility(View.VISIBLE);
+                binding.addButton.setVisibility(View.GONE);
+                binding.declineButton.setVisibility(View.VISIBLE);
+                binding.email.setVisibility(View.GONE);
+                binding.nickName.setVisibility(View.GONE);
+                binding.chatButton.setVisibility(View.GONE);
+
+            }else {
                     binding.declineButton.setVisibility(View.GONE);
                     binding.addButton.setVisibility(View.GONE);
                     binding.nickName.setVisibility(View.GONE);

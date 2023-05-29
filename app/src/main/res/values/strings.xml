@@ -49,6 +49,8 @@
     <string name="title_chat_room">Chat Room</string>
 
     <string name="tab_home_messages">Messages</string>
+    <string name="home_no_notification">None</string>
+    <string name="textview_home_requested">Requested to connect</string>
     <string name="tab_home_requests">Requests</string>
     <string name="tab_weather_today">Today</string>
     <string name="tab_weather_24hr">24 Hour</string>
@@ -58,7 +60,7 @@
     <string name="textview_weather_conditions">Conditions</string>
     <string name="textview_24hour_card_time">Time</string>
     <string name="textview_10day_card_day">Day</string>
-    <string name="textview_connections_email">Email/Username</string>
+    <string name="textview_connections_email">Email/Username/First or Last Name</string>
     <string name="textview_connections_request">Request Connection</string>
     <string name="textview_chatlist_add_chatroom">Name</string>
 
@@ -127,6 +129,8 @@
     <string name="alert_pos_chatroom_do_leave">Leave</string>
     <string name="alert_neg_chatroom_do_leave">Cancel</string>
 
+    <string name="snackbar_chatroom_reached_top">Reached Top</string>
+
     <!-- Shared Prefs -->
     <string name="keys_shared_prefs">My Auth App Shared Prefs</string>
     <string name="keys_prefs_email">SharedPrefs: Email</string>
@@ -136,7 +140,7 @@
 
     <!-- URL -->
        <string name="url_webservices">https://daveed-tcss450-labs.herokuapp.com/</string> <!-- Heroku -->
-<!--     <string name="url_webservices">http://192.168.86.56:5000/</string> -->
+     <!--<string name="url_webservices">http://192.168.86.56:5000/</string>-->
 <!--        <string name="url_webservices">http://192.168.1.2:5000/</string> &lt;!&ndash; David &ndash;&gt;-->
 
 </resources>
