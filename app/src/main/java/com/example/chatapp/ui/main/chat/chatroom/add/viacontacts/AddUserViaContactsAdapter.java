@@ -38,7 +38,7 @@ public class AddUserViaContactsAdapter extends RecyclerView.Adapter<AddUserViaCo
         mItems = new ArrayList<>();
         for (int i = 0; i < mItemsContacts.size(); i++) {
             ContactCard curr = mItemsContacts.get(i);
-            if (!temp.containsKey(curr.getNick())) {
+            if (!temp.containsKey(curr.getNick()) && curr.getAccepted()) {
                 mItems.add(curr);
             }
         }
