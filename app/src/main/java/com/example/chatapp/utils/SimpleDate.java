@@ -32,7 +32,7 @@ public class SimpleDate {
         } else if (minutes > 0) {
             return minutes + " minutes ago";
         } else {
-            return seconds + " seconds ago";
+            return "now";
         }
     }
 }

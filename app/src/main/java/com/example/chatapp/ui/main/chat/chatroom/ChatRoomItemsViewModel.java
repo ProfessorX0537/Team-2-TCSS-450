@@ -194,7 +194,7 @@ public class ChatRoomItemsViewModel extends AndroidViewModel {
                         message.getInt("messageid"),
                         message.getString("message"),
                         message.getString("username"),
-                        SimpleDate.stringDateFromEpochString(message.getString("timestampraw"))
+                        message.getString("timestampraw")
                 );
                 if (!list.contains(cMessage)) {
                     // don't add a duplicate

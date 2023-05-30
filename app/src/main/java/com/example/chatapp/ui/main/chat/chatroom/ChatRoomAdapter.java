@@ -12,6 +12,7 @@ import com.example.chatapp.databinding.FragmentChatListItemBinding;
 import com.example.chatapp.databinding.FragmentChatRoomBinding;
 import com.example.chatapp.databinding.FragmentChatRoomBubbleReceiveBinding;
 import com.example.chatapp.databinding.FragmentChatRoomBubbleSendBinding;
+import com.example.chatapp.utils.SimpleDate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,11 +65,11 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 //            }
             holder1.mBinding.textSender.setText(curr.getSender());
             holder1.mBinding.textMessage.setText(curr.getMessage());
-            holder1.mBinding.textDate.setText(curr.getTimeStamp());
+            holder1.mBinding.textDate.setText(SimpleDate.stringDateFromEpochString(curr.getTimeStamp()));
         } else { //VIEWTYPE_SEND
             ChatRoomViewHolderSend holder1 = (ChatRoomViewHolderSend) holder; //cast
             holder1.mBinding.textMessage.setText(curr.getMessage());
-            holder1.mBinding.textDate.setText(curr.getTimeStamp());
+            holder1.mBinding.textDate.setText(SimpleDate.stringDateFromEpochString(curr.getTimeStamp()));
         }
     }
 

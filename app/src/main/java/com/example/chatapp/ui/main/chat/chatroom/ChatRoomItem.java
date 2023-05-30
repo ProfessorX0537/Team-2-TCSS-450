@@ -38,7 +38,8 @@ public class ChatRoomItem  implements Serializable {
         return new ChatRoomItem(msg.getInt("messageid"),
                 msg.getString("message"),
                 msg.getString("username"),
-                SimpleDate.stringDateFromEpochString(msg.getString("timestampraw")));
+                msg.getString("timestampraw"));
+//                SimpleDate.stringDateFromEpochString(msg.getString("timestampraw")));
     }
 
     public String getMessage() {
