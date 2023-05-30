@@ -44,7 +44,7 @@ public class HomeMessagesAdapter extends RecyclerView.Adapter<HomeMessagesAdapte
         //holder.mBinding.textView4.setText("hi");
         holder.mBinding.textMessage.setText(mMessagesItems.get(position).getMessage());
         holder.mBinding.textSenderHome.setText(mMessagesItems.get(position).getSender());
-        holder.mBinding.textHomeDatetime.setText(mMessagesItems.get(position).getTimeStamp());
+        holder.mBinding.textHomeDatetime.setText(SimpleDate.stringDateFromEpochString(mMessagesItems.get(position).getTimeStamp()));
 
         holder.mBinding.homeMessageCard.setOnClickListener(button -> {
             mHomeMessagesItemViewModel.mChatRoomIdNavigate = mMessagesItems.get(position).getmChatId();
