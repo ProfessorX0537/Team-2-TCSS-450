@@ -113,4 +113,15 @@
         app:layout_constraintVertical_bias="0.43"
         tools:text="@string/switch_sign_in" />
 
+    <TextView
+        android:id="@+id/text_forgot_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/textview_login_forgot"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_password" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

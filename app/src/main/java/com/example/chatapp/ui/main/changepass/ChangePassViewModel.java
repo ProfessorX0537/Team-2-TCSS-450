@@ -1,6 +1,7 @@
 package com.example.chatapp.ui.main.changepass;
 
 import android.app.Application;
+import android.util.Base64;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -15,11 +16,14 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.chatapp.R;
+import com.example.chatapp.model.UserInfoViewModel;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.nio.charset.Charset;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -33,6 +37,11 @@ public class ChangePassViewModel extends AndroidViewModel {
      * the webservice.
      */
     private MutableLiveData<JSONObject> mResponse;
+
+    /**
+     * ViewModel that holds user's info
+     */
+    private UserInfoViewModel mUserViewModel;
 
     /**
      * RegisterViewModel constructor
@@ -87,29 +96,39 @@ public class ChangePassViewModel extends AndroidViewModel {
      * Will make POST request to the webservice attempting to register
      * a user with the provided information.
      * @param oldPassword Users old password
-     * @param password User password
+     * @param newPassword User password
      */
     public void connectChangePassword(final String oldPassword,
-                                final String password) {
+                                final String newPassword) {
         //TODO change to right endpoint
-        String url = getApplication().getString(R.string.url_webservices) + "auth";
+        String url = getApplication().getString(R.string.url_webservices) + "repass";
         JSONObject body = new JSONObject();
         try {
-            body.put("oldPassword", oldPassword);
-            body.put("password", password);
+            body.put("email", mUserViewModel.getEmail());
+            body.put("memberid", mUserViewModel.getMemberID());
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        //System.out.println("the JSON being sent: "+body);
-
         Request request = new JsonObjectRequest(
-                Request.Method.POST,
+                Request.Method.GET,
                 url,
                 body,
                 mResponse::setValue,
-                this::handleError);
-        System.out.println("sent request");
+                this::handleError) { // This allows me to override existing non-final methods
 
+            // getHeaders override to set headers of the new JsonObjectRequest
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                // add headers <key,value>
+                String change = oldPassword + ":" + newPassword;
+                String auth = "Basic "
+                        + Base64.encodeToString(change.getBytes(),
+                        Base64.NO_WRAP);
+                headers.put("Authorization", auth);
+                return headers;
+            }
+        };
         request.setRetryPolicy(new DefaultRetryPolicy(
                 10_000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
