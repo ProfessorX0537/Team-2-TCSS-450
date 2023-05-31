@@ -40,7 +40,7 @@ public class WeatherTodayFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mViewModel = new ViewModelProvider(getActivity()).get(WeatherInfoViewModel.class);
-        mViewModel.connectGet();
+//        mViewModel.connectGet();
     }
 
     @Override
@@ -66,29 +66,31 @@ public class WeatherTodayFragment extends Fragment {
     private void observeData(JSONObject result) {
         if (result.length() != 0) {
             try {
-                Date date = new Date();   // given date
-                Calendar calendar = GregorianCalendar.getInstance(); // creates a new calendar instance
-                calendar.setTime(date);   // assigns calendar to given date
-                int currentHour = calendar.get(Calendar.HOUR_OF_DAY); // gets hour in 24h format
-                int currentMonth = calendar.get(Calendar.MONTH);       // gets month number, NOTE this is zero based!
-                int currentDay = calendar.get(Calendar.DAY_OF_MONTH);
-                int currentYear = calendar.get(Calendar.YEAR);
 
-                JSONObject current = result.getJSONObject("current_weather");
-                String currentTemp = Math.round(Float.parseFloat(current.getString("temperature"))) + "°F";
-                String currentDate = mViewModel.mMonthName[currentMonth] + " " + currentDay + ", " + currentYear;
+                if (result.has("current_weather")) {
+                    Date date = new Date();   // given date
+                    Calendar calendar = GregorianCalendar.getInstance(); // creates a new calendar instance
+                    calendar.setTime(date);   // assigns calendar to given date
+                    int currentHour = calendar.get(Calendar.HOUR_OF_DAY); // gets hour in 24h format
+                    int currentMonth = calendar.get(Calendar.MONTH);       // gets month number, NOTE this is zero based!
+                    int currentDay = calendar.get(Calendar.DAY_OF_MONTH);
+                    int currentYear = calendar.get(Calendar.YEAR);
 
-                int currentWeatherCode = Integer.parseInt(current.getString("weathercode"));
-                int iconID = WeatherCodes.getWeatherIconName(currentWeatherCode);
-                Drawable icon = AppCompatResources.getDrawable(getContext(), iconID);
+                    JSONObject current = result.getJSONObject("current_weather");
+                    String currentTemp = Math.round(Float.parseFloat(current.getString("temperature"))) + "°F";
+                    String currentDate = mViewModel.mMonthName[currentMonth] + " " + currentDay + ", " + currentYear;
 
-                mBinding.textTemperature.setText(currentTemp);
-                mBinding.textDaycondition.setText(WeatherCodes.getWeatherCodeName(currentWeatherCode));
-                mBinding.imageWeathercondtion.setImageDrawable(icon);
-                mBinding.textDate.setText(currentDate);
-//                Log.d("hi", temp+"");
+                    int currentWeatherCode = Integer.parseInt(current.getString("weathercode"));
+                    int iconID = WeatherCodes.getWeatherIconName(currentWeatherCode);
+                    Drawable icon = AppCompatResources.getDrawable(getContext(), iconID);
+
+                    mBinding.textTemperature.setText(currentTemp);
+                    mBinding.textDaycondition.setText(WeatherCodes.getWeatherCodeName(currentWeatherCode));
+                    mBinding.imageWeathercondtion.setImageDrawable(icon);
+                    mBinding.textDate.setText(currentDate);
+                }
             } catch (JSONException e) {
-                throw new RuntimeException(e);
+                Log.e("Weather Update JSON Error", "handleResultError: " + e);
             }
         }
     }

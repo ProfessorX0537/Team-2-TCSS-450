@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import com.example.chatapp.R;
 import com.example.chatapp.databinding.FragmentWeatherBinding;
@@ -59,6 +60,10 @@ public class WeatherFragment extends Fragment {
         mBinding.buttonLocation.setOnClickListener(button -> {
             updateLocation();
         });
+
+        EditText box = mBinding.textLocation;
+
+
 
         TabLayout tabLayout = mBinding.tabLayout;
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {

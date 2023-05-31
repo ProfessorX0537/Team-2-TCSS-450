@@ -34,7 +34,7 @@
     <string name="title_chatlist_create_new">Create New Chat</string>
     <string name="button_chatlist_create_pos">Create</string>
     <string name="button_chatlist_create_neg">Cancel</string>
-    
+
     <string name="alert_title_login_unverified_email">Unverified Email</string>
     <string name="alert_message_login_unverified">It appears your email is in our system but hasn\'t been verified. Would you like us to send another verification email?</string>
     <string name="alert_action_login_positive">Cancel</string>
@@ -44,7 +44,7 @@
     <string name="alert_title_delete_connection">Delete Connection?</string>
     <string name="alert_action_yes">Yes</string>
     <string name="alert_action_no">No</string>
-    
+
     <string name="menu_home">Home</string>
     <string name="menu_weather">Weather</string>
     <string name="menu_connections">Contacts</string>
@@ -79,7 +79,7 @@
 
     <string name="establishing_connection">Establishing Connection...</string>
     <string name="logging_in">Logging In...</string>
-    
+
     <string name="weathercode_clear">Clear</string>
     <string name="weathercode_partly_clear">Partly clear</string>
     <string name="weathercode_partly_cloudy">Partly cloudy</string>
@@ -142,8 +142,8 @@
     <string name="keys_prefs_username">SharedPrefs: Username</string>
 
     <!-- URL -->
-       <string name="url_webservices">https://daveed-tcss450-labs.herokuapp.com/</string> <!-- Heroku -->
-     <!--<string name="url_webservices">http://192.168.86.56:5000/</string>-->
-<!--        <string name="url_webservices">http://192.168.1.2:5000/</string> &lt;!&ndash; David &ndash;&gt;-->
+    <string name="url_webservices">https://daveed-tcss450-labs.herokuapp.com/</string> <!-- Heroku -->
+    <!--<string name="url_webservices">http://192.168.86.56:5000/</string>-->
+    <!--        <string name="url_webservices">http://192.168.1.2:5000/</string> &lt;!&ndash; David &ndash;&gt;-->
 
 </resources>

@@ -45,9 +45,11 @@ public class WeatherInfoViewModel extends AndroidViewModel {
 
     private MutableLiveData<JSONObject> mResponse;
 
-    private String mTime;
+    public String mTime;
 
     private String mLocation;
+    //Used for reverting to previous location is to be updated location is invalid
+    private String mLocationBackup;
 
 
     public WeatherInfoViewModel(@NonNull Application application) {
@@ -61,6 +63,7 @@ public class WeatherInfoViewModel extends AndroidViewModel {
                                     "May", "June", "July", "Aug",
                                     "Sept", "Oct", "Nov", "Dec"};
         mLocation = "98402"; //Default location
+        mLocationBackup = mLocation;
 
 
     }
@@ -72,35 +75,40 @@ public class WeatherInfoViewModel extends AndroidViewModel {
 
     private void handleResult(final JSONObject result) {
 
-        JSONObject currentWeather;
-        JSONObject houryUnits;
-        JSONObject hourly;
-        JSONObject dailyUnits;
-        JSONObject daily;
-        try {
-            currentWeather = result.getJSONObject("current_weather");
-            //Set the current time
-            mTime = currentWeather.getString("time");
-            //mTime = mTime.substring(11, mTime.length() - 3);
-            Log.d("WEATHER", "Time is: " + mTime);
-
-            houryUnits = result.getJSONObject("hourly_units");
-            hourly = result.getJSONObject("hourly");
-            dailyUnits = result.getJSONObject("daily_units");
-            daily = result.getJSONObject("daily");
-
-            setupWeather24HourCards(houryUnits, hourly);
-            setupWeather10DayCards(dailyUnits, daily);
-
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        }
-
-
+        mLocationBackup = mLocation;
         mResponse.setValue(result);
+
+//        JSONObject currentWeather;
+//        JSONObject houryUnits;
+//        JSONObject hourly;
+//        JSONObject dailyUnits;
+//        JSONObject daily;
+//
+//        try {
+//            currentWeather = result.getJSONObject("current_weather");
+//            //Set the current time
+//            mTime = currentWeather.getString("time");
+//            //mTime = mTime.substring(11, mTime.length() - 3);
+//            Log.d("WEATHER", "Time is: " + mTime);
+//
+//            houryUnits = result.getJSONObject("hourly_units");
+//            hourly = result.getJSONObject("hourly");
+//            dailyUnits = result.getJSONObject("daily_units");
+//            daily = result.getJSONObject("daily");
+//
+//            setupWeather24HourCards(houryUnits, hourly);
+//            setupWeather10DayCards(dailyUnits, daily);
+//
+//        } catch (JSONException e) {
+//            Log.e("JSON Parse Error", "handleResult: " + e);
+//        }
+//
+//        mResponse.setValue(result);
     }
 
     private void handleError(final VolleyError error) {
+
+
 
         if (Objects.isNull(error.networkResponse)) {
             try {
@@ -126,14 +134,16 @@ public class WeatherInfoViewModel extends AndroidViewModel {
                 Log.e("JSON PARSE", "JSON Parse Error in handleError");
             }
         }
+
+        //Set location to backup due to error
+        mLocation = mLocationBackup;
+        connectGet();
     }
 
     public void connectGet() {
         String url = getApplication().getString(R.string.url_webservices) + "weather";
 
         //Todo: Pull zipcode/coords from user input
-
-
 
 //        String latitude = "&latitude=" + -87.244843;
 //        String longitude = "?longitude=" + -122.42595;
