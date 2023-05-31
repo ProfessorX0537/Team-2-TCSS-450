@@ -120,6 +120,10 @@ public class LoginViewModel extends AndroidViewModel {
                 .add(request);
     }
 
+    /**
+     * http call that will resend verification email.
+     * @param email the users email
+     */
     public void connectResendVerification(final String email) {
         String url = getApplication().getString(R.string.url_webservices) + "verify/send?email=" + email;
 
@@ -138,5 +142,21 @@ public class LoginViewModel extends AndroidViewModel {
         // This may need changed to the requestSingletonQueue in lab 3 Auth
         Volley.newRequestQueue(getApplication().getApplicationContext())
                 .add(request);
+    }
+
+    /**
+     * http call that will check that an account exists under the given email
+     * and then send email that will allow user to proceed with password reset.
+     * @param email the email the user made account with.
+     */
+    public void connectResetPasswordEmail(final String email) {
+     //TODO
+    }
+
+    /**
+     * http call that will change the users password for our application
+     */
+    public void connectResetPassword() {
+        //TODO
     }
 }

@@ -305,6 +305,7 @@ public class LoginFragment extends Fragment {
         alertDialogBuilder.setTitle("Forgot Password?");
         LayoutInflater inflater = requireActivity().getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.dialog_generic_edit_text, null);
+        alertDialogBuilder.setView(dialogView);
         alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener(){
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
@@ -320,7 +321,6 @@ public class LoginFragment extends Fragment {
                     return;
                 }
                 String text=edit.getText().toString();
-                //add email to viewmodel
                 //TODO navigate to forgot password fragment and send email http request
                 Navigation.findNavController(getView())
                         .navigate(LoginFragmentDirections.actionLoginToForgotPasswordFragment());

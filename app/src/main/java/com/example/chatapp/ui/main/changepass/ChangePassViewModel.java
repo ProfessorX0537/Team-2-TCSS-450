@@ -110,7 +110,7 @@ public class ChangePassViewModel extends AndroidViewModel {
             e.printStackTrace();
         }
         Request request = new JsonObjectRequest(
-                Request.Method.GET,
+                Request.Method.PUT,
                 url,
                 body,
                 mResponse::setValue,
