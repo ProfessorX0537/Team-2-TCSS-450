@@ -20,6 +20,7 @@ import static android.app.ActivityManager.RunningAppProcessInfo.IMPORTANCE_VISIB
 import com.example.chatapp.AuthActivity;
 import com.example.chatapp.R;
 import com.example.chatapp.ui.main.chat.chatroom.ChatRoomItem;
+import com.example.chatapp.ui.main.contacts.ContactCard;
 
 public class PushReceiver extends BroadcastReceiver {
 
@@ -27,6 +28,8 @@ public class PushReceiver extends BroadcastReceiver {
     public static final String CHATLIST_INVITE = "new ChatListInvite from pushy";
     public static final String CHATLIST_KICK = "new ChatListKick from pushy";
     public static final String CHATLIST_RENAME = "new ChatListRename from pushy";
+
+    public static final String CONNECTION_ADD = "new ConnectionAdd from pushy";
 
     private static final String CHANNEL_ID = "1";
 
@@ -41,6 +44,7 @@ public class PushReceiver extends BroadcastReceiver {
         //for your project, the WS needs to send different types of push messages.
         //So perform logic/routing based on the "type"
         //feel free to change the key or type of values.
+        Log.i("PUSHY", "Received message from pushy");
         String typeOfMessage = intent.getStringExtra("type");
         if (typeOfMessage.equals("msg")) { //////////////////////////////////////////////////////////////////////////////////
             ChatRoomItem message = null;
@@ -163,10 +167,49 @@ public class PushReceiver extends BroadcastReceiver {
                 i.putExtra("chatRoomName", chatRoomName);
                 //send
                 context.sendBroadcast(i);
+            }else {
+                //else if off app, send notif
+                //TODO if not EC
+            }
+
+        } else if (typeOfMessage.equals("ConnectionAdd")) {
+/*            int memberId = intent.getIntExtra("senderid", -1);
+            String firstname = intent.getStringExtra("firstname");
+            String lastname = intent.getStringExtra("lastname");
+            String username = intent.getStringExtra("username");
+            String email = intent.getStringExtra("email");
+            ContactCard contactCard = new ContactCard.Builder(firstname+ " " +lastname)
+                    .addNick(username)
+                    .addEmail(email)
+                    .addMemberID(memberId)
+                    .addIncoming(true)
+                    .addOutgoing(false)
+                    .addAccepted(false)
+                    .build();*/
+
+            ActivityManager.RunningAppProcessInfo appProcessInfo = new ActivityManager.RunningAppProcessInfo();
+            ActivityManager.getMyMemoryState(appProcessInfo);
+
+            if (appProcessInfo.importance == IMPORTANCE_FOREGROUND || appProcessInfo.importance == IMPORTANCE_VISIBLE) {
+                //app is in the foreground so send to MainActivity PushyService
+//                Log.d("PUSHY", "ConnectionAdd received in foreground, for memberId: " + intent.getIntExtra("senderid", -1) + " from username: " + username);
+                //create an Intent to broadcast a message to other parts of the app.
+                Intent i = new Intent(CONNECTION_ADD);
+/*                i.putExtra("memberId", memberId);
+                i.putExtra("firstname", firstname);
+                i.putExtra("lastname", lastname);
+                i.putExtra("username", username);
+                i.putExtra("email", email);*/
+                //send
+                context.sendBroadcast(i);
             } else {
                 //else if off app, send notif
                 //TODO if not EC
             }
+
+
+
+
         }
     }
 }

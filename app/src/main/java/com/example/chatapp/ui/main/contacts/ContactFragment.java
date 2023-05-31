@@ -88,12 +88,17 @@ public class ContactFragment extends Fragment {
 
         //Adds recycle view adapter to the list
         mModel.addContactsObserver(getViewLifecycleOwner(), contactsList -> {
+
+
             if (!contactsList.isEmpty()) {
                 mBinding.listRoot.setAdapter(
                         new ContactRecycleViewAdapter(contactsList, this)
                 );
+                mBinding.listRoot.getAdapter().notifyDataSetChanged();
             }
         });
+
+
 
 
 
