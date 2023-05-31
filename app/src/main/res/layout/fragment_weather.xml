@@ -13,9 +13,7 @@
         android:id="@+id/text_location"
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginTop="28dp"
         android:background="@drawable/round_style"
         android:backgroundTint="@color/light_primary"
         android:ems="10"
@@ -29,33 +27,51 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <Button
+        android:id="@+id/button_textbox"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="291dp"
+        android:layout_height="43dp"
+        android:layout_marginTop="4dp"
+        app:iconTint="#00FFFFFF"
+        app:layout_constraintBottom_toBottomOf="@+id/text_location"
+        app:layout_constraintStart_toStartOf="@+id/text_location"
+        app:layout_constraintTop_toTopOf="@+id/text_location"
+        app:rippleColor="#00FFFFFF" />
+
+    <ImageButton
+        android:id="@+id/button_mylocation"
+        android:layout_width="54dp"
+        android:layout_height="43dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="3dp"
+        android:backgroundTint="#80FFFFFF"
+        android:src="@drawable/baseline_pin_drop_24"
+        app:layout_constraintBottom_toBottomOf="@+id/text_location"
+        app:layout_constraintEnd_toStartOf="@+id/button_location"
+        app:layout_constraintTop_toTopOf="@+id/text_location"
+        app:layout_constraintVertical_bias="0.6" />
+
     <ImageButton
         android:id="@+id/button_location"
-        android:layout_width="41dp"
-        android:layout_height="38dp"
-        android:layout_marginEnd="8dp"
+        android:layout_width="47dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="1dp"
         android:backgroundTint="#80FFFFFF"
         android:src="@drawable/baseline_send_24"
         app:layout_constraintBottom_toBottomOf="@+id/text_location"
         app:layout_constraintEnd_toEndOf="@+id/text_location"
         app:layout_constraintTop_toTopOf="@+id/text_location"
-        app:layout_constraintVertical_bias="0.476" />
-
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/weather_fragment_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="128dp"
-        app:layout_constraintTop_toBottomOf="@+id/tabLayout"
-        tools:layout_editor_absoluteX="-27dp" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginTop="10dp"
         android:background="@drawable/round_style"
         android:backgroundTint="@color/light_primary"
         app:layout_constraintEnd_toEndOf="parent"
@@ -71,14 +87,16 @@
             android:layout_height="wrap_content"
             android:text="@string/tab_weather_today"
 
-            tools:layout_editor_absoluteX="3dp"
-            tools:layout_editor_absoluteY="109dp" />
+            tools:layout_editor_absoluteX="12dp"
+            tools:layout_editor_absoluteY="39dp" />
 
         <com.google.android.material.tabs.TabItem
 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/tab_weather_24hr" />
+            android:text="@string/tab_weather_24hr"
+            tools:layout_editor_absoluteX="136dp"
+            tools:layout_editor_absoluteY="3dp" />
 
         <com.google.android.material.tabs.TabItem
 
@@ -86,5 +104,14 @@
             android:layout_height="wrap_content"
             android:text="@string/tab_weather_10day" />
     </com.google.android.material.tabs.TabLayout>
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/weather_fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tabLayout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
