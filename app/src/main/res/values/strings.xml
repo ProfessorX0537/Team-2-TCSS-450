@@ -20,6 +20,7 @@
 
     <string name="button_register">Register</string>
     <string name="button_forgot_password_reset">Reset</string>
+    <string name="button_forgot_password_email">Send Email</string>
     <string name="button_verify_email">Done</string>
     <string name="button_changepass_submit">Submit</string>
 
@@ -83,9 +84,9 @@
     <string name="alert_login_forgot_password_message">Please enter email connected to the account.</string>
 
     <string name="display_header_verify_email_title">Please verify your email!</string>
-    <string name="display_header_forgot_password_reset">Enter a new password</string>
+    <string name="display_header_forgot_password_reset">Reset Password</string>
     <string name="display_subheader_verify_email">We have sent you and email to verify you the Chatapp service.</string>
-    <string name="display_subheader_forgot_password">We have sent you an email please verify it so that you can reset your password.</string>
+    <string name="display_subheader_forgot_password">To reset password please enter and email then click \'Send Email\', verify that you received email and return to this page.</string>
     <string name="test_name">Test Name</string>
 
     <string name="establishing_connection">Establishing Connection...</string>
