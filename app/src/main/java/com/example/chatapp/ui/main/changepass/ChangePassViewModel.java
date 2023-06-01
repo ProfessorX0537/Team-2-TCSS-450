@@ -99,7 +99,7 @@ public class ChangePassViewModel extends AndroidViewModel {
      * @param newPassword User password
      */
     public void connectChangePassword(final String oldPassword,
-                                final String newPassword) {
+                                final String newPassword, UserInfoViewModel mUserViewModel) {
         //TODO change to right endpoint
         String url = getApplication().getString(R.string.url_webservices) + "repass";
         JSONObject body = new JSONObject();
@@ -125,7 +125,7 @@ public class ChangePassViewModel extends AndroidViewModel {
                 String auth = "Basic "
                         + Base64.encodeToString(change.getBytes(),
                         Base64.NO_WRAP);
-                headers.put("Authorization", auth);
+                headers.put("authorization", auth);
                 return headers;
             }
         };

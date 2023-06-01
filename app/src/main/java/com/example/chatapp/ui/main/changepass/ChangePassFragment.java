@@ -26,6 +26,7 @@ import androidx.navigation.Navigation;
 import com.example.chatapp.R;
 import com.example.chatapp.databinding.FragmentChangepassBinding;
 import com.example.chatapp.databinding.FragmentRegisterBinding;
+import com.example.chatapp.model.UserInfoViewModel;
 import com.example.chatapp.ui.auth.register.RegisterFragmentDirections;
 import com.example.chatapp.ui.auth.register.RegisterViewModel;
 import com.example.chatapp.ui.main.home.HomeFragment;
@@ -48,6 +49,7 @@ public class ChangePassFragment extends Fragment {
      * Private field variable to access RegisterViewModel
      */
     private ChangePassViewModel mChangePassModel;
+    private UserInfoViewModel mUserInfoViewModel;
 
     /**
      * Private field variable to validate user's names
@@ -85,6 +87,8 @@ public class ChangePassFragment extends Fragment {
         super.onCreate(savedInstanceState);
         mChangePassModel = new ViewModelProvider(getActivity())
                 .get(ChangePassViewModel.class);
+        mUserInfoViewModel = new ViewModelProvider(getActivity())
+                .get(UserInfoViewModel.class);
     }
 
     /**
@@ -192,7 +196,9 @@ public class ChangePassFragment extends Fragment {
         //TODO change WS endpoint to take old pass and validate it.
         mChangePassModel.connectChangePassword(
                 binding.editOldPassword.getText().toString(),
-                binding.editPassword1.getText().toString());
+                binding.editPassword1.getText().toString(),
+                mUserInfoViewModel
+        );
         //This is an Asynchronous call. No statements after should rely on the
         //result of connect().
     }

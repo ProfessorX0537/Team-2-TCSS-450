@@ -184,8 +184,8 @@ public class ForgotPasswordResetFragment extends Fragment {
     private void verifyAuthWithServer() {
         System.out.println("Calling connect");
         mLoginViewModel.connectResetPassword(
-                mbinding.editEmail.toString(),
-                mbinding.editPassword1.toString());
+                mbinding.editEmail.getText().toString(),
+                mbinding.editPassword1.getText().toString());
     }
 
     /**
