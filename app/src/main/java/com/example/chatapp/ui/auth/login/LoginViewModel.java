@@ -155,7 +155,7 @@ public class LoginViewModel extends AndroidViewModel {
      * @param email the email the user made account with.
      */
     public void connectResetPasswordEmail(final String email) {
-        String url = getApplication().getString(R.string.url_webservices) + "repass?email=" + email;
+        String url = getApplication().getString(R.string.url_webservices) + "repass/request?email=" + email;
 
         Request request = new JsonObjectRequest(
                 Request.Method.GET,

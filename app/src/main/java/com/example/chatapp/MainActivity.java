@@ -1,5 +1,17 @@
 package com.example.chatapp;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.view.menu.MenuView;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDestination;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
+
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
@@ -7,13 +19,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -36,6 +51,7 @@ import com.example.chatapp.ui.main.chat.chatroom.add.ChatRoomAddUserItemViewMode
 import com.example.chatapp.ui.main.contacts.ContactsViewModel;
 import com.example.chatapp.ui.main.home.HomeMessagesItem;
 import com.example.chatapp.ui.main.home.HomeMessagesItemViewModel;
+import com.example.chatapp.ui.main.settings.SettingsFragment;
 import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -51,10 +67,18 @@ public class MainActivity extends AppCompatActivity {
     private MainPushMessageReceiver mPushMessageReceiver;
     private ContactsViewModel mContactsViewModel;
 
+    private SharedPreferences mSharedPreferences;
+
     @SuppressLint("RestrictedApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //setting the theme from what is selected
+        mSharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        int selectedTheme = mSharedPreferences.getInt("selectedTheme", R.style.Theme_ChatApp);
+        changeTheme(selectedTheme);
+
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
 //        setContentView(R.layout.activity_main);
@@ -167,12 +191,18 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.action_logout) {
             signOut();
         } else if (id == R.id.action_settings) {
-            Log.d("MainActivity", "Settings menu item clicked!"); //TODO
+            NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+            navController.navigate(R.id.navigation_settings);
         } else if (id == R.id.action_change_password) {
             changePass();
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void changeTheme(int theme) {
+        setTheme(theme);
+        recreate();
     }
 
     /**
@@ -340,8 +370,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             } else if (intent.getAction().equals(PushReceiver.CONNECTION_ADD)) {
                 Log.i("MainActivity", "onReceive: " + nd.getId());
-                if (nd.getId() == R.id.navigation_connections) {
-                }
+                if (nd.getId() == R.id.navigation_connections) { }
                 Log.i("MainActivity", "onReceive: " + nd.getId());
 
 /*                    List<ContactCard> contacts = mContactsViewModel.getContacts();
