@@ -130,6 +130,8 @@ public class ContactsViewModel extends AndroidViewModel {
             }
             //inform observers of the change (setValue)
             setContacts(list);
+
+
         }catch (JSONException e) {
             Log.e("JSON PARSE ERROR", "Found in handle Success ContactViewModel");
             Log.e("JSON PARSE ERROR", "Error: " + e.getMessage());

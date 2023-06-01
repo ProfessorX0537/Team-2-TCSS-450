@@ -61,13 +61,13 @@
             app:layout_constraintVertical_bias="0.314" />
 
         <ImageButton
-            android:id="@+id/chat_button"
+            android:id="@+id/delete_contact_button"
             android:layout_width="58dp"
             android:layout_height="62dp"
             android:layout_margin="10dp"
             android:background="@drawable/round_style"
             android:backgroundTint="@color/accent_color"
-            android:src="@android:drawable/stat_notify_chat"
+            android:src="@drawable/remove_icon"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"

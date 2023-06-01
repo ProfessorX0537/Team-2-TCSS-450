@@ -88,12 +88,17 @@ public class ContactFragment extends Fragment {
 
         //Adds recycle view adapter to the list
         mModel.addContactsObserver(getViewLifecycleOwner(), contactsList -> {
+
+
             if (!contactsList.isEmpty()) {
                 mBinding.listRoot.setAdapter(
                         new ContactRecycleViewAdapter(contactsList, this)
                 );
+                mBinding.listRoot.getAdapter().notifyDataSetChanged();
             }
         });
+
+
 
 
 
@@ -231,7 +236,10 @@ public class ContactFragment extends Fragment {
                         }
                         String text=edit.getText().toString();
                         mModel.connectAdd(mUserInfoModel.getMemberID(), text);
-                        mBinding.listRoot.getAdapter().notifyDataSetChanged();
+
+                        if (mBinding.listRoot.getAdapter() != null) {
+                            mBinding.listRoot.getAdapter().notifyDataSetChanged();
+                        }
 
                         Log.v("Add","connection should get added");
 

@@ -9,6 +9,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -33,12 +34,15 @@ import com.example.chatapp.ui.main.chat.chatlist.ChatListItemViewModel;
 import com.example.chatapp.ui.main.chat.chatroom.ChatRoomItem;
 import com.example.chatapp.ui.main.chat.chatroom.ChatRoomItemsViewModel;
 import com.example.chatapp.ui.main.chat.chatroom.add.ChatRoomAddUserItemViewModel;
+import com.example.chatapp.ui.main.contacts.ContactCard;
+import com.example.chatapp.ui.main.contacts.ContactsViewModel;
 import com.example.chatapp.ui.main.home.HomeMessagesItem;
 import com.example.chatapp.ui.main.home.HomeMessagesItemViewModel;
 import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
@@ -48,7 +52,9 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
 
     private MainPushMessageReceiver mPushMessageReceiver;
+    private ContactsViewModel mContactsViewModel;
 
+    @SuppressLint("RestrictedApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
         // Accepts intent from AuthActivity and gets users email and JWT
         // storing them in the UserInfoViewModel for Webservice calls that require JWT auth
         MainActivityArgs args = MainActivityArgs.fromBundle(getIntent().getExtras());
-        new ViewModelProvider(this,
+        UserInfoViewModel userinfo = new ViewModelProvider(this,
                 new UserInfoViewModel.UserInfoViewModelFactory(args.getEmail(), args.getJwt(), args.getMemberid(), args.getUsername())
         ).get(UserInfoViewModel.class);
         Log.i("UserInfo", args.toString());
@@ -107,8 +113,28 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        mContactsViewModel = new ViewModelProvider(this).get(ContactsViewModel.class);
+        mContactsViewModel.addContactsObserver(this, list -> {
+            int count = 0;
+            for (int i = 0; i < list.size(); i++) {
+                if (list.get(i).getIncoming()) {
+                    count++;
+                }
+            }
 
-
+            BadgeDrawable badge = binding.navView.getOrCreateBadge(R.id.navigation_connections);
+            badge.setMaxCharacterCount(2);
+            if (count > 0) {
+                //new messages! update and show the notification badge.
+                badge.setNumber(count);
+                badge.setVisible(true);
+            } else {
+                //user did some action to clear the new messages, remove the badge
+                badge.clearNumber();
+                badge.setVisible(false);
+            }
+        });
+        mContactsViewModel.connectGet(userinfo.getMemberID());
     }
 
     /**
@@ -225,6 +251,10 @@ public class MainActivity extends AppCompatActivity {
                 new ViewModelProvider(MainActivity.this)
                         .get(HomeMessagesItemViewModel.class);
 
+        private final ContactsViewModel mContactsViewModel =
+                new ViewModelProvider(MainActivity.this)
+                        .get(ContactsViewModel.class);
+
 
         //On receive new message
         @Override
@@ -308,7 +338,36 @@ public class MainActivity extends AppCompatActivity {
                     //refresh list //TODO find in list and add instead
                     mChatListItemViewModel.getChatRooms(mUserInfo.getMemberID(), mUserInfo.getJwt());
                 }
+            } else if(intent.getAction().equals(PushReceiver.CONNECTION_ADD)){
+                Log.i("MainActivity", "onReceive: " + nd.getId());
+                if (nd.getId() == R.id.navigation_connections) { }
+                Log.i("MainActivity", "onReceive: " + nd.getId());
+
+/*                    List<ContactCard> contacts = mContactsViewModel.getContacts();
+
+
+                    int memberId = intent.getIntExtra("senderid", -1);
+                    String firstname = intent.getStringExtra("firstname");
+                    String lastname = intent.getStringExtra("lastname");
+                    String username = intent.getStringExtra("username");
+                    String email = intent.getStringExtra("email");
+                    ContactCard contactCard = new ContactCard.Builder(firstname+ " " +lastname)
+                            .addNick(username)
+                            .addEmail(email)
+                            .addMemberID(memberId)
+                            .addIncoming(true)
+                            .addOutgoing(false)
+                            .addAccepted(false)
+                            .build();
+
+                    contacts.add(0, contactCard);
+                    mContactsViewModel.setContacts(contacts);*/
+                mContactsViewModel.connectGet(mUserInfo.getMemberID());
+
+
+                Log.i("MainActivity", "new list size: " + mContactsViewModel.getContacts().size());
             }
+
         }
     }
 
@@ -323,6 +382,7 @@ public class MainActivity extends AppCompatActivity {
         registerReceiver(mPushMessageReceiver, new IntentFilter(PushReceiver.CHATLIST_INVITE));
         registerReceiver(mPushMessageReceiver, new IntentFilter(PushReceiver.CHATLIST_KICK));
         registerReceiver(mPushMessageReceiver, new IntentFilter(PushReceiver.CHATLIST_RENAME));
+        registerReceiver(mPushMessageReceiver, new IntentFilter(PushReceiver.CONNECTION_ADD));
     }
 
     @Override

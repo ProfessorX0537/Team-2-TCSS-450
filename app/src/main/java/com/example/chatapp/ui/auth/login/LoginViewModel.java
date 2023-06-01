@@ -25,6 +25,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+/**
+ * ViewModel that will hold information relevant to the Login process
+ * throughout its life time.
+ * @author Xavier Hines
+ */
 public class LoginViewModel extends AndroidViewModel {
 
     /**
@@ -120,6 +125,10 @@ public class LoginViewModel extends AndroidViewModel {
                 .add(request);
     }
 
+    /**
+     * http call that will resend verification email.
+     * @param email the users email
+     */
     public void connectResendVerification(final String email) {
         String url = getApplication().getString(R.string.url_webservices) + "verify/send?email=" + email;
 
@@ -127,6 +136,63 @@ public class LoginViewModel extends AndroidViewModel {
                 Request.Method.GET,
                 url,
                 null, //no body for this get request
+                mResponse::setValue,
+                this::handleError);
+
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10_000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        //Instantiate the RequestQueue and add the request to the queue
+        // This may need changed to the requestSingletonQueue in lab 3 Auth
+        Volley.newRequestQueue(getApplication().getApplicationContext())
+                .add(request);
+    }
+
+    /**
+     * http call that will check that an account exists under the given email
+     * and then send email that will allow user to proceed with password reset.
+     * @param email the email the user made account with.
+     */
+    public void connectResetPasswordEmail(final String email) {
+        String url = getApplication().getString(R.string.url_webservices) + "repass?email=" + email;
+
+        Request request = new JsonObjectRequest(
+                Request.Method.GET,
+                url,
+                null, //no body for this get request
+                mResponse::setValue,
+                this::handleError);
+
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10_000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        //Instantiate the RequestQueue and add the request to the queue
+        // This may need changed to the requestSingletonQueue in lab 3 Auth
+        Volley.newRequestQueue(getApplication().getApplicationContext())
+                .add(request);
+    }
+
+    /**
+     * http call that will change the users password for our application
+     */
+    public void connectResetPassword(final String email, final String newPassword) {
+        //TODO
+        String url = getApplication().getString(R.string.url_webservices) +"repass";
+
+        JSONObject body = new JSONObject();
+        try {
+            body.put("email", email);
+            body.put("newPassword", newPassword);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        Request request = new JsonObjectRequest(
+                Request.Method.POST,
+                url,
+                body, //no body for this get request
                 mResponse::setValue,
                 this::handleError);
 

@@ -24,6 +24,9 @@
             android:name="password"
             app:argType="string"
             android:defaultValue="default" />
+        <action
+            android:id="@+id/action_login_to_forgotPasswordFragment"
+            app:destination="@id/forgotPasswordFragment" />
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
@@ -64,6 +67,22 @@
             android:name="username"
             app:argType="string" />
     </activity>
+    <fragment
+        android:id="@+id/forgotPasswordFragment"
+        android:name="com.example.chatapp.ui.auth.login.ForgotPasswordFragment"
+        android:label="ForgotPasswordFragment" >
+        <action
+            android:id="@+id/action_forgotPasswordFragment_to_forgotPasswordResetFragment"
+            app:destination="@id/forgotPasswordResetFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/forgotPasswordResetFragment"
+        android:name="com.example.chatapp.ui.auth.login.ForgotPasswordResetFragment"
+        android:label="ForgotPasswordResetFragment" >
+        <action
+            android:id="@+id/action_forgotPasswordResetFragment_to_login"
+            app:destination="@id/login" />
+    </fragment>
 
 
 </navigation>
