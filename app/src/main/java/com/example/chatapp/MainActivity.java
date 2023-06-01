@@ -2,6 +2,7 @@ package com.example.chatapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.view.menu.MenuView;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDestination;
@@ -22,7 +23,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.example.chatapp.databinding.ActivityMainBinding;
 import com.example.chatapp.model.NewMessageCountViewModel;
@@ -149,7 +152,8 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.action_logout) {
             signOut();
         } else if (id == R.id.action_settings) {
-            Log.d("MainActivity", "Settings menu item clicked!"); //TODO
+            NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+            navController.navigate(R.id.navigation_settings);
         } else if (id == R.id.action_change_password) {
             changePass();
         }
