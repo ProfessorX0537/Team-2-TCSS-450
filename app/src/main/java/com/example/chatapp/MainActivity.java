@@ -30,17 +30,24 @@ import android.view.View;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDestination;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
+
 import com.example.chatapp.databinding.ActivityMainBinding;
 import com.example.chatapp.model.NewMessageCountViewModel;
 import com.example.chatapp.model.PushyTokenViewModel;
 import com.example.chatapp.model.UserInfoViewModel;
 import com.example.chatapp.services.PushReceiver;
-import com.example.chatapp.ui.main.changepass.ChangePassFragment;
 import com.example.chatapp.ui.main.chat.chatlist.ChatListItemViewModel;
 import com.example.chatapp.ui.main.chat.chatroom.ChatRoomItem;
 import com.example.chatapp.ui.main.chat.chatroom.ChatRoomItemsViewModel;
 import com.example.chatapp.ui.main.chat.chatroom.add.ChatRoomAddUserItemViewModel;
-import com.example.chatapp.ui.main.contacts.ContactCard;
 import com.example.chatapp.ui.main.contacts.ContactsViewModel;
 import com.example.chatapp.ui.main.home.HomeMessagesItem;
 import com.example.chatapp.ui.main.home.HomeMessagesItemViewModel;
@@ -49,7 +56,6 @@ import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
@@ -201,6 +207,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Let user change their password.
+     *
      * @author Xavier Hines
      */
     private void changePass() {
@@ -240,7 +247,7 @@ public class MainActivity extends AppCompatActivity {
                         .get(UserInfoViewModel.class)
                         .getJwt()
         );
-   }
+    }
 
     //Action bar nav back/up
     @Override
@@ -291,17 +298,16 @@ public class MainActivity extends AppCompatActivity {
                     //If the user is not on the chat room (aka not the sender) screen, update NewMessageCountView Model
                     if (nd.getId() != R.id.chatRoomFragment && mChatRoomItemsViewModel.mChatId != intent.getIntExtra("chatId", -1)) {
                         mNewMessageModel.incrementFromChatId(intent.getIntExtra("chatId", -1));
+
+                        //Home
+                        if (!cm.getSender().equals(mUserInfo.getUsername())) {
+                            ArrayList<HomeMessagesItem> temp = mHomeMessagesItemViewModel.mHomeMessageList.getValue();
+                            temp.add(new HomeMessagesItem(cm.getMessageId(), cm.getMessage(), cm.getSender(), cm.getTimeStamp(), intent.getIntExtra("chatId", -1)));
+                            mHomeMessagesItemViewModel.getHomeMessageList().setValue(temp);
+                        }
                     }
                     //Inform the view model holding chatroom messages of the new message.
                     mChatRoomItemsViewModel.addMessage(intent.getIntExtra("chatId", -1), cm);
-
-                    ////////////////////////////////////FOR HOMEPAGE///////////////////////////////
-
-                    ArrayList<HomeMessagesItem> temp = mHomeMessagesItemViewModel.mHomeMessageList.getValue();
-                    temp.add(new HomeMessagesItem(cm.getMessageId(), cm.getMessage(), cm.getSender(), cm.getTimeStamp(), intent.getIntExtra("chatId", -1)));
-                    mHomeMessagesItemViewModel.getHomeMessageList().setValue(temp);
-
-
                 }
             } else if (intent.getAction().equals(PushReceiver.CHATLIST_INVITE)) {
                 if (intent.getStringExtra("username").equals(mUserInfo.getUsername())) { //if I got added
@@ -312,6 +318,9 @@ public class MainActivity extends AppCompatActivity {
                     //toast
                     Toast toast = Toast.makeText(getApplicationContext(), "You got added chat room: " + intent.getStringExtra("chatRoomName"), Toast.LENGTH_LONG);//TODO
                     toast.show();
+
+                    //increment messages to show red badge on new chat rooms
+                    mNewMessageModel.incrementFromChatId(intent.getIntExtra("chatId", -1));
                 } else { //someone else was added
                     if (nd.getId() == R.id.navigation_chat) { //in ChatList
                         //refresh list
@@ -353,13 +362,13 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             } else if (intent.getAction().equals(PushReceiver.CHATLIST_RENAME)) {
-                if (nd.getId() == R.id.chatRoomFragment  && intent.getIntExtra("chatId", -1) == mChatRoomItemsViewModel.mChatId) { //if in chat room
+                if (nd.getId() == R.id.chatRoomFragment && intent.getIntExtra("chatId", -1) == mChatRoomItemsViewModel.mChatId) { //if in chat room
                     mChatRoomItemsViewModel.mChatRoomName.setValue(intent.getStringExtra("chatRoomName"));
                 } else if (nd.getId() == R.id.navigation_chat) {
                     //refresh list //TODO find in list and add instead
                     mChatListItemViewModel.getChatRooms(mUserInfo.getMemberID(), mUserInfo.getJwt());
                 }
-            } else if(intent.getAction().equals(PushReceiver.CONNECTION_ADD)){
+            } else if (intent.getAction().equals(PushReceiver.CONNECTION_ADD)) {
                 Log.i("MainActivity", "onReceive: " + nd.getId());
                 if (nd.getId() == R.id.navigation_connections) { }
                 Log.i("MainActivity", "onReceive: " + nd.getId());
