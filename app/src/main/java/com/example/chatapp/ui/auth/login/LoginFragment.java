@@ -49,6 +49,7 @@ import org.json.JSONObject;
  *
  * @author Charles Byran
  * @author Xavier Hines
+ * @author David Hunyah
  */
 public class LoginFragment extends Fragment {
 
@@ -273,6 +274,11 @@ public class LoginFragment extends Fragment {
                         .actionLoginToMainActivity(email, jwt, memberID, username));
     }
 
+    /**
+     * Will resend the verification message during the login process if user isn't
+     * verified in our DB
+     * @param view
+     */
     private void resendVerificationLogin(View view) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext())
                 .setPositiveButton(R.string.alert_action_login_negative, new DialogInterface.OnClickListener() {
@@ -321,6 +327,7 @@ public class LoginFragment extends Fragment {
                     return;
                 }
                 String text=edit.getText().toString();
+                mLoginViewModel.connectResetPasswordEmail(text);
                 //TODO navigate to forgot password fragment and send email http request
                 Navigation.findNavController(getView())
                         .navigate(LoginFragmentDirections.actionLoginToForgotPasswordFragment());

@@ -16,6 +16,11 @@ import com.example.chatapp.databinding.FragmentLoginBinding;
 import com.example.chatapp.model.PushyTokenViewModel;
 import com.example.chatapp.utils.ConnectionViewModel;
 
+/**
+ * Fragment that simply directs the user to check their email
+ * so that they may continue the password reset process process.
+ * @author Xavier Hines
+ */
 public class ForgotPasswordFragment extends Fragment {
     /**
      * Private field variable binds this fragment to its gradle build resources
@@ -77,6 +82,10 @@ public class ForgotPasswordFragment extends Fragment {
         mbinding.buttonVerifyEmail.setOnClickListener(this::navigateToReset);
     }
 
+    /**
+     * Navigates to ForgotPasswordResetFragment
+     * @param view
+     */
     private void navigateToReset(View view) {
         Navigation.findNavController(getView())
                 .navigate(ForgotPasswordFragmentDirections
