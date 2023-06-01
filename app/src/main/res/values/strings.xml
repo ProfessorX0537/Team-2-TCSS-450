@@ -67,6 +67,8 @@
     <string name="textview_connections_email">Email/Username/First or Last Name</string>
     <string name="textview_connections_request">Request Connection</string>
     <string name="textview_chatlist_add_chatroom">Name</string>
+    <string name="textview_locations_card_city">City</string>
+    <string name="textview_locations_card_zipcode">Zipcode</string>
     <string name="textview_login_forgot">Forgot Password?</string>
 
     <string name="action_settings">Settings</string>

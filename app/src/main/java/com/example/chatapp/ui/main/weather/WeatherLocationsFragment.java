@@ -5,6 +5,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
@@ -13,13 +15,14 @@ import android.view.ViewGroup;
 
 import com.example.chatapp.R;
 import com.example.chatapp.databinding.FragmentWeatherBinding;
+import com.example.chatapp.databinding.FragmentWeatherLocationsBinding;
 import com.example.chatapp.model.WeatherInfoViewModel;
 
 
 public class WeatherLocationsFragment extends Fragment {
 
     private WeatherInfoViewModel mModel;
-    private FragmentWeatherBinding mBinding;
+    private FragmentWeatherLocationsBinding mBinding;
 
     public WeatherLocationsFragment() {
         // Required empty public constructor
@@ -35,7 +38,8 @@ public class WeatherLocationsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mBinding = FragmentWeatherBinding.inflate(inflater, container, false);
+        mBinding = FragmentWeatherLocationsBinding.inflate(inflater, container, false);
+        
 
         return mBinding.getRoot();
     }
@@ -44,6 +48,7 @@ public class WeatherLocationsFragment extends Fragment {
     public void onViewCreated (@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+
     }
 
     @Override
@@ -51,4 +56,6 @@ public class WeatherLocationsFragment extends Fragment {
         super.onDestroyView();
         mBinding = null;
     }
+
+
 }

@@ -9,68 +9,10 @@
     tools:context=".ui.main.weather.WeatherFragment">
 
 
-    <EditText
-        android:id="@+id/text_location"
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_marginTop="28dp"
-        android:background="@drawable/round_style"
-        android:backgroundTint="@color/light_primary"
-        android:ems="10"
-        android:hint="@string/hint_weather_location"
-        android:inputType="text"
-        android:paddingLeft="10dp"
-        android:textColor="@color/text_primary"
-        android:textColorHint="@color/text_primary"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/button_textbox"
-        style="@style/Widget.AppCompat.Button.Borderless"
-        android:layout_width="291dp"
-        android:layout_height="43dp"
-        android:layout_marginTop="4dp"
-        app:iconTint="#00FFFFFF"
-        app:layout_constraintBottom_toBottomOf="@+id/text_location"
-        app:layout_constraintStart_toStartOf="@+id/text_location"
-        app:layout_constraintTop_toTopOf="@+id/text_location"
-        app:rippleColor="#00FFFFFF" />
-
-    <ImageButton
-        android:id="@+id/button_mylocation"
-        android:layout_width="54dp"
-        android:layout_height="43dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="3dp"
-        android:backgroundTint="#80FFFFFF"
-        android:src="@drawable/baseline_pin_drop_24"
-        app:layout_constraintBottom_toBottomOf="@+id/text_location"
-        app:layout_constraintEnd_toStartOf="@+id/button_location"
-        app:layout_constraintTop_toTopOf="@+id/text_location"
-        app:layout_constraintVertical_bias="0.6" />
-
-    <ImageButton
-        android:id="@+id/button_location"
-        android:layout_width="47dp"
-        android:layout_height="42dp"
-        android:layout_marginTop="6dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="1dp"
-        android:backgroundTint="#80FFFFFF"
-        android:src="@drawable/baseline_send_24"
-        app:layout_constraintBottom_toBottomOf="@+id/text_location"
-        app:layout_constraintEnd_toEndOf="@+id/text_location"
-        app:layout_constraintTop_toTopOf="@+id/text_location"
-        app:layout_constraintVertical_bias="1.0" />
-
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="352dp"
+        android:layout_height="46dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/round_style"
         android:backgroundTint="@color/light_primary"
@@ -105,13 +47,98 @@
             android:text="@string/tab_weather_10day" />
     </com.google.android.material.tabs.TabLayout>
 
+
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/weather_fragment_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_height="match_parent"
+        android:layout_marginTop="124dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tabLayout" />
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/weather_fragment_locations_static"
+        android:name="com.example.chatapp.ui.main.weather.WeatherLocationsFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0.011" />
+
+    <EditText
+        android:id="@+id/text_location"
+        android:layout_width="354dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/round_style"
+        android:backgroundTint="@color/light_primary"
+        android:ems="10"
+        android:hint="@string/hint_weather_location"
+        android:inputType="text"
+        android:paddingLeft="10dp"
+        android:textColor="@color/text_primary"
+        android:textColorHint="@color/text_primary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button_textbox"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="352dp"
+        android:layout_height="33dp"
+        android:layout_marginTop="4dp"
+        app:iconTint="#00FFFFFF"
+        app:layout_constraintBottom_toBottomOf="@+id/text_location"
+        app:layout_constraintEnd_toStartOf="@+id/button_location"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/text_location"
+        app:layout_constraintTop_toTopOf="@+id/text_location"
+        app:layout_constraintVertical_bias="1.0"
+        app:rippleColor="#00FFFFFF" />
+
+    <ImageButton
+        android:id="@+id/button_location"
+        android:layout_width="47dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="1dp"
+        android:backgroundTint="#00FFFFFF"
+        android:src="@drawable/baseline_send_24"
+        app:layout_constraintBottom_toBottomOf="@+id/text_location"
+        app:layout_constraintEnd_toEndOf="@+id/text_location"
+        app:layout_constraintTop_toTopOf="@+id/text_location"
+        app:layout_constraintVertical_bias="0.615" />
+
+    <Button
+        android:id="@+id/idButtonExitLocationView"
+        android:layout_width="136dp"
+        android:layout_height="61dp"
+        android:layout_marginTop="8dp"
+        android:text="Exit"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.894"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_location" />
+
+    <Button
+        android:id="@+id/idButtonGetPhoneLocation"
+        android:layout_width="136dp"
+        android:layout_height="61dp"
+        android:layout_marginTop="8dp"
+        android:text="Get My Location"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.101"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_location" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -138,6 +138,8 @@ public class Weather10DayFragment extends Fragment {
             } catch (JSONException e) {
                 Log.e("Weather Update JSON Error", "handleResultError: " + e);
             }
+
+            mBinding.rootRecycler.getAdapter().notifyDataSetChanged();
         }
     }
 }
