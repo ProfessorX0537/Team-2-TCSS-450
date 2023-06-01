@@ -60,6 +60,10 @@
     <string name="tab_weather_24hr">24 Hour</string>
     <string name="tab_weather_10day">10 Day</string>
 
+    <string name="button_purple_theme">Purple</string>
+    <string name="button_light_theme">Light</string>
+    <string name="button_dark_theme">Dark</string>
+
     <string name="textview_home_whatsnew">Whats New</string>
     <string name="textview_weather_conditions">Conditions</string>
     <string name="textview_24hour_card_time">Time</string>
