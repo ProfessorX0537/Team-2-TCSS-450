@@ -152,6 +152,13 @@ public class ContactRecycleViewAdapter extends RecyclerView.Adapter<ContactRecyc
                 displayFullContact();
             });
 
+            binding.deleteContactButton.setOnClickListener(button -> {
+                mParentFragment.mModel.connectDelete(mParentFragment.mUserInfoModel.getMemberID(), mContact.getMemberID());
+                mContacts.remove(mContact);
+                notifyDataSetChanged();
+                displayFullContact();
+            });
+
 
             // decline button that rejects contact request and removes contact from contact view model
             binding.declineButton.setOnClickListener(button -> {
@@ -207,7 +214,7 @@ public class ContactRecycleViewAdapter extends RecyclerView.Adapter<ContactRecyc
             if (mExpandedFlags.get(mContact) && mContact.getAccepted()) {
                 binding.nickName.setVisibility(View.VISIBLE);
                 binding.email.setVisibility(View.VISIBLE);
-                binding.chatButton.setVisibility(View.VISIBLE);
+                binding.deleteContactButton.setVisibility(View.VISIBLE);
                 binding.declineButton.setVisibility(View.GONE);
                 binding.addButton.setVisibility(View.GONE);
             } else if(!mContact.getAccepted() && mContact.getIncoming()){
@@ -216,21 +223,21 @@ public class ContactRecycleViewAdapter extends RecyclerView.Adapter<ContactRecyc
                 binding.declineButton.setVisibility(View.VISIBLE);
                 binding.email.setVisibility(View.GONE);
                 binding.nickName.setVisibility(View.GONE);
-                binding.chatButton.setVisibility(View.GONE);
+                binding.deleteContactButton.setVisibility(View.GONE);
             } else if(!mContact.getAccepted() && mContact.getOutgoing()){
                 binding.fullName.setVisibility(View.VISIBLE);
                 binding.addButton.setVisibility(View.GONE);
                 binding.declineButton.setVisibility(View.VISIBLE);
                 binding.email.setVisibility(View.GONE);
                 binding.nickName.setVisibility(View.GONE);
-                binding.chatButton.setVisibility(View.GONE);
+                binding.deleteContactButton.setVisibility(View.GONE);
 
             }else {
                     binding.declineButton.setVisibility(View.GONE);
                     binding.addButton.setVisibility(View.GONE);
                     binding.nickName.setVisibility(View.GONE);
                     binding.email.setVisibility(View.GONE);
-                    binding.chatButton.setVisibility(View.GONE);
+                    binding.deleteContactButton.setVisibility(View.GONE);
             }
         }
 
