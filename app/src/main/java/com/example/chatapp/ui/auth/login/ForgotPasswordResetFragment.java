@@ -24,7 +24,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
 import com.example.chatapp.R;
-import com.example.chatapp.databinding.FragmentForgotPasswordBinding;
 import com.example.chatapp.databinding.FragmentForgotPasswordResetBinding;
 import com.example.chatapp.utils.PasswordValidator;
 
@@ -111,8 +110,19 @@ public class ForgotPasswordResetFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         mbinding.editPassword1.setOnTouchListener(this::passwordReqs);
         mbinding.buttonReset.setOnClickListener(this::resetPassword);
+        mbinding.buttonEmail.setOnClickListener(this::sendResetEmail);
         mLoginViewModel.addResponseObserver(getViewLifecycleOwner(),
-                this::observeResponse);
+                response -> {
+                    try {
+                        observeResponse(response);
+                    } catch (JSONException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
+    }
+
+    private void sendResetEmail(View view) {
+        mLoginViewModel.connectResetPasswordEmail(mbinding.editEmail.getText().toString());
     }
 
     /**
@@ -199,11 +209,11 @@ public class ForgotPasswordResetFragment extends Fragment {
 
     /**
      * An observer on the HTTP Response from the web server. This observer should be
-     * attached to ChangePassViewModel.
+     * attached to LoginViewModel.
      *
      * @param response the Response from the server
      */
-    private void observeResponse(final JSONObject response) {
+    private void observeResponse(final JSONObject response) throws JSONException {
         //System.out.println(response);
         if (response.length() > 0) {
             if (response.has("code")) {
@@ -214,9 +224,10 @@ public class ForgotPasswordResetFragment extends Fragment {
                 } catch (JSONException e) {
                     Log.e("JSON Parse Error", e.getMessage());
                 }
-            } else {
+            } else if (response.has("success")){
                 //System.out.println("Received response that didn't 'fail'");
-                navigateToLoginPage();
+                    navigateToLoginPage();
+
             }
         } else {
             Log.d("JSON Response", "No Response");
