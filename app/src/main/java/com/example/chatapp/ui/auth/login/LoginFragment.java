@@ -15,8 +15,10 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -47,6 +49,7 @@ import org.json.JSONObject;
  *
  * @author Charles Byran
  * @author Xavier Hines
+ * @author David Hunyah
  */
 public class LoginFragment extends Fragment {
 
@@ -179,6 +182,7 @@ public class LoginFragment extends Fragment {
         //comment this out to login w/o actually having to sign in.
         binding.buttonLogin.setVisibility(View.GONE);
         binding.buttonLogin.setOnClickListener(this::attemptLogin);
+        binding.textForgotPassword.setOnClickListener(this::forgotPassword);
 
         LoginFragmentArgs args = LoginFragmentArgs.fromBundle(getArguments());
         binding.textEmail.setText(args.getEmail().equals("default") ? "" : args.getEmail()); //TODO
@@ -270,6 +274,11 @@ public class LoginFragment extends Fragment {
                         .actionLoginToMainActivity(email, jwt, memberID, username));
     }
 
+    /**
+     * Will resend the verification message during the login process if user isn't
+     * verified in our DB
+     * @param view
+     */
     private void resendVerificationLogin(View view) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext())
                 .setPositiveButton(R.string.alert_action_login_negative, new DialogInterface.OnClickListener() {
@@ -286,6 +295,44 @@ public class LoginFragment extends Fragment {
                 });
         alertDialogBuilder.setMessage(R.string.alert_message_login_unverified);
         alertDialogBuilder.setTitle(R.string.alert_title_login_unverified_email);
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+    }
+
+
+
+    /**
+     * called when user forgets password and wishes to reset it.
+     * @param view
+     */
+    private void forgotPassword(View view) {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
+        alertDialogBuilder.setMessage(R.string.alert_login_forgot_password_message);
+        alertDialogBuilder.setTitle("Forgot Password?");
+        LayoutInflater inflater = requireActivity().getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_generic_edit_text, null);
+        alertDialogBuilder.setView(dialogView);
+        alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener(){
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+            }
+        });
+        alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                EditText edit = (EditText) dialogView.findViewById(R.id.edit_text_generic);
+                if(edit == null){
+                    Log.v("Add","edit text is null");
+                    return;
+                }
+                String text=edit.getText().toString();
+                mLoginViewModel.connectResetPasswordEmail(text);
+                //TODO navigate to forgot password fragment and send email http request
+                Navigation.findNavController(getView())
+                        .navigate(LoginFragmentDirections.actionLoginToForgotPasswordFragment());
+            }
+        });
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
     }

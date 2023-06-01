@@ -236,7 +236,10 @@ public class ContactFragment extends Fragment {
                         }
                         String text=edit.getText().toString();
                         mModel.connectAdd(mUserInfoModel.getMemberID(), text);
-                        mBinding.listRoot.getAdapter().notifyDataSetChanged();
+
+                        if (mBinding.listRoot.getAdapter() != null) {
+                            mBinding.listRoot.getAdapter().notifyDataSetChanged();
+                        }
 
                         Log.v("Add","connection should get added");
 

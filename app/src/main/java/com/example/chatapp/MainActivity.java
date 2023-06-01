@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
 
     private MainPushMessageReceiver mPushMessageReceiver;
+    private ContactsViewModel mContactsViewModel;
 
     private SharedPreferences mSharedPreferences;
 
@@ -84,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
         // Accepts intent from AuthActivity and gets users email and JWT
         // storing them in the UserInfoViewModel for Webservice calls that require JWT auth
         MainActivityArgs args = MainActivityArgs.fromBundle(getIntent().getExtras());
-        new ViewModelProvider(this,
+        UserInfoViewModel userinfo = new ViewModelProvider(this,
                 new UserInfoViewModel.UserInfoViewModelFactory(args.getEmail(), args.getJwt(), args.getMemberid(), args.getUsername())
         ).get(UserInfoViewModel.class);
         Log.i("UserInfo", args.toString());
@@ -126,6 +127,29 @@ public class MainActivity extends AppCompatActivity {
                 badge.setVisible(false);
             }
         });
+
+        mContactsViewModel = new ViewModelProvider(this).get(ContactsViewModel.class);
+        mContactsViewModel.addContactsObserver(this, list -> {
+            int count = 0;
+            for (int i = 0; i < list.size(); i++) {
+                if (list.get(i).getIncoming()) {
+                    count++;
+                }
+            }
+
+            BadgeDrawable badge = binding.navView.getOrCreateBadge(R.id.navigation_connections);
+            badge.setMaxCharacterCount(2);
+            if (count > 0) {
+                //new messages! update and show the notification badge.
+                badge.setNumber(count);
+                badge.setVisible(true);
+            } else {
+                //user did some action to clear the new messages, remove the badge
+                badge.clearNumber();
+                badge.setVisible(false);
+            }
+        });
+        mContactsViewModel.connectGet(userinfo.getMemberID());
     }
 
     /**
@@ -337,8 +361,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             } else if(intent.getAction().equals(PushReceiver.CONNECTION_ADD)){
                 Log.i("MainActivity", "onReceive: " + nd.getId());
-                if (nd.getId() == R.id.navigation_connections) {
-                    Log.i("MainActivity", "onReceive: " + nd.getId());
+                if (nd.getId() == R.id.navigation_connections) { }
+                Log.i("MainActivity", "onReceive: " + nd.getId());
 
 /*                    List<ContactCard> contacts = mContactsViewModel.getContacts();
 
@@ -359,11 +383,10 @@ public class MainActivity extends AppCompatActivity {
 
                     contacts.add(0, contactCard);
                     mContactsViewModel.setContacts(contacts);*/
-                    mContactsViewModel.connectGet(mUserInfo.getMemberID());
+                mContactsViewModel.connectGet(mUserInfo.getMemberID());
 
 
-                    Log.i("MainActivity", "new list size: " + mContactsViewModel.getContacts().size());
-                }
+                Log.i("MainActivity", "new list size: " + mContactsViewModel.getContacts().size());
             }
 
         }

@@ -17,7 +17,7 @@ public class Weather24HourCardItem extends Fragment {
 
     private final String mPrecipitation;
 
-    //TODO add condition image and text
+
     /**
      * Constructor Weather24HourCardItem
      * @param mTime the hour of the day (1:00 pm)
@@ -25,7 +25,7 @@ public class Weather24HourCardItem extends Fragment {
      * @param mPrecipitation the precipitation at the given time
      */
     public Weather24HourCardItem(String mTime, String mTemperature, String mPrecipitation, Drawable mIcon) {
-        //TODO parse data & format
+
         this.mTime = mTime;
         this.mTemperature = mTemperature;
         this.mIcon = mIcon;
