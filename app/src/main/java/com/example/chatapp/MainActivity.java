@@ -3,6 +3,8 @@ package com.example.chatapp;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.view.menu.MenuView;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDestination;
@@ -17,6 +19,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -41,6 +44,7 @@ import com.example.chatapp.ui.main.contacts.ContactCard;
 import com.example.chatapp.ui.main.contacts.ContactsViewModel;
 import com.example.chatapp.ui.main.home.HomeMessagesItem;
 import com.example.chatapp.ui.main.home.HomeMessagesItemViewModel;
+import com.example.chatapp.ui.main.settings.SettingsFragment;
 import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -56,10 +60,18 @@ public class MainActivity extends AppCompatActivity {
 
     private MainPushMessageReceiver mPushMessageReceiver;
 
+    private SharedPreferences mSharedPreferences;
+
     @SuppressLint("RestrictedApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //setting the theme from what is selected
+        mSharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        int selectedTheme = mSharedPreferences.getInt("selectedTheme", R.style.Theme_ChatApp);
+        changeTheme(selectedTheme);
+
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
 //        setContentView(R.layout.activity_main);
@@ -114,9 +126,6 @@ public class MainActivity extends AppCompatActivity {
                 badge.setVisible(false);
             }
         });
-
-
-
     }
 
     /**
@@ -159,6 +168,11 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void changeTheme(int theme) {
+        setTheme(theme);
+        recreate();
     }
 
     /**

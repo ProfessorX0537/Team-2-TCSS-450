@@ -25,6 +25,7 @@
             android:layout_gravity="start"
             android:layoutDirection="rtl"
             android:text="@string/button_purple_theme"
+            android:textColor="@color/grey"
             android:textAlignment="textStart" />
 
         <RadioButton
@@ -32,9 +33,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
+            android:checked="false"
             android:layoutDirection="rtl"
             android:text="@string/button_light_theme"
-            android:textAlignment="textStart" />
+            android:textAlignment="textStart"
+            android:textColor="@color/grey" />
 
         <RadioButton
             android:id="@+id/radio_button_dark"
@@ -43,6 +46,7 @@
             android:layout_gravity="start"
             android:layoutDirection="rtl"
             android:text="@string/button_dark_theme"
+            android:textColor="@color/grey"
             android:textAlignment="textStart" />
     </RadioGroup>
 
@@ -53,7 +57,7 @@
         android:fontFamily="sans-serif-condensed-medium"
         android:text="Theme"
         android:textAllCaps="true"
-        android:textColor="@color/text_primary"
+
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/cardView4"
