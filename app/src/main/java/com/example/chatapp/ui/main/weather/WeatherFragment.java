@@ -1,7 +1,10 @@
 package com.example.chatapp.ui.main.weather;
 
+import android.Manifest;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -32,6 +35,33 @@ public class WeatherFragment extends Fragment {
         super.onCreate(savedInstanceState);
         mModel = new ViewModelProvider(getActivity()).get(WeatherInfoViewModel.class);
 
+        ActivityResultLauncher<String[]> locationPermissionRequest =
+                registerForActivityResult(new ActivityResultContracts
+                                .RequestMultiplePermissions(), result -> {
+                            Boolean fineLocationGranted = result.getOrDefault(
+                                    Manifest.permission.ACCESS_FINE_LOCATION, false);
+                            Boolean coarseLocationGranted = result.getOrDefault(
+                                    Manifest.permission.ACCESS_COARSE_LOCATION,false);
+                            if (fineLocationGranted != null && fineLocationGranted) {
+                                // Precise location access granted.
+                            } else if (coarseLocationGranted != null && coarseLocationGranted) {
+                                // Only approximate location access granted.
+                            } else {
+                                // No location access granted.
+                            }
+                        }
+                );
+
+// ...
+
+// Before you perform the actual permission request, check whether your app
+// already has the permissions, and whether your app needs to show a permission
+// rationale dialog. For more details, see Request permissions.
+        locationPermissionRequest.launch(new String[] {
+                //Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+        });
+
     }
 
     @Override
@@ -61,8 +91,23 @@ public class WeatherFragment extends Fragment {
             updateLocation();
         });
 
-        EditText box = mBinding.textLocation;
+        mBinding.buttonTextbox.setOnClickListener(button -> {
+            mBinding.buttonTextbox.setVisibility(View.GONE);
+            mBinding.weatherFragmentLocationsStatic.setVisibility(View.VISIBLE);
+            mBinding.idButtonExitLocationView.setVisibility(View.VISIBLE);
+            mBinding.idButtonGetPhoneLocation.setVisibility(View.VISIBLE);
+        });
 
+        mBinding.idButtonExitLocationView.setOnClickListener(button -> {
+            mBinding.buttonTextbox.setVisibility(View.VISIBLE);
+            mBinding.weatherFragmentLocationsStatic.setVisibility(View.GONE);
+            mBinding.idButtonExitLocationView.setVisibility(View.GONE);
+            mBinding.idButtonGetPhoneLocation.setVisibility(View.GONE);
+        });
+
+        mBinding.idButtonGetPhoneLocation.setOnClickListener(button -> {
+
+        });
 
 
         TabLayout tabLayout = mBinding.tabLayout;
@@ -126,6 +171,11 @@ public class WeatherFragment extends Fragment {
 
     public void updateLocation() {
         mModel.setmLocation(mBinding.textLocation.getText().toString());
+    }
+
+    public void ToggleOffLocationsView() {
+        //mBinding.weatherFragmentLocationsStatic.setVisibility(View.GONE);
+        //mBinding.buttonLocation.setVisibility(View.VISIBLE);
     }
 
 }

@@ -73,13 +73,17 @@ public class Weather24HourFragment extends Fragment {
      */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+
         super.onViewCreated(view, savedInstanceState);
+
+        mBinding.rootRecycler.setAdapter(new Weather24HourRecycleViewAdapter(mViewModel.mToday));
         mViewModel.addResponseObserver(
                 getViewLifecycleOwner(),
                 this::observeData
+
         );
 
-        mBinding.rootRecycler.setAdapter(new Weather24HourRecycleViewAdapter(mViewModel.mToday));
+
     }
 
     private void observeData(JSONObject result) {
@@ -162,6 +166,7 @@ public class Weather24HourFragment extends Fragment {
         Log.e("Weather Update JSON Error", "handleResultError: " + e);
         }
 
+        mBinding.rootRecycler.getAdapter().notifyDataSetChanged();
 
     }
 }

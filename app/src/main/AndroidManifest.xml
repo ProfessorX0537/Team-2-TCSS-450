@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- User location permissions -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
@@ -24,6 +27,13 @@
         android:theme="@style/Theme.ChatApp"
         tools:targetApi="31">
         <activity android:name=".MainActivity"></activity>
+
+        <service
+            android:name=".MainActivity"
+            android:foregroundServiceType="location">
+        <!-- Any inner elements would go here. -->
+        </service>
+
         <activity
             android:name=".AuthActivity"
             android:exported="true">
@@ -72,6 +82,8 @@
             android:exported="true" />
 
         <!-- End Pushy Declarations -->
+
+
     </application>
 
 </manifest>
