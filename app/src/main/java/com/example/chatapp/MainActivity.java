@@ -291,6 +291,9 @@ public class MainActivity extends AppCompatActivity {
                     //toast
                     Toast toast = Toast.makeText(getApplicationContext(), "You got added chat room: " + intent.getStringExtra("chatRoomName"), Toast.LENGTH_LONG);//TODO
                     toast.show();
+
+                    //increment messages to show red badge on new chat rooms
+                    mNewMessageModel.incrementFromChatId(intent.getIntExtra("chatId", -1));
                 } else { //someone else was added
                     if (nd.getId() == R.id.navigation_chat) { //in ChatList
                         //refresh list
