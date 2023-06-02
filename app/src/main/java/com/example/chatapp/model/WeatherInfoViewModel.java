@@ -24,8 +24,10 @@ import org.json.JSONObject;
 
 import java.nio.charset.Charset;
 
+import com.example.chatapp.databinding.FragmentWeatherBinding;
 import com.example.chatapp.ui.main.weather.Weather10DayCardItem;
 import com.example.chatapp.ui.main.weather.Weather24HourCardItem;
+import com.example.chatapp.ui.main.weather.WeatherFragment;
 import com.example.chatapp.ui.main.weather.WeatherLocationsCardItem;
 
 import java.util.ArrayList;
@@ -51,10 +53,13 @@ public class WeatherInfoViewModel extends AndroidViewModel {
 
     private HashMap<String, String> mLocation;
     //Used for reverting to previous location is to be updated location is invalid
-    private HashMap<String, String> mLocationBackup;
+    //private HashMap<String, String> mLocationBackup;
+
+    public boolean mInvalidLocationFormatting;
+    public boolean mInvalidLocationRequest;
 
     public interface VolleyCallback {
-        void onSuccess(HashMap<String, String> result);
+        void onSuccess(String result);
         void onError(VolleyError error);
     }
 
@@ -68,27 +73,13 @@ public class WeatherInfoViewModel extends AndroidViewModel {
         mToday = new ArrayList<>(24);
         mDays = new ArrayList<>(10);
         mPastLocations = new ArrayList<>(10);
+        mInvalidLocationFormatting = false;
+        mInvalidLocationRequest = false;
 
         mMonthName = new String[]{"Jan", "Feb", "Mar", "April",
                                     "May", "June", "July", "Aug",
                                     "Sept", "Oct", "Nov", "Dec"};
 
-        //Default location
-//        getLatLngByZipcode("98402", new VolleyCallback() {
-//            @Override
-//            public void onSuccess(HashMap<String, String> result) {
-//                // Process the result
-//                processData(result);
-//
-//            }
-//
-//            @Override
-//            public void onError(VolleyError error) {
-//                // Handle the error
-//                error.printStackTrace();
-//            }
-//
-//        });
 
         //Default location (Tacoma)
         HashMap<String, String> location = new HashMap<>();
@@ -97,7 +88,7 @@ public class WeatherInfoViewModel extends AndroidViewModel {
 
         mLocation = location;
         addLocationToWeatherLocations(mLocation);
-        mLocationBackup = mLocation;
+        //mLocationBackup = mLocation;
 
     }
 
@@ -115,9 +106,44 @@ public class WeatherInfoViewModel extends AndroidViewModel {
 
     private void handleWeatherResult(final JSONObject result) {
 
-        mLocationBackup = mLocation;
+        //mInvalidLocationRequest = false;
+        //mLocationBackup = mLocation;
         mWeatherResponse.setValue(result);
 
+    }
+
+    private void handleError(final VolleyError error) {
+
+        mInvalidLocationRequest = true;
+
+        if (Objects.isNull(error.networkResponse)) {
+            try {
+                mWeatherResponse.setValue(new JSONObject("{" +
+                        "error:\"" + error.getMessage() +
+                        "\"}"));
+            } catch (JSONException e) {
+                Log.e("JSON PARSE", "JSON Parse Error in handleError");
+            }
+        }
+        else {
+            String data = new String(error.networkResponse.data, Charset.defaultCharset())
+                    .replace('\"', '\'');
+
+            Log.e("Bad Request", "handleError " + data);
+
+            try {
+                mWeatherResponse.setValue(new JSONObject("{" +
+                        "code:" + error.networkResponse.statusCode +
+                        ", data:\"" + data +
+                        "\"}"));
+            } catch (JSONException e) {
+                Log.e("JSON PARSE", "JSON Parse Error in handleError");
+            }
+        }
+
+        //Set location to backup due to error
+        //mLocation = mLocationBackup;
+        //connectGet();
     }
 
     private void addLocationToWeatherLocations(HashMap<String, String> location) {
@@ -148,37 +174,7 @@ public class WeatherInfoViewModel extends AndroidViewModel {
 
     }
 
-    private void handleError(final VolleyError error) {
 
-        if (Objects.isNull(error.networkResponse)) {
-            try {
-                mWeatherResponse.setValue(new JSONObject("{" +
-                        "error:\"" + error.getMessage() +
-                        "\"}"));
-            } catch (JSONException e) {
-                Log.e("JSON PARSE", "JSON Parse Error in handleError");
-            }
-        }
-        else {
-            String data = new String(error.networkResponse.data, Charset.defaultCharset())
-                    .replace('\"', '\'');
-
-            Log.e("Bad Request", "handleError " + data);
-
-            try {
-                mWeatherResponse.setValue(new JSONObject("{" +
-                        "code:" + error.networkResponse.statusCode +
-                        ", data:\"" + data +
-                        "\"}"));
-            } catch (JSONException e) {
-                Log.e("JSON PARSE", "JSON Parse Error in handleError");
-            }
-        }
-
-        //Set location to backup due to error
-        mLocation = mLocationBackup;
-        connectGet();
-    }
 
     public void connectGet() {
         String url = getApplication().getString(R.string.url_webservices) + "weather";
@@ -220,6 +216,7 @@ public class WeatherInfoViewModel extends AndroidViewModel {
 
         if (checkRegex(reformattedInput, patternLatLong)) { //Check for lat / long input
 
+            mInvalidLocationFormatting = false;
             Log.d("WEATHER_LOCATION", "Entered valid longitude & latitude formatting");
             HashMap<String, String> location = new HashMap<>();
 
@@ -238,17 +235,21 @@ public class WeatherInfoViewModel extends AndroidViewModel {
         } else if (checkRegex(reformattedInput, patternZipcode)) { //Check if input is zipcode
             Log.d("WEATHER_LOCATION", "Entered valid zipcode formatting");
 
+
             getLatLngByZipcode(reformattedInput, new VolleyCallback() {
                 @Override
-                public void onSuccess(HashMap<String, String> result) {
-                    // Process the result
-                    processData(result);
-
+                public void onSuccess(String result) {
+                    //Call setLocation again now with long/lat format
+                    setLocation(result);
                 }
 
                 @Override
                 public void onError(VolleyError error) {
                     // Handle the error
+                    //mInvalidLocationRequest = true;
+                    setInvalidLocationRequest();
+                    Log.d("LOCATION_TEST", "Test Request Error " + mInvalidLocationRequest);
+                    Log.e("WEATHER_LOCATION", "Error: Not valid zipcode");
                     error.printStackTrace();
                 }
 
@@ -257,15 +258,21 @@ public class WeatherInfoViewModel extends AndroidViewModel {
 
         } else {
             Log.e("WEATHER_LOCATION", "Not valid location formatting (Specify zipcode or lat/long)");
+            //Set error on text box
+            mInvalidLocationFormatting = true;
+
         }
-
-
 
         //Pull update
         connectGet();
     }
 
-    public boolean checkRegex(final String input, final String pattern) {
+    private void setInvalidLocationRequest() {
+        mInvalidLocationRequest = true;
+        System.out.println(mInvalidLocationRequest);
+    }
+
+    private boolean checkRegex(final String input, final String pattern) {
         // Create a Pattern object for LatLong
         Pattern r = Pattern.compile(pattern);
 
@@ -280,12 +287,11 @@ public class WeatherInfoViewModel extends AndroidViewModel {
     }
 
     /**
-     * Converts a zipcode into latitude and longitude HashMap
-     * @param zipcode
+     * Converts zipcode input into latitude and longitude user input (e.g. "47.2529105,-122.4417426")
+     * @param zipcode zipcode to
+     * @param callback Volley callback for returning value
      */
-    public HashMap<String, String> getLatLngByZipcode(String zipcode, final VolleyCallback callback) {
-
-        AtomicReference<HashMap<String, String>> location = new AtomicReference<>(new HashMap<>());
+    private void getLatLngByZipcode(String zipcode, final VolleyCallback callback) {
 
         //Request for converting zipcode
         String url = getApplication().getString(R.string.url_webservices) + "weather/convertZipcode";
@@ -298,8 +304,9 @@ public class WeatherInfoViewModel extends AndroidViewModel {
                 response -> {
                     // Process the response data
                     try {
-                        HashMap<String, String> location1 = handleZipcodeResult(response);
-                        callback.onSuccess(location1);
+                        String location = response.getString("Latitude") + "," +
+                                response.getString("Longitude");
+                        callback.onSuccess(location);
                     } catch (JSONException e) {
                         e.printStackTrace();
                         callback.onError(new VolleyError(e.getMessage()));
@@ -311,33 +318,12 @@ public class WeatherInfoViewModel extends AndroidViewModel {
                 10_000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
         //Instantiate the RequestQueue and add the request to the queue
         Volley.newRequestQueue(getApplication().getApplicationContext())
                 .add(request);
 
-        return location.get();
-    }
-
-    private HashMap<String, String> handleZipcodeResult(JSONObject result) throws JSONException {
-        HashMap<String, String> location = new HashMap<>();
-
-        if (result.has("Latitude") && result.has("Longitude")) {
-            location.put("Longitude", result.getString("Longitude"));
-            location.put("Latitude", result.getString("Latitude"));
-//            Log.d("location check1", location.toString());
-        }
-
-        return location;
 
     }
-
-    public void processData(HashMap<String, String> data) {
-        addLocationToWeatherLocations(data);
-        mLocation = data;
-        System.out.println("Response Data: " + data.toString());
-    }
-
-
-
 
 }

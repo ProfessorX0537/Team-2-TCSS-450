@@ -100,6 +100,19 @@ public class WeatherFragment extends Fragment {
 
         mBinding.buttonLocation.setOnClickListener(button -> {
             updateLocation();
+
+            //@Todo: Does not update properly do to the asynchronous calls
+            //User input errors
+            if (mModel.mInvalidLocationFormatting) {
+                mBinding.textLocation.setError("Invalid formatting");
+            }
+            Log.d("DELETE ME", "REQUEST BULLSHIT: " + mModel.mInvalidLocationRequest);
+            if (mModel.mInvalidLocationRequest) {
+                mBinding.textLocation.setError("Invalid Location");
+            }
+            else {
+                mBinding.textLocation.setError(null);
+            }
         });
 
         mBinding.buttonTextbox.setOnClickListener(button -> {
@@ -169,12 +182,16 @@ public class WeatherFragment extends Fragment {
 
         });
 
-        //TEXT HOVER WARNING
+        //Text box selected hint
         mBinding.textLocation.setOnFocusChangeListener((v, hasFocus) -> {
             if (hasFocus) {
-                mBinding.textLocation.setHint("e.g. \"47.288\",\"-122.59\" or \"98402\"");
+                mBinding.textLocation.setHint(getString(R.string.hint_weather_location_focused));
+            } else {
+                mBinding.textLocation.setHint(getString(R.string.hint_weather_location));
             }
         });
+
+
 
     }
 
@@ -186,6 +203,8 @@ public class WeatherFragment extends Fragment {
 
     public void updateLocation() {
         mModel.setLocation(mBinding.textLocation.getText().toString());
+
+
     }
 
     private void getCurrentLocation() {
