@@ -428,7 +428,7 @@ public class MainActivity extends AppCompatActivity {
         //Load Persistent
         mNewMessageModel.tryLoad(this);
         mHomeMessagesItemViewModel.tryLoad(this);
-
+        mWeatherViewModel.tryLoad(this);
     }
 
     @Override
@@ -442,5 +442,6 @@ public class MainActivity extends AppCompatActivity {
         //Save Persistent
         mNewMessageModel.save(this);
         mHomeMessagesItemViewModel.save(this);
+        mWeatherViewModel.save(this);
     }
 }
