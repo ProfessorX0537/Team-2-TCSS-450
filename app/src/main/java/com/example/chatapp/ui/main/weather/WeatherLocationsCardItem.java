@@ -10,7 +10,9 @@ import android.view.ViewGroup;
 
 import com.example.chatapp.R;
 
-public class WeatherLocationsCardItem extends Fragment {
+import java.io.Serializable;
+
+public class WeatherLocationsCardItem extends Fragment implements Serializable {
 
     private String mCity;
     private String mState;
