@@ -56,7 +56,7 @@ public class WeatherTodayFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mViewModel.addResponseObserver(
+        mViewModel.addWeatherResponseObserver(
                 getViewLifecycleOwner(),
                 this::observeData
         );

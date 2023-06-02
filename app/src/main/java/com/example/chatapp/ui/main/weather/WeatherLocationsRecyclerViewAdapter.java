@@ -29,13 +29,14 @@ public class WeatherLocationsRecyclerViewAdapter extends RecyclerView.Adapter<We
     public WeatherLocationsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new WeatherLocationsViewHolder(LayoutInflater
                 .from(parent.getContext())
-                .inflate(R.layout.fragment_weather_locations, parent, false));
+                .inflate(R.layout.fragment_weather_locations_card_item, parent, false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull WeatherLocationsViewHolder holder, int position) {
         //@TODO bind to stuff
-
+        holder.mBinding.idCardZipcode.setText(mWeatherLocationCardFragments.get(position).getZipCode());
+        holder.mBinding.idCardCity.setText(mWeatherLocationCardFragments.get(position).getCity());
 
     }
 

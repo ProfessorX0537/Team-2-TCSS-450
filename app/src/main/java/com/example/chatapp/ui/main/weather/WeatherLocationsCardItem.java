@@ -15,13 +15,15 @@ public class WeatherLocationsCardItem extends Fragment {
     private String mCity;
     private String mState;
     private String mZipCode;
+    private String mCountry;
 
 
 
-    public WeatherLocationsCardItem(String city, String state, String zipcode) {
+    public WeatherLocationsCardItem(String city, String state, String zipcode, String country) {
         this.mCity = city;
         this.mState = state;
         this.mZipCode = zipcode;
+        this.mCountry = country;
     }
 
 
@@ -48,5 +50,9 @@ public class WeatherLocationsCardItem extends Fragment {
 
     public String getZipCode() {
         return mZipCode;
+    }
+
+    public String getCountry() {
+        return mCountry;
     }
 }

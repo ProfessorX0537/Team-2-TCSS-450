@@ -9,6 +9,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +19,9 @@ import com.example.chatapp.R;
 import com.example.chatapp.databinding.FragmentWeatherBinding;
 import com.example.chatapp.databinding.FragmentWeatherLocationsBinding;
 import com.example.chatapp.model.WeatherInfoViewModel;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 
 public class WeatherLocationsFragment extends Fragment {
@@ -39,7 +44,6 @@ public class WeatherLocationsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mBinding = FragmentWeatherLocationsBinding.inflate(inflater, container, false);
-        
 
         return mBinding.getRoot();
     }
@@ -48,7 +52,70 @@ public class WeatherLocationsFragment extends Fragment {
     public void onViewCreated (@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        mBinding.rootRecycler.setAdapter(new WeatherLocationsRecyclerViewAdapter(mModel.mPastLocations));
+        mModel.addLocationResponseObserver(
+                getViewLifecycleOwner(),
+                this::observeData
 
+        );
+
+
+    }
+
+    private void observeData(JSONObject data) {
+
+        String City = "";
+        String State = "";
+        String Country = "";
+        String Zipcode = "";
+
+        try {
+            JSONArray address_components = data.getJSONArray("address_components");
+            for (int i = 0; i < address_components.length(); i++) {
+                JSONObject zero2 = address_components.getJSONObject(i);
+                String long_name = zero2.getString("long_name");
+                JSONArray mtypes = zero2.getJSONArray("types");
+                String Type = mtypes.getString(0);
+                if (TextUtils.isEmpty(long_name) == false || !long_name.equals(null) || long_name.length() > 0 || long_name != "") {
+                    if (Type.equalsIgnoreCase("locality")) {
+                        City = long_name;
+                    } else if (Type.equalsIgnoreCase("administrative_area_level_1")) {
+                        State = long_name;
+                    } else if (Type.equalsIgnoreCase("country")) {
+                        Country = long_name;
+                    } else if (Type.equalsIgnoreCase("postal_code")) {
+                        Zipcode = long_name;
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        Log.d("LOCATION", "Local Lookup Details: " +
+                "City: " + City + "\n" +
+                "State: " + State + "\n" +
+                "Country: " + Country + "\n" +
+                "Zipcode: " + Zipcode
+        );
+
+        //Check for duplicates
+        boolean noDuplicates = true;
+        for (WeatherLocationsCardItem card : mModel.mPastLocations) {
+            if (card.getZipCode().equals(Zipcode)) {
+                noDuplicates = false;
+                break;
+            }
+        }
+
+        if (noDuplicates) {
+            WeatherLocationsCardItem newCard = new WeatherLocationsCardItem(City, State, Zipcode, Country);
+            mModel.mPastLocations.add(0, newCard);
+            Log.d("LOCATION", mModel.mPastLocations.toString());
+        }
+
+        mBinding.rootRecycler.getAdapter().notifyDataSetChanged();
     }
 
     @Override
