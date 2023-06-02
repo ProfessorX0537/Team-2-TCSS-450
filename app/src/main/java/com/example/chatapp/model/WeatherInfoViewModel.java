@@ -1,6 +1,7 @@
 package com.example.chatapp.model;
 
 import android.app.Application;
+import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -29,6 +30,7 @@ import com.example.chatapp.ui.main.weather.Weather10DayCardItem;
 import com.example.chatapp.ui.main.weather.Weather24HourCardItem;
 import com.example.chatapp.ui.main.weather.WeatherFragment;
 import com.example.chatapp.ui.main.weather.WeatherLocationsCardItem;
+import com.example.chatapp.utils.Storage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -43,6 +45,7 @@ public class WeatherInfoViewModel extends AndroidViewModel {
     public ArrayList<Weather24HourCardItem> mToday;
     public ArrayList<Weather10DayCardItem> mDays;
     public ArrayList<WeatherLocationsCardItem> mPastLocations;
+    private static final String PASTLOCATION_FILE = "WeatherPastLocations";
 
     public String[] mMonthName;
 
@@ -324,6 +327,17 @@ public class WeatherInfoViewModel extends AndroidViewModel {
                 .add(request);
 
 
+    }
+
+    public void save(Context ctx) {
+        Storage.saveSerializable(PASTLOCATION_FILE, mPastLocations, ctx);
+    }
+
+    public void tryLoad(Context ctx) {
+        ArrayList<WeatherLocationsCardItem> list = (ArrayList<WeatherLocationsCardItem>) Storage.loadSerializable(PASTLOCATION_FILE, ctx);
+        if (list != null) {
+            mPastLocations = list;
+        }
     }
 
 }
