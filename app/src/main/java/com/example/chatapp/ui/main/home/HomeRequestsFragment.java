@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,8 @@ import android.view.ViewGroup;
 import com.example.chatapp.R;
 import com.example.chatapp.databinding.FragmentHomeMessagesBinding;
 import com.example.chatapp.databinding.FragmentHomeRequestsBinding;
+import com.example.chatapp.ui.main.contacts.ContactCard;
+import com.example.chatapp.ui.main.contacts.ContactsViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
@@ -26,6 +29,9 @@ public class HomeRequestsFragment extends Fragment {
     private FragmentHomeRequestsBinding mBinding;
 
     private HomeRequestsItemViewModel mHomeRequestsItemViewModel;
+
+    private ContactsViewModel mContactsViewModel;
+
 
     public HomeRequestsFragment() {
         // Required empty public constructor
@@ -43,6 +49,8 @@ public class HomeRequestsFragment extends Fragment {
         //return inflater.inflate(R.layout.fragment_home_messages, container, false);
         mBinding = FragmentHomeRequestsBinding.inflate(inflater);
         mHomeRequestsItemViewModel = new ViewModelProvider(getActivity()).get(HomeRequestsItemViewModel.class);
+        mContactsViewModel = new ViewModelProvider(getActivity()).get(ContactsViewModel.class);
+
         return mBinding.getRoot();
     }
 
@@ -56,8 +64,23 @@ public class HomeRequestsFragment extends Fragment {
 //        });
 
 
-        mHomeRequestsItemViewModel.addHomeRequestObserver(getViewLifecycleOwner(), List -> {
+/*        mHomeRequestsItemViewModel.addHomeRequestObserver(getViewLifecycleOwner(), List -> {
+            Log.i("HomeRequestsFragment", "HomeRequestsObserver");
+
             mBinding.rootRecycler.getAdapter().notifyDataSetChanged();
+        });*/
+
+        mContactsViewModel.addContactsObserver(getViewLifecycleOwner(), List -> {
+
+
+            Log.i("HomeRequestsFragment", "ContactsObserver");
+            getContactRequests();
+            mBinding.rootRecycler.setAdapter(new HomeRequestsAdapter(
+                    mHomeRequestsItemViewModel.mHomeRequestList.getValue(),
+                    mHomeRequestsItemViewModel,
+                    (AppCompatActivity) getActivity()));
+
+
         });
 
 
@@ -76,11 +99,26 @@ public class HomeRequestsFragment extends Fragment {
 //                (AppCompatActivity) getActivity()));
 ////////////////////////////////////////////////////////////////
         //uncomment
-        mBinding.rootRecycler.setAdapter(new HomeRequestsAdapter(
+/*        mBinding.rootRecycler.setAdapter(new HomeRequestsAdapter(
                 mHomeRequestsItemViewModel.mHomeRequestList.getValue(),
                 mHomeRequestsItemViewModel,
-                (AppCompatActivity) getActivity()));
+                (AppCompatActivity) getActivity()));*/
 
+
+    }
+
+
+    private void getContactRequests() {
+        List<ContactCard> contacts = mContactsViewModel.getContacts();
+        ArrayList<HomeRequestsItem> requests = new ArrayList<>();
+        for (ContactCard contact : contacts) {
+             if(contact.getIncoming()){
+                    requests.add(new HomeRequestsItem(contact.getName(), "11"));
+
+             }
+
+        }
+        mHomeRequestsItemViewModel.mHomeRequestList.setValue(requests);
 
     }
 }
