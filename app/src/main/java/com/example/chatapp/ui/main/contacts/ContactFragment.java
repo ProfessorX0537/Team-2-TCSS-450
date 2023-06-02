@@ -235,7 +235,7 @@ public class ContactFragment extends Fragment {
                             return;
                         }
                         String text=edit.getText().toString();
-                        mModel.connectAdd(mUserInfoModel.getMemberID(), text);
+                        mModel.connectAdd(mUserInfoModel.getMemberID(), text, getView());
 
                         if (mBinding.listRoot.getAdapter() != null) {
                             mBinding.listRoot.getAdapter().notifyDataSetChanged();
