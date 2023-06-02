@@ -1,5 +1,9 @@
 package com.example.chatapp.model;
 
+import static com.example.chatapp.utils.Storage.loadSerializable;
+import static com.example.chatapp.utils.Storage.saveSerializable;
+
+import android.content.Context;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -9,8 +13,10 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class NewMessageCountViewModel extends ViewModel {
+    private static final String NEWMESSAGE_FILE = "NewMessageCountViewModelFiles";
     public MutableLiveData<Integer> mNewTotalMessageCount;
 
     /**
@@ -69,5 +75,26 @@ public class NewMessageCountViewModel extends ViewModel {
 
         //stupid observers
         mNewHashMapMessageCount.setValue(map);
+    }
+
+    public void save(Context ctx) {
+        saveSerializable(NEWMESSAGE_FILE, mNewHashMapMessageCount.getValue(), ctx);
+    }
+
+    public void tryLoad(Context ctx) {
+        try {
+            HashMap<Integer, Integer> hashMap = (HashMap<Integer, Integer>) loadSerializable(NEWMESSAGE_FILE, ctx);
+            if (hashMap != null) {
+                mNewHashMapMessageCount.setValue(hashMap);
+
+                int count = 0;
+                for (Map.Entry<Integer, Integer> set : mNewHashMapMessageCount.getValue().entrySet()) {
+                    count += set.getValue();
+                }
+                mNewTotalMessageCount.setValue(count);
+            }
+        } catch (Exception e) {
+            Log.d("NewMessageCountViewModel", "Failed Loading null");
+        }
     }
 }

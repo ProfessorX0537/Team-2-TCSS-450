@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 
 import com.example.chatapp.R;
 import com.example.chatapp.databinding.FragmentHomeBinding;
+import com.example.chatapp.model.UserInfoViewModel;
 import com.example.chatapp.model.WeatherInfoViewModel;
 import com.example.chatapp.ui.main.weather.WeatherCodes;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -34,6 +35,8 @@ public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding mBinding;
 
+    private UserInfoViewModel mUserInfoViewModel;
+
     private int currentTabPos;
 
 
@@ -45,7 +48,9 @@ public class HomeFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mViewModel = new ViewModelProvider(getActivity()).get(WeatherInfoViewModel.class);
+        //mViewModel.connectGet();
 
+        mUserInfoViewModel = new ViewModelProvider(getActivity()).get(UserInfoViewModel.class);
     }
 
     @Override
@@ -77,6 +82,8 @@ public class HomeFragment extends Fragment {
                 getViewLifecycleOwner(),
                 this::observeData
         );
+
+        mBinding.textUsernameHome.setText(mUserInfoViewModel.getUsername());
 
         TabLayout tabLayout = mBinding.tabLayout4;
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {

@@ -54,6 +54,11 @@ public class HomeRequestsAdapter extends RecyclerView.Adapter<HomeRequestsAdapte
         return mRequestsItems.size();
     }
 
+    @Override
+    public long getItemId(int position) {
+        return mRequestsItems.get(position).getSender().hashCode();
+    }
+
     public static class HomeRequestsViewHolder extends RecyclerView.ViewHolder {
 
         public @NonNull FragmentHomeRequestsItemBinding mBinding;
