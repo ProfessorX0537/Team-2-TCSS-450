@@ -89,6 +89,7 @@ public class WeatherFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        //BUTTONS
         mBinding.idButtonGetPhoneLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -166,6 +167,13 @@ public class WeatherFragment extends Fragment {
 
             }
 
+        });
+
+        //TEXT HOVER WARNING
+        mBinding.textLocation.setOnFocusChangeListener((v, hasFocus) -> {
+            if (hasFocus) {
+                mBinding.textLocation.setHint("e.g. \"47.288\",\"-122.59\" or \"98402\"");
+            }
         });
 
     }
