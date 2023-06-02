@@ -164,7 +164,7 @@ public class ContactRecycleViewAdapter extends RecyclerView.Adapter<ContactRecyc
             binding.declineButton.setOnClickListener(button -> {
                 Log.i("Button","Decline Pressed");
 
-                mParentFragment.mModel.connectReject(mParentFragment.mUserInfoModel.getMemberID(), mContact.getMemberID());
+                mParentFragment.mModel.connectDelete(mParentFragment.mUserInfoModel.getMemberID(), mContact.getMemberID());
 
 
                 mContacts.remove(mContact);
