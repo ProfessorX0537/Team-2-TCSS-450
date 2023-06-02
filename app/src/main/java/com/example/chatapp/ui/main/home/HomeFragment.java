@@ -78,7 +78,7 @@ public class HomeFragment extends Fragment {
 
         //FragmentHomeBinding binding = FragmentHomeBinding.bind(requireView());
 
-        mViewModel.addResponseObserver(
+        mViewModel.addWeatherResponseObserver(
                 getViewLifecycleOwner(),
                 this::observeData
         );

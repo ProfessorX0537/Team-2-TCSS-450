@@ -43,6 +43,7 @@ import com.example.chatapp.databinding.ActivityMainBinding;
 import com.example.chatapp.model.NewMessageCountViewModel;
 import com.example.chatapp.model.PushyTokenViewModel;
 import com.example.chatapp.model.UserInfoViewModel;
+import com.example.chatapp.model.WeatherInfoViewModel;
 import com.example.chatapp.services.PushReceiver;
 import com.example.chatapp.ui.main.chat.chatlist.ChatListItemViewModel;
 import com.example.chatapp.ui.main.chat.chatroom.ChatRoomItem;
@@ -68,6 +69,8 @@ public class MainActivity extends AppCompatActivity {
     private ContactsViewModel mContactsViewModel;
 
     private SharedPreferences mSharedPreferences;
+
+    private WeatherInfoViewModel mWeatherViewModel;
 
     private HomeMessagesItemViewModel mHomeMessagesItemViewModel;
 
@@ -160,6 +163,10 @@ public class MainActivity extends AppCompatActivity {
         mContactsViewModel.connectGet(userinfo.getMemberID());
 
         mHomeMessagesItemViewModel = new ViewModelProvider(this).get(HomeMessagesItemViewModel.class);
+
+        //Initiate first time weather request
+        mWeatherViewModel = new ViewModelProvider(this).get(WeatherInfoViewModel.class);
+        mWeatherViewModel.connectGet();
     }
 
     /**

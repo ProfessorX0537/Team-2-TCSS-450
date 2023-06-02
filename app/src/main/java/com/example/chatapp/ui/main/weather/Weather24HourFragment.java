@@ -77,7 +77,7 @@ public class Weather24HourFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         mBinding.rootRecycler.setAdapter(new Weather24HourRecycleViewAdapter(mViewModel.mToday));
-        mViewModel.addResponseObserver(
+        mViewModel.addWeatherResponseObserver(
                 getViewLifecycleOwner(),
                 this::observeData
 

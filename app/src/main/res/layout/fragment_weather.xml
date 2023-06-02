@@ -57,18 +57,51 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tabLayout" />
 
-    <androidx.fragment.app.FragmentContainerView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/weather_fragment_locations_static"
-        android:name="com.example.chatapp.ui.main.weather.WeatherLocationsFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#CC000000"
+        android:clickable="true"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="parent"
-        app:layout_constraintVertical_bias="0.011" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:id="@+id/idButtonExitLocationView"
+            android:layout_width="136dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="56dp"
+            android:layout_marginTop="70dp"
+            android:text="Exit"
+            android:visibility="visible"
+            app:layout_constraintStart_toEndOf="@+id/idButtonGetPhoneLocation"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/idButtonGetPhoneLocation"
+            android:layout_width="136dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="70dp"
+            android:text="Get My Location"
+            android:visibility="visible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/idLocationContainer"
+            android:name="com.example.chatapp.ui.main.weather.WeatherLocationsFragment"
+            android:layout_width="413dp"
+            android:layout_height="591dp"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/idButtonGetPhoneLocation" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <EditText
         android:id="@+id/text_location"
@@ -116,29 +149,5 @@
         app:layout_constraintEnd_toEndOf="@+id/text_location"
         app:layout_constraintTop_toTopOf="@+id/text_location"
         app:layout_constraintVertical_bias="0.615" />
-
-    <Button
-        android:id="@+id/idButtonExitLocationView"
-        android:layout_width="136dp"
-        android:layout_height="61dp"
-        android:layout_marginTop="8dp"
-        android:text="Exit"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.894"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_location" />
-
-    <Button
-        android:id="@+id/idButtonGetPhoneLocation"
-        android:layout_width="136dp"
-        android:layout_height="61dp"
-        android:layout_marginTop="8dp"
-        android:text="Get My Location"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.101"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_location" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
