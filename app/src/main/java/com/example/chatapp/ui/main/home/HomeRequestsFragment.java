@@ -32,6 +32,8 @@ public class HomeRequestsFragment extends Fragment {
 
     private ContactsViewModel mContactsViewModel;
 
+    private int spamAdapter = 0;
+
 
     public HomeRequestsFragment() {
         // Required empty public constructor
@@ -70,16 +72,34 @@ public class HomeRequestsFragment extends Fragment {
             mBinding.rootRecycler.getAdapter().notifyDataSetChanged();
         });*/
 
-        mContactsViewModel.addContactsObserver(getViewLifecycleOwner(), List -> {
-
+        mContactsViewModel.addContactsObserver(getViewLifecycleOwner(), list -> {
+            if (list.size() == 0){
+                mBinding.textNoMessages.setVisibility(View.VISIBLE);
+            } else {
+                mBinding.textNoMessages.setVisibility(View.GONE);
+            }
 
             Log.i("HomeRequestsFragment", "ContactsObserver");
-            getContactRequests();
-            mBinding.rootRecycler.setAdapter(new HomeRequestsAdapter(
-                    mHomeRequestsItemViewModel.mHomeRequestList.getValue(),
-                    mHomeRequestsItemViewModel,
-                    (AppCompatActivity) getActivity()));
+            if (mBinding.rootRecycler.getAdapter() == null) {
+                getContactRequests();
+                mBinding.rootRecycler.setAdapter(new HomeRequestsAdapter(
+                        mHomeRequestsItemViewModel.mHomeRequestList.getValue(),
+                        mHomeRequestsItemViewModel,
+                        (AppCompatActivity) getActivity()));
+                mBinding.rootRecycler.getAdapter().notifyDataSetChanged();
+            } else {
+                mBinding.rootRecycler.getAdapter().notifyDataSetChanged();
+            }
 
+            if (spamAdapter < 2) {
+                getContactRequests();
+                mBinding.rootRecycler.setAdapter(new HomeRequestsAdapter(
+                        mHomeRequestsItemViewModel.mHomeRequestList.getValue(),
+                        mHomeRequestsItemViewModel,
+                        (AppCompatActivity) getActivity()));
+                spamAdapter++;
+                mBinding.rootRecycler.getAdapter().notifyDataSetChanged();
+            }
 
         });
 

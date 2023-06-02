@@ -69,10 +69,20 @@ public class MainActivity extends AppCompatActivity {
 
     private SharedPreferences mSharedPreferences;
 
+    private HomeMessagesItemViewModel mHomeMessagesItemViewModel;
+
     @SuppressLint("RestrictedApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Accepts intent from AuthActivity and gets users email and JWT
+        // storing them in the UserInfoViewModel for Webservice calls that require JWT auth
+        MainActivityArgs args = MainActivityArgs.fromBundle(getIntent().getExtras());
+        UserInfoViewModel userinfo = new ViewModelProvider(this,
+                new UserInfoViewModel.UserInfoViewModelFactory(args.getEmail(), args.getJwt(), args.getMemberid(), args.getUsername())
+        ).get(UserInfoViewModel.class);
+        Log.i("UserInfo", args.toString());
 
         //setting the theme from what is selected
         mSharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
@@ -87,14 +97,6 @@ public class MainActivity extends AppCompatActivity {
 
         Objects.requireNonNull(getSupportActionBar()).
                 setBackgroundDrawable(new ColorDrawable(Color.parseColor("#673AB7")));
-
-        // Accepts intent from AuthActivity and gets users email and JWT
-        // storing them in the UserInfoViewModel for Webservice calls that require JWT auth
-        MainActivityArgs args = MainActivityArgs.fromBundle(getIntent().getExtras());
-        UserInfoViewModel userinfo = new ViewModelProvider(this,
-                new UserInfoViewModel.UserInfoViewModelFactory(args.getEmail(), args.getJwt(), args.getMemberid(), args.getUsername())
-        ).get(UserInfoViewModel.class);
-        Log.i("UserInfo", args.toString());
 
         //Bottom Nav
         BottomNavigationView navView = findViewById(R.id.nav_view);
@@ -156,6 +158,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         mContactsViewModel.connectGet(userinfo.getMemberID());
+
+        mHomeMessagesItemViewModel = new ViewModelProvider(this).get(HomeMessagesItemViewModel.class);
     }
 
     /**
@@ -202,7 +206,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void changeTheme(int theme) {
         setTheme(theme);
-        recreate();
+//        recreate();
     }
 
     /**
@@ -413,6 +417,11 @@ public class MainActivity extends AppCompatActivity {
         registerReceiver(mPushMessageReceiver, new IntentFilter(PushReceiver.CHATLIST_KICK));
         registerReceiver(mPushMessageReceiver, new IntentFilter(PushReceiver.CHATLIST_RENAME));
         registerReceiver(mPushMessageReceiver, new IntentFilter(PushReceiver.CONNECTION_ADD));
+
+        //Load Persistent
+        mNewMessageModel.tryLoad(this);
+        mHomeMessagesItemViewModel.tryLoad(this);
+
     }
 
     @Override
@@ -422,5 +431,9 @@ public class MainActivity extends AppCompatActivity {
         if (mPushMessageReceiver != null) {
             unregisterReceiver(mPushMessageReceiver);
         }
+
+        //Save Persistent
+        mNewMessageModel.save(this);
+        mHomeMessagesItemViewModel.save(this);
     }
 }

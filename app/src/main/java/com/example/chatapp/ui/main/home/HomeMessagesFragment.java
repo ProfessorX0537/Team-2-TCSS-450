@@ -14,14 +14,13 @@ import android.view.ViewGroup;
 
 import com.example.chatapp.databinding.FragmentHomeMessagesBinding;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class HomeMessagesFragment extends Fragment {
 
     private FragmentHomeMessagesBinding mBinding;
 
     private HomeMessagesItemViewModel mHomeMessagesItemViewModel;
+
+    private int adapterTwice = 0;
 
     public HomeMessagesFragment() {
         // Required empty public constructor
@@ -48,10 +47,34 @@ public class HomeMessagesFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mHomeMessagesItemViewModel.addHomeMessageObserver(getViewLifecycleOwner(), List -> {
-            //mBinding.textNoMessages.setVisibility(View.INVISIBLE);
-            mBinding.rootRecycler.getAdapter().notifyDataSetChanged();
+        mHomeMessagesItemViewModel.addHomeMessageObserver(getViewLifecycleOwner(), list -> {
+            if (list.size() == 0){
+                mBinding.textNoMessages.setVisibility(View.VISIBLE);
+            } else {
+                mBinding.textNoMessages.setVisibility(View.GONE);
+            }
+
+
+            if (mBinding.rootRecycler.getAdapter() == null) {
+                mBinding.rootRecycler.setAdapter(new HomeMessagesAdapter(
+                        mHomeMessagesItemViewModel.getHomeMessageList().getValue(),
+                        mHomeMessagesItemViewModel,
+                        (AppCompatActivity) getActivity()));
+                mBinding.rootRecycler.getAdapter().notifyDataSetChanged();
+            } else {
+                mBinding.rootRecycler.getAdapter().notifyDataSetChanged();
+            }
+
+            if (adapterTwice < 2) { //jank TODO idk
+                mBinding.rootRecycler.setAdapter(new HomeMessagesAdapter(
+                        mHomeMessagesItemViewModel.getHomeMessageList().getValue(),
+                        mHomeMessagesItemViewModel,
+                        (AppCompatActivity) getActivity()));
+                mBinding.rootRecycler.getAdapter().notifyDataSetChanged();
+                adapterTwice++;
+            }
         });
+        mBinding.textNoMessages.setVisibility(View.GONE);
 
 
 
@@ -69,11 +92,5 @@ public class HomeMessagesFragment extends Fragment {
 //                mHomeMessagesItemViewModel,
 //                (AppCompatActivity) getActivity()));
 ////////////////////////////////////////////////////////////////
-        //uncomment
-        mBinding.rootRecycler.setAdapter(new HomeMessagesAdapter(
-                mHomeMessagesItemViewModel.getHomeMessageList().getValue(),
-                mHomeMessagesItemViewModel,
-                (AppCompatActivity) getActivity()));
-
     }
 }
