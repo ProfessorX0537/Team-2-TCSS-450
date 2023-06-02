@@ -204,6 +204,7 @@ public class WeatherFragment extends Fragment {
                                         double longitude = locationResult.getLocations().get(index).getLongitude();
 
                                         Log.d("PHONE LOCATION", "GOT LOCATION: " + latitude + ", " + longitude);
+                                        mModel.setLocation(latitude + "," + longitude);
                                         //AddressText.setText("Latitude: "+ latitude + "\n" + "Longitude: "+ longitude);
                                     }
                                 }
