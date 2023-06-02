@@ -2,6 +2,9 @@ package com.example.chatapp.ui.main.contacts;
 
 import android.app.Application;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.View;
+import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -14,8 +17,10 @@ import com.android.volley.Request;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.chatapp.R;
+import com.example.chatapp.databinding.FragmentContactsBinding;
 import com.example.chatapp.io.RequestQueueSingleton;
 import com.example.chatapp.ui.main.chat.chatroom.ChatRoomItem;
+import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,6 +32,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+
+import me.pushy.sdk.lib.jackson.core.JsonParser;
 
 public class ContactsViewModel extends AndroidViewModel {
 
@@ -157,7 +164,7 @@ public class ContactsViewModel extends AndroidViewModel {
 
 
     // This is the method that is called when the user adds a user through the FAB
-    public void connectAdd(final int memberid_a, final String input) {
+    public void connectAdd(final int memberid_a, final String input, View view) {
         String url = getApplication().getResources().getString(R.string.url_webservices) +
                 "connections?input=" + input+"&MemberID_A="+memberid_a;
 
@@ -165,7 +172,13 @@ public class ContactsViewModel extends AndroidViewModel {
 
 
 
-        Request request = new JsonObjectRequest(Request.Method.POST, url, null, this::addContact, this::handleError);
+        Request request = new JsonObjectRequest(Request.Method.POST, url, null, this::addContact, error ->{
+            try {
+                handleAddError(error, view);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        });
 
         request.setRetryPolicy(new DefaultRetryPolicy(
                 10_000,
@@ -179,7 +192,12 @@ public class ContactsViewModel extends AndroidViewModel {
 
     // This method adds a contact to the contacts array at the end
     private void addContact(final JSONObject response){
+
         try {
+
+
+
+
             JSONObject contactJson = response.getJSONObject("contact");
 
             ContactCard contact = new ContactCard.Builder(contactJson.getString("firstname")+" "+contactJson.getString("lastname"))
@@ -227,6 +245,32 @@ public class ContactsViewModel extends AndroidViewModel {
                             " " +
                             data);
         }
+    }
+
+    private void handleAddError(final VolleyError error, View view) throws JSONException {
+        String data;
+        if (Objects.isNull(error.networkResponse)) {
+            Log.e("NETWORK ERROR", error.getMessage());
+        } else {
+            data = new String(error.networkResponse.data, Charset.defaultCharset());
+            Log.e("CLIENT ERROR",
+                    error.networkResponse.statusCode +
+                            " " +
+                            data);
+
+
+            JSONObject jsonObject = new JSONObject(data);
+
+
+            Snackbar snackbar = Snackbar.make(view, jsonObject.getString("message"), Snackbar.LENGTH_SHORT);
+            View view1 = snackbar.getView();
+            FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) view1.getLayoutParams();
+            view1.setLayoutParams(params);
+            snackbar.show();
+
+        }
+
+
     }
 
     // This method is used to set the contacts array
