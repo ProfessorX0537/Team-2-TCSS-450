@@ -3,8 +3,10 @@ package com.example.chatapp.ui.main.home;
 
 import androidx.fragment.app.Fragment;
 
+import java.io.Serializable;
 
-public class HomeMessagesItem extends Fragment {
+
+public class HomeMessagesItem extends Fragment implements Serializable {
 
     private final int mMessageId;
 
