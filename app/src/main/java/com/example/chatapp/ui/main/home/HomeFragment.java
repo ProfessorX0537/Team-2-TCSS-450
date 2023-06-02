@@ -45,7 +45,7 @@ public class HomeFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mViewModel = new ViewModelProvider(getActivity()).get(WeatherInfoViewModel.class);
-        mViewModel.connectGet();
+
     }
 
     @Override
@@ -70,6 +70,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         //FragmentHomeBinding binding = FragmentHomeBinding.bind(requireView());
 
         mViewModel.addResponseObserver(
