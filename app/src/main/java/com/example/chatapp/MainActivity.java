@@ -53,6 +53,7 @@ import com.example.chatapp.ui.main.contacts.ContactsViewModel;
 import com.example.chatapp.ui.main.home.HomeMessagesItem;
 import com.example.chatapp.ui.main.home.HomeMessagesItemViewModel;
 import com.example.chatapp.ui.main.settings.SettingsFragment;
+import com.example.chatapp.utils.Storage;
 import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -74,6 +75,8 @@ public class MainActivity extends AppCompatActivity {
 
     private HomeMessagesItemViewModel mHomeMessagesItemViewModel;
 
+    private UserInfoViewModel userinfo;
+
     @SuppressLint("RestrictedApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
         // Accepts intent from AuthActivity and gets users email and JWT
         // storing them in the UserInfoViewModel for Webservice calls that require JWT auth
         MainActivityArgs args = MainActivityArgs.fromBundle(getIntent().getExtras());
-        UserInfoViewModel userinfo = new ViewModelProvider(this,
+        userinfo = new ViewModelProvider(this,
                 new UserInfoViewModel.UserInfoViewModelFactory(args.getEmail(), args.getJwt(), args.getMemberid(), args.getUsername())
         ).get(UserInfoViewModel.class);
         Log.i("UserInfo", args.toString());
@@ -115,17 +118,8 @@ public class MainActivity extends AppCompatActivity {
 
         //NewMessageModel
         mNewMessageModel = new ViewModelProvider(this).get(NewMessageCountViewModel.class);
-//        //When the user navigates to the chats page, reset the new message count.
-//        navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
-//            if (destination.getId() == R.id.navigation_chat) {
-//                //This will need some extra logic for your project as it should have
-//                //multiple chat rooms.
-//                //TODO dont remove badge on switch
-//                mNewMessageModel.reset();
-//            }
-//        });
         //Observe MessageCount and create Badge
-        mNewMessageModel.addNewTotalMessageCountObserver(this, count -> { //TODO TEST THIS!!!
+        mNewMessageModel.addNewTotalMessageCountObserver(this, count -> {
             BadgeDrawable badge = binding.navView.getOrCreateBadge(R.id.navigation_chat);
             badge.setMaxCharacterCount(2);
             if (count > 0) {
@@ -167,6 +161,15 @@ public class MainActivity extends AppCompatActivity {
         //Initiate first time weather request
         mWeatherViewModel = new ViewModelProvider(this).get(WeatherInfoViewModel.class);
         mWeatherViewModel.connectGet();
+
+        //prev user check
+        if (!userinfo.getUsername().equals(mSharedPreferences.getString(getString(R.string.keys_prefs_username_prev), ""))) { //not same
+            //delete data
+            Storage.delete(mNewMessageModel.NEWMESSAGE_FILE, this);
+            Storage.delete(mHomeMessagesItemViewModel.HOMEMESSAGE_FILE, this);
+            Storage.delete(mWeatherViewModel.PASTLOCATION_FILE, this);
+            mSharedPreferences.edit().putString(getString(R.string.keys_prefs_username_prev), userinfo.getUsername()).apply();
+        }
     }
 
     /**

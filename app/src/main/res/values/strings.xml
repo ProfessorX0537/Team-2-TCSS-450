@@ -154,6 +154,7 @@
     <string name="keys_prefs_jwt">SharedPrefs: JWT</string>
     <string name="keys_prefs_memberid">SharedPrefs: MemberID</string>
     <string name="keys_prefs_username">SharedPrefs: Username</string>
+    <string name="keys_prefs_username_prev">SharedPrefs: Username Prev</string>
 
     <!-- URL -->
     <string name="url_webservices">https://daveed-tcss450-labs.herokuapp.com/</string> <!-- Heroku -->
