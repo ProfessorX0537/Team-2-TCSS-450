@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HomeMessagesItemViewModel extends AndroidViewModel {
-    private static final String HOMEMESSAGE_FILE = "HomeMessagesItem";
+    public static final String HOMEMESSAGE_FILE = "HomeMessagesItem";
 
     public MutableLiveData<ArrayList<HomeMessagesItem>> mHomeMessageList;
 

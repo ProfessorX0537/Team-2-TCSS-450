@@ -45,7 +45,7 @@ public class WeatherInfoViewModel extends AndroidViewModel {
     public ArrayList<Weather24HourCardItem> mToday;
     public ArrayList<Weather10DayCardItem> mDays;
     public ArrayList<WeatherLocationsCardItem> mPastLocations;
-    private static final String PASTLOCATION_FILE = "WeatherPastLocations";
+    public static final String PASTLOCATION_FILE = "WeatherPastLocations";
 
     public String[] mMonthName;
 

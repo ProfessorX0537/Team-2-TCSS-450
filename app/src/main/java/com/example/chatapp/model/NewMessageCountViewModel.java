@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class NewMessageCountViewModel extends ViewModel {
-    private static final String NEWMESSAGE_FILE = "NewMessageCountViewModelFiles";
+    public static final String NEWMESSAGE_FILE = "NewMessageCountViewModelFiles";
     public MutableLiveData<Integer> mNewTotalMessageCount;
 
     /**
