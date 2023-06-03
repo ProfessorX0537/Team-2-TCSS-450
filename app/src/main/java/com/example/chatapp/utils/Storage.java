@@ -56,4 +56,18 @@ public class Storage {
             return null;
         }
     }
+
+    public static boolean delete(String name, Context ctx) {
+        try {
+            File f = new File(ctx.getFilesDir(), name);
+            if (f.isFile()) {
+                f.delete();
+            }
+            Log.d("Storage", "Deleted (or did not exist):" + name);
+            return true;
+        } catch (Exception e) {
+            Log.e("Storage", "ERROR: Failed deleting " + name);
+            return false;
+        }
+    }
 }
