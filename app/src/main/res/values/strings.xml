@@ -15,6 +15,7 @@
     <string name="hint_verify_email">Verification Number</string>
     <string name="hint_chat_enter_text">Text Message</string>
     <string name="hint_weather_location">Location</string>
+    <string name="hint_weather_location_focused">e.g. "47.288","-122.59" or "98402"</string>
     <string name="hint_connections_email">Email</string>
 
 
@@ -69,6 +70,7 @@
     <string name="textview_weather_conditions">Conditions</string>
     <string name="textview_24hour_card_time">Time</string>
     <string name="textview_10day_card_day">Day</string>
+
     <string name="textview_connections_email">Email/Username/First or Last Name</string>
     <string name="textview_connections_request">Request Connection</string>
     <string name="textview_chatlist_add_chatroom">Name</string>

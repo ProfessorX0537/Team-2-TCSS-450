@@ -15,29 +15,26 @@
         android:layout_height="match_parent"
         android:background="@drawable/card_background"
         >
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/idCardTime"
-            android:gravity="center"
-            android:padding="4dp"
-            android:text="@string/textview_24hour_card_time"
-            android:textSize="30sp"
-            android:textColor="@color/text_primary"
-            android:textAlignment="center"
-            />
 
         <TextView
+            android:id="@+id/idCardTime"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/idCardTemperature"
             android:gravity="center"
-            android:text="Temp"
-            android:textColor="@color/text_primary"
+            android:padding="4dp"
             android:textAlignment="center"
-            android:textSize="40sp"
+            android:textColor="@color/text_primary"
+            android:textSize="30sp" />
+
+        <TextView
+            android:id="@+id/idCardTemperature"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_below="@id/idCardTime"
-            />
+            android:gravity="center"
+            android:textAlignment="center"
+            android:textColor="@color/text_primary"
+            android:textSize="40sp" />
 
         <ImageView
             android:id="@+id/idCardConditionIcon"
@@ -53,19 +50,20 @@
             android:src="@drawable/cloudy" />
 
         <TextView
+            android:id="@+id/idCardPrecipitation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:layout_centerHorizontal="true"
-            android:gravity="center"
             android:layout_below="@id/idCardConditionIcon"
-            android:id="@+id/idCardPrecipitation"
-            android:textColor="@color/text_primary"
-            android:text="Precipitation"
-            android:textSize="30sp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginBottom="4dp"
+            android:gravity="center"
             android:padding="3dp"
-            android:layout_margin="4dp"
-            />
+            android:textAlignment="center"
+            android:textColor="@color/text_primary"
+            android:textSize="30sp" />
 
     </RelativeLayout>
 

@@ -101,15 +101,18 @@ public class WeatherLocationsFragment extends Fragment {
         );
 
         //Check for duplicates
-        boolean noDuplicates = true;
-        for (WeatherLocationsCardItem card : mModel.mPastLocations) {
+        //boolean noDuplicates = true;
+
+        for (int i = 0; i < mModel.mPastLocations.size(); i++) {
+            WeatherLocationsCardItem card = mModel.mPastLocations.get(i);
             if (card.getZipCode().equals(Zipcode)) {
-                noDuplicates = false;
+                //noDuplicates = false;
+                mModel.mPastLocations.remove(i);
                 break;
             }
         }
 
-        if (noDuplicates) {
+        if (!City.equals("")) {
             WeatherLocationsCardItem newCard = new WeatherLocationsCardItem(City, State, Zipcode, Country);
             mModel.mPastLocations.add(0, newCard);
             Log.d("LOCATION", mModel.mPastLocations.toString());
