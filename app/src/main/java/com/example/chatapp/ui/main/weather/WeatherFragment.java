@@ -191,7 +191,11 @@ public class WeatherFragment extends Fragment {
         });
 
 
-
+        mModel.addWeatherResponseObserver(getViewLifecycleOwner(), list -> {
+            if (mModel.mPastLocations.size() != 0) {
+                mBinding.textLocationCurrWeather.setText(mModel.mPastLocations.get(0).getCity());
+            }
+        });
     }
 
     @Override
