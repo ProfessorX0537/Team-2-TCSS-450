@@ -19,12 +19,15 @@ import com.example.chatapp.databinding.FragmentHomeBinding;
 import com.example.chatapp.model.UserInfoViewModel;
 import com.example.chatapp.model.WeatherInfoViewModel;
 import com.example.chatapp.ui.main.weather.WeatherCodes;
+import com.example.chatapp.ui.main.weather.WeatherFragment;
+import com.example.chatapp.ui.main.weather.WeatherLocationsCardItem;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.tabs.TabLayout;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -39,6 +42,8 @@ public class HomeFragment extends Fragment {
 
     private int currentTabPos;
 
+    private WeatherInfoViewModel mWeatherInfoViewModel;
+
 
     public HomeFragment() {
         // Required empty public constructor
@@ -51,6 +56,8 @@ public class HomeFragment extends Fragment {
         //mViewModel.connectGet();
 
         mUserInfoViewModel = new ViewModelProvider(getActivity()).get(UserInfoViewModel.class);
+
+        mWeatherInfoViewModel = new ViewModelProvider(getActivity()).get(WeatherInfoViewModel.class);
     }
 
     @Override
@@ -82,6 +89,15 @@ public class HomeFragment extends Fragment {
                 getViewLifecycleOwner(),
                 this::observeData
         );
+
+        mViewModel.addLocationResponseObserver(getViewLifecycleOwner(), list -> {
+            ArrayList<WeatherLocationsCardItem> pastLoc = mWeatherInfoViewModel.mPastLocations;
+            if (pastLoc.size() != 0) {
+                mBinding.homeTextLocation.setText(pastLoc.get(0).getCity());
+            } else {
+                mBinding.homeTextLocation.setText("");
+            }
+        });
 
         mBinding.textUsernameHome.setText(mUserInfoViewModel.getUsername());
 
@@ -234,7 +250,7 @@ public class HomeFragment extends Fragment {
                 mBinding.textDaycondition.setText(WeatherCodes.getWeatherCodeName(currentWeatherCode));
                 mBinding.imageWeathercondtion1.setImageDrawable(icon);
                 mBinding.textDate.setText(currentDate);
-                mBinding.homeTextLocation.setText("98402");
+
 //                Log.d("hi", temp+"");
             } catch (JSONException e) {
                 throw new RuntimeException(e);

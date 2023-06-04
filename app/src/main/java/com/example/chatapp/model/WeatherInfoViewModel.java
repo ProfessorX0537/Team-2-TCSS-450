@@ -45,7 +45,7 @@ public class WeatherInfoViewModel extends AndroidViewModel {
     public ArrayList<Weather24HourCardItem> mToday;
     public ArrayList<Weather10DayCardItem> mDays;
     public ArrayList<WeatherLocationsCardItem> mPastLocations;
-    private static final String PASTLOCATION_FILE = "WeatherPastLocations";
+    public static final String PASTLOCATION_FILE = "WeatherPastLocations";
 
     public String[] mMonthName;
 
@@ -54,7 +54,7 @@ public class WeatherInfoViewModel extends AndroidViewModel {
 
     public String mTime;
 
-    private HashMap<String, String> mLocation;
+    public HashMap<String, String> mLocation;
     //Used for reverting to previous location is to be updated location is invalid
     //private HashMap<String, String> mLocationBackup;
 
@@ -91,6 +91,7 @@ public class WeatherInfoViewModel extends AndroidViewModel {
 
         mLocation = location;
         addLocationToWeatherLocations(mLocation);
+        mPastLocations.add(new WeatherLocationsCardItem("Tacoma", "WA", "98402", "U.S."));
         //mLocationBackup = mLocation;
 
     }
@@ -337,6 +338,9 @@ public class WeatherInfoViewModel extends AndroidViewModel {
         ArrayList<WeatherLocationsCardItem> list = (ArrayList<WeatherLocationsCardItem>) Storage.loadSerializable(PASTLOCATION_FILE, ctx);
         if (list != null) {
             mPastLocations = list;
+
+            WeatherLocationsCardItem curr = list.get(0);
+            setLocation(curr.getZipCode());
         }
     }
 
