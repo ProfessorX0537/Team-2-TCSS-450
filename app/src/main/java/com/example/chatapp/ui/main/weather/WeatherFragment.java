@@ -106,7 +106,6 @@ public class WeatherFragment extends Fragment {
             if (mModel.mInvalidLocationFormatting) {
                 mBinding.textLocation.setError("Invalid formatting");
             }
-            Log.d("DELETE ME", "REQUEST BULLSHIT: " + mModel.mInvalidLocationRequest);
             if (mModel.mInvalidLocationRequest) {
                 mBinding.textLocation.setError("Invalid Location");
             }
