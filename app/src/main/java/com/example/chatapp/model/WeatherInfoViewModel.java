@@ -40,6 +40,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
+/**
+ * Class for holding weather data
+ */
 public class WeatherInfoViewModel extends AndroidViewModel {
 
     public ArrayList<Weather24HourCardItem> mToday;
@@ -108,6 +111,10 @@ public class WeatherInfoViewModel extends AndroidViewModel {
         mLocationResponse.observe(owner, observer);
     }
 
+    /**
+     * Handles the weather api response
+     * @param result
+     */
     private void handleWeatherResult(final JSONObject result) {
 
         //mInvalidLocationRequest = false;
@@ -116,6 +123,10 @@ public class WeatherInfoViewModel extends AndroidViewModel {
 
     }
 
+    /**
+     * Handles errors from failed web service calls
+     * @param error
+     */
     private void handleError(final VolleyError error) {
 
         mInvalidLocationRequest = true;
@@ -150,6 +161,10 @@ public class WeatherInfoViewModel extends AndroidViewModel {
         //connectGet();
     }
 
+    /**
+     * Adds location to location history
+     * @param location
+     */
     private void addLocationToWeatherLocations(HashMap<String, String> location) {
 
         //Use location coords to get city info from api
@@ -179,7 +194,9 @@ public class WeatherInfoViewModel extends AndroidViewModel {
     }
 
 
-
+    /**
+     * Created connection request to weather API
+     */
     public void connectGet() {
         String url = getApplication().getString(R.string.url_webservices) + "weather";
 
@@ -208,6 +225,10 @@ public class WeatherInfoViewModel extends AndroidViewModel {
                 .add(request);
     }
 
+    /**
+     * Set user location via zipcode or coordinate input
+     * @param locationInput
+     */
     public void setLocation(final String locationInput) {
 
         //Remove whitespace from input
@@ -271,11 +292,20 @@ public class WeatherInfoViewModel extends AndroidViewModel {
         connectGet();
     }
 
+    /**
+     * Sets global variable to true, used for error messages
+     */
     private void setInvalidLocationRequest() {
         mInvalidLocationRequest = true;
         System.out.println(mInvalidLocationRequest);
     }
 
+    /**
+     * Checks input for match to input regex
+     * @param input
+     * @param pattern
+     * @return
+     */
     private boolean checkRegex(final String input, final String pattern) {
         // Create a Pattern object for LatLong
         Pattern r = Pattern.compile(pattern);
