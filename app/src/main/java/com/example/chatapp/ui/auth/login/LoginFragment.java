@@ -188,9 +188,9 @@ public class LoginFragment extends Fragment {
         binding.textEmail.setText(args.getEmail().equals("default") ? "" : args.getEmail()); //TODO
         binding.textPassword.setText(args.getPassword().equals("default") ? "" : args.getPassword()); //TODO
 
-        //TODO Remove this placeholder account when shipping
-        binding.textEmail.setText("test1@test.com");
-        binding.textPassword.setText("Password123!");
+//        //TODO Remove this placeholder account when shipping
+//        binding.textEmail.setText("test1@test.com");
+//        binding.textPassword.setText("Password123!");
 
         //Register Button
         binding.buttonRegister.setVisibility(View.GONE);
