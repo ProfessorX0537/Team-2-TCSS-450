@@ -43,6 +43,11 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabLayout;
 
+/**
+ * Weather fragment class used for displaying weather forecasts
+ *
+ * @author Luca Smith
+ */
 public class WeatherFragment extends Fragment {
 
     private FragmentWeatherBinding mBinding;
@@ -204,12 +209,16 @@ public class WeatherFragment extends Fragment {
         mBinding = null;
     }
 
+    /**
+     * Takes user input and sends it to the weather viewmodel for processing
+     */
     public void updateLocation() {
         mModel.setLocation(mBinding.textLocation.getText().toString());
-
-
     }
 
+    /**
+     * Gets current device location
+     */
     private void getCurrentLocation() {
 
 
@@ -250,6 +259,10 @@ public class WeatherFragment extends Fragment {
         }
     }
 
+    /**
+     * Check GPS location is enabled in device services
+     * @return if location service is on
+     */
     private boolean isGPSEnabled() {
         LocationManager locationManager = null;
         boolean isEnabled = false;
@@ -263,6 +276,9 @@ public class WeatherFragment extends Fragment {
 
     }
 
+    /**
+     * Turns on device location service
+     */
     private void turnOnGPS() {
 
 

@@ -2,6 +2,11 @@ package com.example.chatapp.ui.main.weather;
 
 import android.graphics.drawable.Drawable;
 
+/**
+ * Class that will hold data for 10 day card
+ * @author Xavier Hines
+ * @author Luca Smith
+ */
 public class Weather10DayCardItem {
     private final String mDay;
 
@@ -12,7 +17,7 @@ public class Weather10DayCardItem {
 
     private final String mPrecipitation;
 
-    //TODO add condition image and text
+
     /**
      * Constructor Weather24HourCardItem
      * @param mDay the hour of the day (1:00 pm)
@@ -21,7 +26,7 @@ public class Weather10DayCardItem {
      */
     public Weather10DayCardItem(String mDay, String mTemperatureMax, String mTemperatureMin,
                                 String mPrecipitation, Drawable mIcon) {
-        //TODO parse data & format
+
         this.mDay = mDay;
         this.mTemperatureMax = mTemperatureMax;
         this.mTemperatureMin = mTemperatureMin;

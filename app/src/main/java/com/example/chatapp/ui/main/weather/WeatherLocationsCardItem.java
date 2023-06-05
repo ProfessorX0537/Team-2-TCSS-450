@@ -12,6 +12,9 @@ import com.example.chatapp.R;
 
 import java.io.Serializable;
 
+/**
+ * Class holds data for previously searched locations
+ */
 public class WeatherLocationsCardItem extends Fragment implements Serializable {
 
     private String mCity;

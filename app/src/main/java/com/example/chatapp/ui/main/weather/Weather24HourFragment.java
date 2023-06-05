@@ -33,7 +33,11 @@ import org.json.JSONObject;
 
 import java.util.Random;
 
-
+/**
+ * Fragment for displaying weather for the next 24 hours for each hour
+ *
+ * @author Luca Smith
+ */
 public class Weather24HourFragment extends Fragment {
 
     /**
@@ -86,6 +90,10 @@ public class Weather24HourFragment extends Fragment {
 
     }
 
+    /**
+     * Data observer for weather information from web service
+     * @param result
+     */
     private void observeData(JSONObject result) {
 
 

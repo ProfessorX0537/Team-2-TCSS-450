@@ -6,6 +6,10 @@ import com.example.chatapp.R;
 
 import java.util.HashMap;
 
+/**
+ * Class for translating weather values from weather API to weather icons and
+ * descriptions.
+ */
 public class WeatherCodes {
 
     /**

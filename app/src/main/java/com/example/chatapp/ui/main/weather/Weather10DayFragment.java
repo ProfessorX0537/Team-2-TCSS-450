@@ -28,7 +28,11 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-
+/**
+ * Fragment for displaying weather for the next 10 days for each day
+ *
+ * @author Luca Smith
+ */
 public class Weather10DayFragment extends Fragment {
     /**
      * Field variable to access info about weather
@@ -77,6 +81,10 @@ public class Weather10DayFragment extends Fragment {
         mBinding.rootRecycler.setAdapter(new Weather10DayRecycleViewAdapter(mViewModel.mDays));
     }
 
+    /**
+     * Data observer for weather information from web service
+     * @param result
+     */
     private void observeData(JSONObject result) {
         if (result.length() != 0) {
 
