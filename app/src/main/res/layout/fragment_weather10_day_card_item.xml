@@ -23,7 +23,7 @@
             android:gravity="center"
             android:padding="4dp"
             android:textAlignment="center"
-            android:textColor="@color/text_primary"
+
             android:textSize="30sp" />
 
         <TextView
@@ -33,7 +33,7 @@
             android:layout_below="@id/idCardDay"
             android:gravity="center"
             android:textAlignment="center"
-            android:textColor="@color/text_primary"
+
             android:textSize="40sp" />
 
         <TextView
@@ -44,7 +44,7 @@
             android:layout_marginTop="-1dp"
             android:gravity="center"
             android:textAlignment="center"
-            android:textColor="@color/text_primary"
+
             android:textSize="24sp" />
 
         <ImageView
@@ -73,7 +73,7 @@
             android:gravity="center"
             android:padding="3dp"
             android:textAlignment="center"
-            android:textColor="@color/text_primary"
+
             android:textSize="20sp" />
 
     </RelativeLayout>

@@ -23,7 +23,7 @@
             android:gravity="center"
             android:padding="4dp"
             android:textAlignment="center"
-            android:textColor="@color/text_primary"
+
             android:textSize="30sp" />
 
         <TextView
@@ -33,7 +33,7 @@
             android:layout_below="@id/idCardTime"
             android:gravity="center"
             android:textAlignment="center"
-            android:textColor="@color/text_primary"
+
             android:textSize="40sp" />
 
         <ImageView
@@ -62,7 +62,7 @@
             android:gravity="center"
             android:padding="3dp"
             android:textAlignment="center"
-            android:textColor="@color/text_primary"
+
             android:textSize="30sp" />
 
     </RelativeLayout>

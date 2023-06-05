@@ -40,7 +40,7 @@ public class HomeRequestsAdapter extends RecyclerView.Adapter<HomeRequestsAdapte
     @Override
     public void onBindViewHolder(@NonNull HomeRequestsViewHolder holder, int position) {
         holder.mBinding.textSenderHome.setText(mRequestsItems.get(position).getSender());
-        holder.mBinding.textHomeDatetime.setText(mRequestsItems.get(position).getTimeStamp());
+        //holder.mBinding.textHomeDatetime.setText(mRequestsItems.get(position).getTimeStamp());
 
         holder.mBinding.homeRequestCard.setOnClickListener(button -> {
             //mHomeMessagesItemViewModel.deleteAllMessagesFromChatRooms(mMessagesItems.get(position).getmChatId());

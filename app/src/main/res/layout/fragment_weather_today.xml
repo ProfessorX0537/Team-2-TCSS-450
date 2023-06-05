@@ -35,7 +35,7 @@
                 android:layout_height="43dp"
                 android:gravity="right"
                 android:text="May 4, 2023"
-                android:textColor="@color/text_primary"
+
                 android:textSize="28dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -51,7 +51,7 @@
                 android:layout_marginStart="24dp"
                 android:gravity="right"
                 android:text="Raining"
-                android:textColor="@color/text_primary"
+
                 android:textSize="24sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -66,7 +66,7 @@
                 android:layout_height="103dp"
                 android:gravity="right"
                 android:text="58 °F"
-                android:textColor="@color/text_primary"
+
                 android:textSize="60sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

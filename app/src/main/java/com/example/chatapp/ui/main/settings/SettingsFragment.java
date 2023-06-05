@@ -71,7 +71,7 @@ public class SettingsFragment extends Fragment {
                 int theme = R.style.Theme_ChatApp;
                 if (checkedId == R.id.radio_button_purple) {
                     theme = R.style.Theme_ChatApp;
-                    mBinding.settingsTextTheme.setTextColor(getResources().getColor(R.color.accent_color, getActivity().getTheme()));
+                    //mBinding.settingsTextTheme.setTextColor(getResources().getColor(R.color.accent_color, getActivity().getTheme()));
                 }
                 if (checkedId == R.id.radio_button_light) {
                     theme = R.style.Theme_Light;

@@ -133,7 +133,7 @@ public class HomeRequestsFragment extends Fragment {
         ArrayList<HomeRequestsItem> requests = new ArrayList<>();
         for (ContactCard contact : contacts) {
              if(contact.getIncoming()){
-                    requests.add(new HomeRequestsItem(contact.getName(), "11"));
+                    requests.add(new HomeRequestsItem(contact.getName()));
 
              }
 
