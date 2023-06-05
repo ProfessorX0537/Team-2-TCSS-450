@@ -108,7 +108,6 @@ public class RegisterViewModel extends AndroidViewModel {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        //System.out.println("the JSON being sent: "+body);
 
         Request request = new JsonObjectRequest(
                 Request.Method.POST,

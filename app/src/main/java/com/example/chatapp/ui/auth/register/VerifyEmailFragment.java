@@ -43,7 +43,4 @@ public class VerifyEmailFragment extends Fragment {
                         VerifyEmailFragmentDirections.actionVerifyEmailFragmentToLogin())
         );
     }
-
-    // TODO: add functionality after verification of email that navigates user to sign in
-    // and auto fill username/email so that user can enter pass and sign in.
 }

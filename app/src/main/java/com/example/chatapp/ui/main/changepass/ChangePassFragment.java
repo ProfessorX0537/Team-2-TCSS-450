@@ -124,16 +124,9 @@ public class ChangePassFragment extends Fragment {
 
         binding.editPassword1.setOnTouchListener(this::passwordReqs);
         binding.buttonRegister.setOnClickListener(this::tryChangePassword);
-//        binding.buttonRegister.setOnClickListener(this::navigateToLandingPage);
         mChangePassModel.addResponseObserver(getViewLifecycleOwner(),
                 this::observeResponse);
     }
-
-    //uncomment so submit works w/o http connection
-//    private void navigateToLandingPage(View view) {
-//        Navigation.findNavController(getView()).navigate(
-//                ChangePassFragmentDirections.actionNavigationChangepassToNavigationHome());
-//    }
 
     /**
      * Method called when the first password editText is touched. This informs
@@ -199,8 +192,6 @@ public class ChangePassFragment extends Fragment {
                 binding.editPassword1.getText().toString(),
                 mUserInfoViewModel
         );
-        //This is an Asynchronous call. No statements after should rely on the
-        //result of connect().
     }
 
     /**
@@ -229,7 +220,6 @@ public class ChangePassFragment extends Fragment {
                     Log.e("JSON Parse Error", e.getMessage());
                 }
             } else {
-                //System.out.println("Received response that didn't 'fail'");
                 navigateToLandingPage();
             }
         } else {
