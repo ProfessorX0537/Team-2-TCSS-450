@@ -306,22 +306,8 @@ public class LoginFragment extends Fragment {
      * @param view
      */
     private void forgotPassword(View view) {
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
-        alertDialogBuilder.setTitle("Forgot Password?");
-        alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener(){
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-            }
-        });
-        alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Navigation.findNavController(getView())
+        Navigation.findNavController(getView())
                         .navigate(LoginFragmentDirections.actionLoginToForgotPasswordResetFragment());
-            }
-        });
-        AlertDialog alertDialog = alertDialogBuilder.create();
-        alertDialog.show();
     }
 
     /**

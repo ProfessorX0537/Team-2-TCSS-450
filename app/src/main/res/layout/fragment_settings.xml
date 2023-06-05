@@ -5,8 +5,7 @@
     android:id="@+id/frameLayout8"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
-    tools:context=".ui.main.settings.SettingsFragment" >
+    tools:context=".ui.main.settings.SettingsFragment">
 
     <RadioGroup
         android:id="@+id/radioGroup"
@@ -25,8 +24,8 @@
             android:layout_gravity="start"
             android:layoutDirection="rtl"
             android:text="@string/button_purple_theme"
-            android:textColor="@color/grey"
-            android:textAlignment="textStart" />
+            android:textAlignment="textStart"
+            android:textColor="@color/grey" />
 
         <RadioButton
             android:id="@+id/radio_button_light"
@@ -46,8 +45,8 @@
             android:layout_gravity="start"
             android:layoutDirection="rtl"
             android:text="@string/button_dark_theme"
-            android:textColor="@color/grey"
-            android:textAlignment="textStart" />
+            android:textAlignment="textStart"
+            android:textColor="@color/grey" />
     </RadioGroup>
 
     <TextView
@@ -55,7 +54,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-condensed-medium"
-        android:text="Theme"
+        android:text="@string/title_theme"
         android:textAllCaps="true"
 
         android:textSize="20sp"
@@ -77,4 +76,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.110000014" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="19dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/text_theme_req_restart"
+        app:layout_constraintBottom_toTopOf="@+id/cardView4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.87"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

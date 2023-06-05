@@ -134,14 +134,14 @@ public class ChatListFragment extends Fragment {
                     public void onLongClick(View view, int position) {
                         Log.v("long click", "Long clicked a chat room");
                         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext())
-                                .setPositiveButton(R.string.alert_action_yes, (dialog, which) -> {
+                                .setPositiveButton(R.string.alert_pos_chatroom_do_leave, (dialog, which) -> {
                                     mDeleteModel.requestRemoveSelfFromChat(mItemModel.mItemList.getValue().get(position).getmRoomID(), userinfo);
                                 })
-                                .setNegativeButton(R.string.alert_action_no, (dialog, which) -> {
+                                .setNegativeButton(R.string.alert_neg_chatroom_do_leave, (dialog, which) -> {
                                     dialog.cancel();
                                 });
-                        alertDialogBuilder.setTitle("Leave this chat room?"); //TODO String
-                        alertDialogBuilder.setMessage("You will need to be added back by someone else."); //TODO String
+                        alertDialogBuilder.setTitle(R.string.alert_title_chatroom_do_leave);
+                        alertDialogBuilder.setMessage(R.string.alert_msg_chatroom_do_leave);
                         AlertDialog alertDialog = alertDialogBuilder.create();
                         alertDialog.show();
                     }
@@ -157,6 +157,9 @@ public class ChatListFragment extends Fragment {
             // set the custom layout
             final View customLayout = getLayoutInflater().inflate(R.layout.dialog_generic_edit_text, null);
             builder.setView(customLayout);
+
+            //edit text hint
+            ((EditText)customLayout.findViewById(R.id.edit_text_generic)).setHint(R.string.alert_et_hint_chatroom_do_renaming);
 
             // add a button
             builder.setPositiveButton(R.string.button_chatlist_create_pos, (dialog, which) -> {
