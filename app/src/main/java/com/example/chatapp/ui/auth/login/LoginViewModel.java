@@ -39,6 +39,11 @@ public class LoginViewModel extends AndroidViewModel {
     private MutableLiveData<JSONObject> mResponse;
 
     /**
+     * When email is sent for repass, this becomes true. (for UI hidding on forget pass)
+     */
+    public MutableLiveData<Boolean> mIsSentForgetEmail;
+
+    /**
      * LoginViewModel constructor
      * @param application
      */
@@ -46,6 +51,9 @@ public class LoginViewModel extends AndroidViewModel {
         super(application);
         mResponse = new MutableLiveData<>();
         mResponse.setValue(new JSONObject());
+
+        mIsSentForgetEmail = new MutableLiveData<>();
+        mIsSentForgetEmail.setValue(false);
     }
 
     /**
@@ -161,7 +169,10 @@ public class LoginViewModel extends AndroidViewModel {
                 Request.Method.GET,
                 url,
                 null, //no body for this get request
-                mResponse::setValue,
+                response -> {
+                    mResponse.setValue(response);
+                    mIsSentForgetEmail.setValue(true);
+                },
                 this::handleError);
 
         request.setRetryPolicy(new DefaultRetryPolicy(

@@ -82,7 +82,7 @@
     <string name="action_logout">Log out</string>
     <string name="action_change_password">Change Password</string>
 
-    <string name="snackbar_register_password_requirements">Minimum password length is 8 characters and it must contain at least 1 uppercase, 1 lowercase, 1 number, and 1 special character.</string>
+    <string name="snackbar_register_password_requirements">8+ characters w/ 1 uppercase, 1 lowercase, 1 number, and 1 special character.</string>
     <string name="alert_login_forgot_password_message">Please enter email connected to the account.</string>
 
     <string name="display_header_verify_email_title">Please verify your email!</string>
