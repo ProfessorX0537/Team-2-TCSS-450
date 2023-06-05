@@ -24,7 +24,8 @@
             android:text="@string/textview_locations_card_city"
             android:textAlignment="textStart"
             android:textColor="@color/text_primary"
-            android:textSize="30sp" />
+            android:textSize="30sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/idCardZipcode"
