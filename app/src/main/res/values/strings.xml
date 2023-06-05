@@ -128,6 +128,10 @@
     <string name="alert_chatroom_you_got_kicked">You have been kicked from this chat.</string>
     <string name="alert_chatroom_you_got_kicked_pos">Leave</string>
 
+    <string name="alert_msg_chatroom_kick_someone">The user must be re-added.</string>
+    <string name="alert_title_chatroom_kick_someone_1">Kick </string>
+    <string name="alert_title_chatroom_kick_someone_2"> from the chat room?</string>
+
     <string name="title_chatroom_add_user_via_contacts">User From Contacts</string>
     <string name="alert_title_chatroom_failed_leaving">Failed leaving server.</string>
     <string name="alert_msg_chatroom_failed_leaving">Please contact support. ¯\_(ツ)_/¯</string>

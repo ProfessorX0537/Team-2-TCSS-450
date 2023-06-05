@@ -38,7 +38,7 @@ public class ChatRoomAddUserAdapter extends RecyclerView.Adapter<ChatRoomAddUser
 
         //remove button
         holder.mBinding.buttonKick.setOnClickListener(button -> {
-            mParentFragment.showAlertConfirmToKickUser(username, "Kick " + username + " from the chat room?", "The user must be "); //TODO String
+            mParentFragment.showAlertConfirmToKickUser(username, "Kick " + username + " from the chat room?", "The user must be re-added."); //TODO String
         });
     }
 
