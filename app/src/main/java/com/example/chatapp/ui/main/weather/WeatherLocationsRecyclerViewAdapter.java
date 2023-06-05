@@ -12,6 +12,10 @@ import com.example.chatapp.databinding.FragmentWeatherLocationsCardItemBinding;
 
 import java.util.ArrayList;
 
+/**
+ * Recycler view for weather location cards
+ * @author Luca Smith
+ */
 public class WeatherLocationsRecyclerViewAdapter extends RecyclerView.Adapter<WeatherLocationsRecyclerViewAdapter.WeatherLocationsViewHolder> {
 
     /**

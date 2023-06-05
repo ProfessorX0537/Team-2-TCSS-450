@@ -23,7 +23,11 @@ import com.example.chatapp.model.WeatherInfoViewModel;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-
+/**
+ * Fragment for displaying previously searched locations
+ *
+ * @author Luca Smith
+ */
 public class WeatherLocationsFragment extends Fragment {
 
     private WeatherInfoViewModel mModel;
@@ -62,6 +66,9 @@ public class WeatherLocationsFragment extends Fragment {
 
     }
 
+    /**
+     * Data observer for city information from web service
+     */
     private void observeData(JSONObject data) {
 
         String City = "";

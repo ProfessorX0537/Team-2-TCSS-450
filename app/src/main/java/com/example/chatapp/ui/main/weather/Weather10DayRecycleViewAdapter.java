@@ -13,6 +13,10 @@ import com.example.chatapp.databinding.FragmentWeather10DayCardItemBinding;
 
 import java.util.ArrayList;
 
+/**
+ * Recycleview adapter for 10 day weather cards
+ * @author Xavier Hines
+ */
 public class Weather10DayRecycleViewAdapter extends RecyclerView.Adapter<Weather10DayRecycleViewAdapter.Weather10DayViewHolder> {
     private final ArrayList<Weather10DayCardItem> mWeather10DayCardItems;
 

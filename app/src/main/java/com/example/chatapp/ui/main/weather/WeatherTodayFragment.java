@@ -26,7 +26,11 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-
+/**
+ * Fragment for displaying weather for today
+ *
+ * @author Luca Smith
+ */
 public class WeatherTodayFragment extends Fragment {
 
     private WeatherInfoViewModel mViewModel;
@@ -63,6 +67,10 @@ public class WeatherTodayFragment extends Fragment {
 
     }
 
+    /**
+     * Data observer for weather information from web service
+     * @param result
+     */
     private void observeData(JSONObject result) {
         if (result.length() != 0) {
             try {
