@@ -100,7 +100,6 @@ public class ChangePassViewModel extends AndroidViewModel {
      */
     public void connectChangePassword(final String oldPassword,
                                 final String newPassword, UserInfoViewModel mUserViewModel) {
-        //TODO change to right endpoint
         String url = getApplication().getString(R.string.url_webservices) + "repass";
         JSONObject body = new JSONObject();
         try {

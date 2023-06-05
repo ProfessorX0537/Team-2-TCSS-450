@@ -188,10 +188,6 @@ public class LoginFragment extends Fragment {
         binding.textEmail.setText(args.getEmail().equals("default") ? "" : args.getEmail()); //TODO
         binding.textPassword.setText(args.getPassword().equals("default") ? "" : args.getPassword()); //TODO
 
-//        //TODO Remove this placeholder account when shipping
-//        binding.textEmail.setText("test1@test.com");
-//        binding.textPassword.setText("Password123!");
-
         //Register Button
         binding.buttonRegister.setVisibility(View.GONE);
         binding.buttonRegister.setOnClickListener(button -> {
@@ -342,12 +338,6 @@ public class LoginFragment extends Fragment {
                                     response.getString("username")
                             )).get(UserInfoViewModel.class);
                     sendPushyToken();
-
-                    //Old move to home on sucess
-//                    navigateToHome(
-//                            binding.textEmail.getText().toString(),
-//                            response.getString("token")
-//                    );
 
                 } catch (JSONException e) {
                     Log.e("JSON Parse Error", e.getMessage());

@@ -243,7 +243,6 @@ public class ForgotPasswordResetFragment extends Fragment {
                     Log.e("JSON Parse Error", e.getMessage());
                 }
             } else if (response.has("success")){
-                //System.out.println("Received response that didn't 'fail'");
                     navigateToLoginPage();
 
             }
