@@ -6,10 +6,12 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,6 +22,7 @@ import androidx.navigation.Navigation;
 import com.example.chatapp.R;
 import com.example.chatapp.databinding.FragmentRegisterBinding;
 import com.example.chatapp.utils.PasswordValidator;
+import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -126,17 +129,23 @@ public class RegisterFragment extends Fragment {
      */
     private boolean passwordReqs(View view, MotionEvent motionEvent) {
         if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
-            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
-            alertDialogBuilder.setMessage(R.string.snackbar_register_password_requirements);
-            alertDialogBuilder.setTitle("Password Requirements");
-            alertDialogBuilder.setNegativeButton("ok", new DialogInterface.OnClickListener(){
-
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                }
-            });
-            AlertDialog alertDialog = alertDialogBuilder.create();
-            alertDialog.show();
+//            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
+//            alertDialogBuilder.setMessage(R.string.snackbar_register_password_requirements);
+//            alertDialogBuilder.setTitle("Password Requirements");
+//            alertDialogBuilder.setNegativeButton("ok", new DialogInterface.OnClickListener(){
+//
+//                @Override
+//                public void onClick(DialogInterface dialogInterface, int i) {
+//                }
+//            });
+//            AlertDialog alertDialog = alertDialogBuilder.create();
+//            alertDialog.show();
+            Snackbar snackbar = Snackbar.make(view, R.string.snackbar_register_password_requirements, Snackbar.LENGTH_LONG);
+            View view1 = snackbar.getView();
+            FrameLayout.LayoutParams params = (FrameLayout.LayoutParams)view1.getLayoutParams();
+            params.gravity = Gravity.TOP;
+            view1.setLayoutParams(params);
+            snackbar.show();
         }
         return false;
     }

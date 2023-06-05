@@ -5,7 +5,6 @@
     android:id="@+id/root_constraint"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
     android:windowSoftInputMode="adjustResize"
     tools:context=".ui.main.chat.chatroom.ChatRoomFragment">
 
