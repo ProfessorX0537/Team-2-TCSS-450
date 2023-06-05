@@ -62,9 +62,11 @@
     <string name="tab_weather_24hr">24 Hour</string>
     <string name="tab_weather_10day">10 Day</string>
 
-    <string name="button_purple_theme">Purple</string>
-    <string name="button_light_theme">Light</string>
-    <string name="button_dark_theme">Dark</string>
+    <string name="button_purple_theme">Purple (default)</string>
+    <string name="button_light_theme">Light (WIP)</string>
+    <string name="button_dark_theme">Dark (WIP)</string>
+    <string name="title_theme">Theme</string>
+    <string name="text_theme_req_restart">(Requires App Restart)</string>
 
     <string name="textview_home_whatsnew">Whats New</string>
     <string name="textview_weather_conditions">Conditions</string>
