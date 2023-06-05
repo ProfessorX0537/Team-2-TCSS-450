@@ -1,22 +1,22 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.ChatApp" parent="Theme.Material3.DayNight">
-<!--        <item name="colorPrimary">@color/primary</item>-->
-<!--        <item name="colorPrimaryVariant">@color/dark_primary</item>-->
-<!--        <item name="colorOnPrimary">@color/text_primary</item>-->
-<!--        <item name="colorAccent">@color/accent_color</item>-->
-<!--        <item name="colorSecondary">@color/light_primary</item>-->
-<!--        <item name="background">@color/accent_color</item>-->
-<!--        <item name="cardBackgroundColor">@color/black</item>-->
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryVariant">@color/dark_primary</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/text_secondary</item>
+        <item name="colorSecondaryVariant">@color/design_default_color_secondary</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <!-- Customize your theme here. -->
+        <item name="android:textColor">@color/black</item>
     </style>
 
     <style name="Theme.ChatApp" parent="Base.Theme.ChatApp">'
-        <item name="android:textColor">@color/text_primary</item>
-        <item name="android:radioButtonStyle">@color/accent_color</item>
-        <item name="colorPrimary">@color/black</item>
-        <item name="colorPrimaryVariant">@color/dark_primary</item>
-        <item name="android:statusBarColor">@color/primary</item>
-        <item name="colorAccent">@color/accent_color</item>
+<!--        TODO this is USELESS, use parent instead-->
     </style>
 
     <style name="Theme.Dark" parent="Base.Theme.ChatApp">'
@@ -27,6 +27,7 @@
     </style>
 
     <style name="Theme.Light" parent="Base.Theme.ChatApp">'
+        <item name="android:textColor">@color/black</item>
         <item name="android:backgroundTint">@color/white</item>
         <item name="colorPrimary">@color/black</item>
         <item name="colorPrimaryVariant">@color/black</item>
