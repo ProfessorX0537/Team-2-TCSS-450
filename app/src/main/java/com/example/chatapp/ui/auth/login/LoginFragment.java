@@ -82,13 +82,13 @@ public class LoginFragment extends Fragment {
      * Private field variable to validate user Email
      */
     private PasswordValidator mEmailValidator = checkPwdLength(2)
-            .and(checkExcludeWhiteSpace()).and(checkPwdSpecialChar("@"));
+            .and(checkExcludeWhiteSpace()).and(checkPwdSpecialChar("@+"));
 
     /**
      * Private field variable to validate user passwords
      */
     private PasswordValidator mPassWordValidator = checkClientPredicate(pwd -> pwd.equals(binding.textPassword.getText().toString()))
-            .and(checkPwdLength(9))
+            .and(checkPwdLength(7))
             .and(checkPwdSpecialChar())
             .and(checkExcludeWhiteSpace())
             .and(checkPwdDigit())
