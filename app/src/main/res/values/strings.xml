@@ -138,7 +138,7 @@
     <string name="alert_pos_chatroom_failed_renaming">Dismiss</string>
 
     <string name="alert_title_chatroom_do_renaming">Rename this chat room:</string>
-    <string name="alert_et_hint_chatroom_do_renaming">Chat Room Name</string>
+    <string name="alert_et_hint_chatroom_do_renaming">Name</string>
     <string name="alert_pos_chatroom_do_renaming">Rename</string>
     <string name="alert_neg_chatroom_do_renaming">Cancel</string>
     <string name="alert_title_chatroom_do_leave">Leave this chat room?</string>
