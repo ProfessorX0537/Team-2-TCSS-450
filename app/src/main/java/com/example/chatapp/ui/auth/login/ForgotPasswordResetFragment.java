@@ -65,13 +65,6 @@ public class ForgotPasswordResetFragment extends Fragment {
             .and(checkPwdLowerCase().or(checkPwdUpperCase()));
 
     /**
-     * Empty ForgotPasswordFragment constructor
-     */
-    public ForgotPasswordResetFragment() {
-
-    }
-
-    /**
      * Called on fragments creation. Connects ViewModel to this fragment
      * @param savedInstanceState If the fragment is being re-created from
      *                           a previous saved state, this is the state.
@@ -114,6 +107,7 @@ public class ForgotPasswordResetFragment extends Fragment {
         //hide password edit texts until clicked email sent
         mbinding.editPassword1.setVisibility(View.GONE);
         mbinding.editPassword2.setVisibility(View.GONE);
+        mbinding.buttonReset.setVisibility(View.GONE);
 
         mbinding.editPassword1.setOnTouchListener(this::passwordReqs);
         mbinding.buttonReset.setOnClickListener(this::resetPassword);
@@ -128,23 +122,24 @@ public class ForgotPasswordResetFragment extends Fragment {
                 });
 
         mLoginViewModel.mIsSentForgetEmail.observe(getViewLifecycleOwner(), bool -> {
-//            //tell user to check email
-//            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
-//            alertDialogBuilder.setMessage();
-//            alertDialogBuilder.setTitle("Email sent");
-//            alertDialogBuilder.setNegativeButton("ok", new DialogInterface.OnClickListener(){
-//
-//                @Override
-//                public void onClick(DialogInterface dialogInterface, int i) {
-//                }
-//            });
-//            AlertDialog alertDialog = alertDialogBuilder.create();
-//            alertDialog.show();
-
-            //show password edit texts
+            // sent email
             if (bool) {
+                //show password edit texts
                 mbinding.editPassword1.setVisibility(View.VISIBLE);
                 mbinding.editPassword2.setVisibility(View.VISIBLE);
+                mbinding.buttonReset.setVisibility(View.VISIBLE);
+
+                //tell user to check email
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
+                alertDialogBuilder.setTitle("Email sent");
+                alertDialogBuilder.setNegativeButton("ok", new DialogInterface.OnClickListener(){
+
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                    }
+                });
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.show();
             }
         });
     }
